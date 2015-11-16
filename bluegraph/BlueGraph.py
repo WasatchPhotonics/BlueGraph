@@ -70,7 +70,7 @@ class BlueGraphApplication(object):
         log.debug("Trigger delay close")
         self.close_timer = QtCore.QTimer()
         self.close_timer.timeout.connect(self.closeEvent)
-        self.close_timer.start(2000)
+        self.close_timer.start(1000)
 
     def closeEvent(self):
         # .quit required for test cases to exit 
