@@ -10,6 +10,7 @@ before install:
 
 install:
 
+ - sudo apt-get update
  - sudo apt-get install libqt4-dev python-qt4 pyqt4-dev-tools qt4-designer
  - sudo apt-get install python3-nose python-nose
  - sudo apt-get install pep8
@@ -24,12 +25,6 @@ install:
  - make --silent
  - sudo make install --silent
 
- # For python3
-
- - python3 configure.py
- - make --silent
- - sudo make install --silent
-
  - cd ..
 
 # install PyQt4
@@ -40,10 +35,6 @@ install:
  - echo 'yes' | python configure.py
  - make --silent
  - sudo make install --silent
-
-# For python3
-
- - sudo apt-get install python3-pyqt4
 
 # clean up sources so that they dont affect the pep8 test
 
