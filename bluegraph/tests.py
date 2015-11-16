@@ -9,7 +9,7 @@ import unittest
 from PyQt4 import QtGui, QtTest, QtCore
 
 from bluegraph import BlueGraph
-
+from bluegraph.devices import Simulation
 # All the classes below will reuese this qapplication
 #app = QtGui.QApplication([])
 
@@ -21,7 +21,23 @@ from bluegraph import BlueGraph
 #strm.setFormatter(frmt)
 #log.addHandler(strm)
 
-        
+class TestSimulatedLaserPowerMeter(unittest.TestCase):
+    def setUp(self):
+        self.device = Simulation.SimulatedLaserPowerMeter()
+
+    def tearDown(self):
+        self.device.close()
+        self.assertFalse(self.device.is_open())
+
+    def test_list_hardware_returns_simulated_device(self):
+        dev_list = self.device.list_hardware()
+        dev_str = "Simulated PM100"
+        self.assertEqual(dev_str, dev_list[0])
+            
+
+    #def test_connect_simulated_device_returns_ok(self):
+
+    #def test_get_stream_returns_10_reads_per_second(self):        
 class TestBlueGraphScript(unittest.TestCase):
 
 #    def tearDown(self):

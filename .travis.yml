@@ -1,15 +1,14 @@
 sudo: false
 language: python
+python:
+- '2.7'
+install:
 addons:
   apt:
     packages:
     - cmake
     - time
     - python-qt4
-    - python-guiqwt
-python:
-- '2.7'
-install:
   - pip install coveralls
   - "python setup.py develop"
 script: nosetests --cover-erase --with-coverage --cover-package=bluegraph --exclude=scripts/
