@@ -1,0 +1,9 @@
+language: python
+python:
+- '2.7'
+install:
+  - cd BlueGraph
+  - pip install coveralls
+  - "python setup.py develop"
+script: nosetests --cover-erase --with-coverage --cover-package=bluegraph --exclude=scripts/
+after_success: coveralls
