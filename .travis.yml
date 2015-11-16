@@ -1,9 +1,13 @@
 language: python
+addons:
+  apt:
+    packages:
+    - cmake
+    - time
+    - python-qt4
 python:
 - '2.7'
 install:
-  - sudo apt-get update
-  - sudo apt-get install libqt4-dev python-qt4 pyqt4-dev-tools qt4-designer
   - pip install coveralls
   - "python setup.py develop"
 script: nosetests --cover-erase --with-coverage --cover-package=bluegraph --exclude=scripts/
