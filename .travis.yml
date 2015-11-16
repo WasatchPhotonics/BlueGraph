@@ -5,6 +5,7 @@ addons:
     - cmake
     - time
     - python-qt4
+    - python-guiqwt
 python:
 - '2.7'
 install:
