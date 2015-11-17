@@ -8,7 +8,7 @@ install:
   - sudo apt-get install libqt4-dev
   - travis_wait pip install --find-links https://parkin.github.io/python-wheelhouse/ --use-wheel PySide;
   # Finish the PySide install, since we are in a virtualenv
-  - travis_wait python ~/virtualenv/python${TRAVIS_PYTHON_VERSION}/bin/pyside_postinstall.py -install
+  - python ~/virtualenv/python${TRAVIS_PYTHON_VERSION}/bin/pyside_postinstall.py -install
   # Setup coverage and the development mode
   - pip install coveralls
   - "python setup.py develop"
