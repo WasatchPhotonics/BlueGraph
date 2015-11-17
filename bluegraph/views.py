@@ -82,16 +82,26 @@ class BasicSVG(QtGui.QMainWindow):
         self.view = QtGui.QGraphicsView(self.scene)
         self.main_layout.addWidget(self.view)
 
+        
+        
+        #self.title.setPos(100, 100)
 
         nru = numpy.random.uniform
         low_data = nru(100, 200, 2048)
-        self.plot_widget.plot(low_data)
-        
-        #self.title.setPos(100, 100)
+        self.curve = self.plot_widget.plot(low_data)
         self.show()
 
+        self.timer = QtCore.QTimer()
+        self.timer.start(100)
+        self.timer.timeout.connect(self.update_graph)
 
- 
+    def update_graph(self):
+
+        nru = numpy.random.uniform
+        low_data = nru(100, 200, 2048)
+        self.curve.setData(low_data)
+        
+         
         #self.scene = QtGui.QGraphicsScene()
 #
         #filename = "bluegraph/assets/green_box.svg"
