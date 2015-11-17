@@ -60,7 +60,8 @@ class BlueGraphApplication(object):
         app = QtGui.QApplication([])
         self.delay_close()
 
-        self.form = views.Basic()
+        #self.form = views.Basic()
+        self.form = views.BasicSVG()
 
         sys.exit(app.exec_())
 
@@ -71,7 +72,7 @@ class BlueGraphApplication(object):
         log.debug("Trigger delay close")
         self.close_timer = QtCore.QTimer()
         self.close_timer.timeout.connect(self.closeEvent)
-        self.close_timer.start(1000)
+        self.close_timer.start(2000)
 
     def closeEvent(self):
         # .quit required for test cases to exit 

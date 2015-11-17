@@ -16,6 +16,7 @@ requires = [
     "nose",
     "coverage",
     "pyside",
+    "pyqtgraph",
     ]
 
 setup(name="bluegraph",
