@@ -5,9 +5,10 @@ import sys
 import logging
 import argparse
 
-from PyQt4 import QtGui, QtCore
+from PySide import QtGui, QtCore
 
-from bluegraph import bluegraph_controller
+# This should really be controller import, which in turn loads the views
+from bluegraph import views
 
 logging.basicConfig(filename="BlueGraph_log.txt", filemode="w",
                     level=logging.DEBUG)
@@ -59,7 +60,7 @@ class BlueGraphApplication(object):
         app = QtGui.QApplication([])
         self.delay_close()
 
-        self.form = bluegraph_controller.BlueGraph()
+        self.form = views.Basic()
 
         sys.exit(app.exec_())
 

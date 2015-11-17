@@ -17,10 +17,6 @@ app = QtGui.QApplication([])
 log = logging.getLogger()
 log.setLevel(logging.DEBUG)
 
-strm = logging.StreamHandler(sys.stderr)
-frmt = logging.Formatter("%(name)s - %(levelname)s %(message)s")
-strm.setFormatter(frmt)
-log.addHandler(strm)
 
 class TestBasicGraphInterface(unittest.TestCase):
     def setUp(self):
