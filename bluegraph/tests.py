@@ -3,23 +3,23 @@
 
 import os
 import sys
+import time
 import logging
 import unittest
 
 from PyQt4 import QtGui, QtTest, QtCore
 
-from bluegraph import BlueGraph
 from bluegraph.devices import Simulation
 # All the classes below will reuese this qapplication
 #app = QtGui.QApplication([])
 
-#log = logging.getLogger()
-#log.setLevel(logging.DEBUG)
+log = logging.getLogger()
+log.setLevel(logging.DEBUG)
 
-#strm = logging.StreamHandler(sys.stderr)
-#frmt = logging.Formatter("%(name)s - %(levelname)s %(message)s")
-#strm.setFormatter(frmt)
-#log.addHandler(strm)
+strm = logging.StreamHandler(sys.stderr)
+frmt = logging.Formatter("%(name)s - %(levelname)s %(message)s")
+strm.setFormatter(frmt)
+log.addHandler(strm)
 
 class TestSimulatedLaserPowerMeter(unittest.TestCase):
     def setUp(self):
@@ -34,34 +34,25 @@ class TestSimulatedLaserPowerMeter(unittest.TestCase):
         dev_str = "Simulated PM100"
         self.assertEqual(dev_str, dev_list[0])
             
+    def test_connect_simulated_device_returns_ok(self):
+        self.assertTrue(self.device.connect()) 
+        self.assertTrue(self.device.is_open())
 
-    #def test_connect_simulated_device_returns_ok(self):
+    def test_get_stream_returns_10_reads_per_second(self):        
+        self.device.connect()
+        start_time = time.time()
+        for i in range(10):
+            self.device.read()
+        end_time = time.time()
+      
+        time_diff = end_time - start_time 
+        self.assertTrue(time_diff < 1.1)
+        self.assertTrue(time_diff > 0.9)
 
-    #def test_get_stream_returns_10_reads_per_second(self):        
-class TestBlueGraphScript(unittest.TestCase):
-
-#    def tearDown(self):
-        # This cleans up old windows from rapid tests
-#        app.closeAllWindows()
-
-#    def test_parser(self):
-#        # Accept one option: testing, which causes the form to close
-#        # itself which should only be used with the unittest as the
-#        # controller. 
-#        fgapp = BlueGraph.BlueGraphApplication()
-#
-        ## Fail with more than just -t
-#        with self.assertRaises(SystemExit):
-#            fgapp.parse_args(["-t", "-s"])
-#            
-#        args = fgapp.parse_args(["-t"])
-#        self.assertTrue(args.testing)  
-
-    def test_main_options(self):
-        # Verify that main run with the testing option auto-closes the
-        # application
-        result = BlueGraph.main(["unittest", "-t"])
-        self.assertEquals(0, result)
-        
+    def test_stream_data_is_randomized(self):
+        self.device.connect()
+        first = self.device.read()
+        self.assertTrue(first != self.device.read())
+ 
 if __name__ == "__main__":
     unittest.main()
