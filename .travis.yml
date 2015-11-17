@@ -10,6 +10,7 @@ install:
   # Finish the PySide install, since we are in a virtualenv
   - python ~/virtualenv/python${TRAVIS_PYTHON_VERSION}/bin/pyside_postinstall.py -install
   # Setup coverage and the development mode
+  - pip install pyside
   - pip install coveralls
   - "python setup.py develop"
 

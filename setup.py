@@ -15,6 +15,7 @@ CHANGES=""
 requires = [
     "nose",
     "coverage",
+    "pyside",
     ]
 
 setup(name="bluegraph",
