@@ -7,11 +7,7 @@ import time
 import logging
 import unittest
 
-from PyQt4 import QtGui, QtTest, QtCore
-
 from bluegraph.devices import Simulation
-# All the classes below will reuese this qapplication
-#app = QtGui.QApplication([])
 
 log = logging.getLogger()
 log.setLevel(logging.DEBUG)
