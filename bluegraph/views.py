@@ -6,7 +6,7 @@ import logging
 import numpy
 import pyqtgraph
 
-from PySide import QtGui, QtSvg
+from PySide import QtGui, QtSvg, QtCore
 
 log = logging.getLogger(__name__)
 
@@ -33,7 +33,7 @@ class BasicSVG(QtGui.QMainWindow):
         super(BasicSVG, self).__init__()
 
         self.setWindowTitle("pyqtgraph in svg wrapper")
-        self.resize(900, 800) 
+        self.resize(1250, 550)
         self.container_widget = QtGui.QWidget()
         self.setCentralWidget(self.container_widget)
         self.main_layout = QtGui.QVBoxLayout()
@@ -67,18 +67,27 @@ class BasicSVG(QtGui.QMainWindow):
         self.scene.addItem(self.title)
 
         filename = "bluegraph/assets/green_box.svg"
+        filename = "bluegraph/assets/tall_graph_area.svg"
         self.svg_back = QtSvg.QGraphicsSvgItem(filename)
-        self.scene.addItem(self.svg_back)
+        result = self.scene.addItem(self.svg_back)
+        self.svg_back.setParentItem(self.title)
 
         self.plot_widget = pyqtgraph.PlotWidget(name="plotsub")
         #self.sub_plot.setContentsMargins(100, 100, 100, 100)
         self.result = self.scene.addWidget(self.plot_widget)
-        self.result.setParentItem(self.title) 
+        self.result.setParentItem(self.svg_back) 
         self.result.setPos(100, 100)
-        self.result.setGeometry(QtCore.QRectF(100, 100, 100, 100))
+        self.result.setGeometry(QtCore.QRectF(40, 50, 920, 420))
 
         self.view = QtGui.QGraphicsView(self.scene)
         self.main_layout.addWidget(self.view)
+
+
+        nru = numpy.random.uniform
+        low_data = nru(100, 200, 2048)
+        self.plot_widget.plot(low_data)
+        
+        #self.title.setPos(100, 100)
         self.show()
 
 
@@ -102,6 +111,7 @@ class BasicSVG(QtGui.QMainWindow):
 #
         #self.view = QtGui.QGraphicsView(self.scene)
         #self.view.show()
+
 
 class InternalGraph(QtSvg.QGraphicsSvgItem):
     def __init__(self):
