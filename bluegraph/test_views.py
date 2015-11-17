@@ -9,7 +9,7 @@ import unittest
 
 from PySide import QtGui, QtTest, QtCore
 
-from bluegraph.views import Basic
+from bluegraph.views import Basic, BasicSVG
 
 # All the classes below will reuese this qapplication
 app = QtGui.QApplication([])
@@ -34,14 +34,21 @@ class TestBasicGraphInterface(unittest.TestCase):
         self.assertEqual(self.form.width(), 800)
         self.assertEqual(self.form.height(), 600)
 
-    def test_svg_border_startup_size(self):
-        self.assertEqual(self.form.lblInfo.text(), "Default")
-        
-        QtTest.QTest.qWaitForWindowShown(self.form) 
+class TestBasicSVGGraphInterface(unittest.TestCase):
+    def setUp(self):
+        self.form = BasicSVG()
 
-        self.assertEqual(self.form.width(), 800)
-        self.assertEqual(self.form.height(), 600)
-               
+    def tearDown(self):
+        pass
+
+    def test_svg_border_startup_size(self):
+        bounding = self.form.border.boundingRect()
+    
+        self.assertEqual(bounding.width(), 783)
+        self.assertEqual(bounding.height(), 333)
+
+    def test_internal_ptgraph_area_is_available(self):
+        
 
 if __name__ == "__main__":
     unittest.main()
