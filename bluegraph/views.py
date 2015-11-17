@@ -75,6 +75,7 @@ class BasicSVG(QtGui.QMainWindow):
         self.result = self.scene.addWidget(self.plot_widget)
         self.result.setParentItem(self.title) 
         self.result.setPos(100, 100)
+        self.result.setGeometry(QtCore.QRectF(100, 100, 100, 100))
 
         self.view = QtGui.QGraphicsView(self.scene)
         self.main_layout.addWidget(self.view)
