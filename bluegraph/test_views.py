@@ -33,7 +33,15 @@ class TestBasicGraphInterface(unittest.TestCase):
 
         self.assertEqual(self.form.width(), 800)
         self.assertEqual(self.form.height(), 600)
-       
+
+    def test_svg_border_startup_size(self):
+        self.assertEqual(self.form.lblInfo.text(), "Default")
+        
+        QtTest.QTest.qWaitForWindowShown(self.form) 
+
+        self.assertEqual(self.form.width(), 800)
+        self.assertEqual(self.form.height(), 600)
+               
 
 if __name__ == "__main__":
     unittest.main()

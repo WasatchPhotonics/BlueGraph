@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="783.34119"
+   height="333.3544"
+   viewBox="0 0 783.34116 333.35439"
+   id="svg4237"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="border_graph.svg">
+  <defs
+     id="defs4239">
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4799-6-8"
+       id="linearGradient21058"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(-284.75901,1006.0938)"
+       x1="2.3733535"
+       y1="46.191109"
+       x2="352.48581"
+       y2="46.191109" />
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient4799-6-8">
+      <stop
+         style="stop-color:#3cdbdf;stop-opacity:1;"
+         offset="0"
+         id="stop4801-1-1" />
+      <stop
+         style="stop-color:#3cdbdf;stop-opacity:0;"
+         offset="1"
+         id="stop4803-3-3" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4859-1-6"
+       id="linearGradient21061"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(-284.75901,1006.0938)"
+       x1="2.8804941"
+       y1="37.854668"
+       x2="351.59073"
+       y2="37.854668" />
+    <linearGradient
+       id="linearGradient4859-1-6">
+      <stop
+         style="stop-color:#5abbff;stop-opacity:1;"
+         offset="0"
+         id="stop4861-4-6" />
+      <stop
+         id="stop4863-6-3"
+         offset="1"
+         style="stop-color:#02378e;stop-opacity:1;" />
+    </linearGradient>
+    <filter
+       inkscape:collect="always"
+       style="color-interpolation-filters:sRGB"
+       id="filter4414"
+       x="-0.0035016399"
+       width="1.0070033"
+       y="-0.007628568"
+       height="1.0152571">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="1.5522382"
+         id="feGaussianBlur4416" />
+    </filter>
+    <linearGradient
+       y2="761.46234"
+       x2="1359.3988"
+       y1="449.97574"
+       x1="1359.3988"
+       gradientTransform="matrix(0.76376328,0,0,0.76426897,-1140.8584,664.59788)"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient10482"
+       xlink:href="#linearGradient5945-7-4-7-5-2-0"
+       inkscape:collect="always" />
+    <linearGradient
+       id="linearGradient5945-7-4-7-5-2-0">
+      <stop
+         style="stop-color:#04407c;stop-opacity:1;"
+         offset="0"
+         id="stop5947-4-4-1-8-9-5" />
+      <stop
+         id="stop5953-4-7-4-8-5-5"
+         offset="1"
+         style="stop-color:#041e4f;stop-opacity:1;" />
+    </linearGradient>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.69384476"
+     inkscape:cx="653.04509"
+     inkscape:cy="-149.76219"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:window-width="1920"
+     inkscape:window-height="1036"
+     inkscape:window-x="0"
+     inkscape:window-y="21"
+     inkscape:window-maximized="1"
+     units="px" />
+  <metadata
+     id="metadata4242">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-39.615123,-757.11359)">
+    <path
+       style="fill:url(#linearGradient10482);fill-opacity:1;stroke:none"
+       d="m 44.917945,978.3452 0,-197.15553 9.95291,-10.30534 9.95282,-10.30533 177.124775,0 577.12483,0 0,109.47063 0,197.47077 -9.9916,9.9901 -9.9917,9.9902 -165.08606,0 -589.085975,0 z"
+       id="path4600-1-7-7"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccccccccccccc"
+       inkscape:export-filename="/home/nharrington/wasatch/Sandbox/ExtendedTest/ui_components/tall_graph_area.png"
+       inkscape:export-xdpi="89.913002"
+       inkscape:export-ydpi="89.913002" />
+    <path
+       style="fill:none;stroke:#3cdbdf;stroke-width:3.03480601;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter4414)"
+       d="m 42.760355,780.3057 0,307.6575 756.797125,0 20.6749,-20.6749 0,-307.66991 -756.797255,0 -21.0961,21.74344"
+       id="path3170-2-7-1"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccccccc"
+       inkscape:export-filename="/home/nharrington/wasatch/Sandbox/ExtendedTest/ui_components/tall_graph_area.png"
+       inkscape:export-xdpi="89.913002"
+       inkscape:export-ydpi="89.913002" />
+    <path
+       style="opacity:0.64566926;fill:url(#linearGradient21061);fill-opacity:1;fill-rule:nonzero;stroke:none"
+       d="m 46.125585,814.17901 c 0.0259,-9.13637 4.42668,-23.06908 0.26938,-24.7877 l 0.22222,-8.17612 9.69757,-10.03756 9.69757,-10.03757 176.409695,-0.0142 576.40986,-0.0141 0,7.68371 c 0,6.67521 -0.075,7.71232 -0.5682,7.90172 -0.3124,0.11991 -22.17342,0.21801 -48.5798,0.21801 l -460.01186,0 -10.95023,10.95466 -10.95024,10.95466 -101.5508,0 -113.550795,0 -0.0963,8.49826 -0.0963,8.49824 -12.93009,7.4793 c -7.11156,4.11362 -13.05132,7.48177 -13.19948,7.48478 -0.14815,0.003 -0.24815,-7.46973 -0.22222,-16.60609 z"
+       id="path4773-9-7"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cscccccscscccccccsccc"
+       inkscape:export-filename="/home/nharrington/wasatch/Sandbox/ExtendedTest/ui_components/tall_graph_area.png"
+       inkscape:export-xdpi="89.913002"
+       inkscape:export-ydpi="89.913002" />
+    <path
+       style="fill:none;stroke:url(#linearGradient21058);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 46.114345,831.58173 26.97418,-15.57355 0,-16.75168 214.894105,0 21.90931,-21.90932 509.33504,0 -0.7184,-0.35917 -0.3592,0.35917"
+       id="path4247-2-9"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cccccccc"
+       inkscape:export-filename="/home/nharrington/wasatch/Sandbox/ExtendedTest/ui_components/tall_graph_area.png"
+       inkscape:export-xdpi="89.913002"
+       inkscape:export-ydpi="89.913002" />
+    <path
+       style="fill:#18457a;fill-opacity:1;stroke:#18457a;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 818.20448,1007.8493 -14.9073,13.1326 0,16.682 -35.6711,35.6711 -27.18668,0 -10.73805,8.7381 -61.18361,0.2271 -9.29971,4.2562 138.75505,0 19.4772,-19.4771 z"
+       id="path4096-5-8"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccccccccccc"
+       inkscape:export-filename="/home/nharrington/wasatch/Sandbox/ExtendedTest/ui_components/tall_graph_area.png"
+       inkscape:export-xdpi="89.913002"
+       inkscape:export-ydpi="89.913002" />
+    <path
+       style="opacity:0.91150447;fill:#2b669e;fill-opacity:1;stroke:#2b669e;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 816.94038,1049.0486 -32.259,32.2591 4.3797,0 3.2259,-3.2259 10.5254,0 14.8933,-14.8933 0,-14.1399 z"
+       id="path4866-3-4"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cccccccc"
+       inkscape:export-filename="/home/nharrington/wasatch/Sandbox/ExtendedTest/ui_components/tall_graph_area.png"
+       inkscape:export-xdpi="89.913002"
+       inkscape:export-ydpi="89.913002" />
+    <path
+       style="opacity:0.80088495;fill:#2b669e;fill-opacity:1;stroke:#2b669e;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 664.34573,1084.0098 -2.15945,0.9623 100.7233,0 1.2629,1.2628 6.3871,0 2.9465,-2.2408 z"
+       id="path4874-8-9"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccccccc"
+       inkscape:export-filename="/home/nharrington/wasatch/Sandbox/ExtendedTest/ui_components/tall_graph_area.png"
+       inkscape:export-xdpi="89.913002"
+       inkscape:export-ydpi="89.913002" />
+    <path
+       id="path49192"
+       d="m 94.336135,776.02101 -7.03871,7.03872 8.02257,0 c 0.12704,-0.67896 0.20961,-1.3678 0.20961,-2.07922 0,-1.78773 -0.4524,-3.4569 -1.19347,-4.9595 z"
+       style="fill:#ff0000"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cccsc"
+       inkscape:export-filename="/home/nharrington/wasatch/Sandbox/ExtendedTest/ui_components/tall_graph_area.png"
+       inkscape:export-xdpi="89.913002"
+       inkscape:export-ydpi="89.913002" />
+    <path
+       id="path49194"
+       d="m 87.804875,780.44412 5.78949,-5.78667 c -1.37838,-2.03193 -3.41878,-3.54371 -5.78949,-4.33771 z"
+       style="fill:#ff0000"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cccc"
+       inkscape:export-filename="/home/nharrington/wasatch/Sandbox/ExtendedTest/ui_components/tall_graph_area.png"
+       inkscape:export-xdpi="89.913002"
+       inkscape:export-ydpi="89.913002" />
+    <path
+       id="path49196"
+       d="m 84.765095,784.54822 5.7909,5.79231 c 2.03476,-1.37556 3.54794,-3.41879 4.34194,-5.79231 z"
+       style="fill:#ff0000"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cccc"
+       inkscape:export-filename="/home/nharrington/wasatch/Sandbox/ExtendedTest/ui_components/tall_graph_area.png"
+       inkscape:export-xdpi="89.913002"
+       inkscape:export-ydpi="89.913002" />
+    <path
+       id="path49198"
+       d="m 86.314275,777.97672 0,-8.07903 c -0.67543,-0.12563 -1.36568,-0.20962 -2.07711,-0.20962 -1.80326,0 -3.48513,0.46158 -4.9969,1.21464 z"
+       style="fill:#ff0000"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccscc"
+       inkscape:export-filename="/home/nharrington/wasatch/Sandbox/ExtendedTest/ui_components/tall_graph_area.png"
+       inkscape:export-xdpi="89.913002"
+       inkscape:export-ydpi="89.913002" />
+    <path
+       id="path49200"
+       d="m 82.160065,784.05205 0,8.01199 c 0.67543,0.12633 1.36568,0.20891 2.0771,0.20891 1.78633,0 3.45196,-0.4524 4.95456,-1.19135 z"
+       style="fill:#ff0000"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccscc"
+       inkscape:export-filename="/home/nharrington/wasatch/Sandbox/ExtendedTest/ui_components/tall_graph_area.png"
+       inkscape:export-xdpi="89.913002"
+       inkscape:export-ydpi="89.913002" />
+    <path
+       id="path49202"
+       d="m 80.668055,781.52608 -5.78244,5.78172 c 1.37556,2.02911 3.41455,3.54018 5.78244,4.33418 z"
+       style="fill:#ff0000"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cccc"
+       inkscape:export-filename="/home/nharrington/wasatch/Sandbox/ExtendedTest/ui_components/tall_graph_area.png"
+       inkscape:export-xdpi="89.913002"
+       inkscape:export-ydpi="89.913002" />
+    <path
+       id="path49204"
+       d="m 73.154345,778.90341 c -0.12563,0.67543 -0.20962,1.36568 -0.20962,2.0771 0,1.79197 0.45523,3.46254 1.1963,4.96514 l 7.04295,-7.04295 -8.02963,0 z"
+       style="fill:#ff0000"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cscccc"
+       inkscape:export-filename="/home/nharrington/wasatch/Sandbox/ExtendedTest/ui_components/tall_graph_area.png"
+       inkscape:export-xdpi="89.913002"
+       inkscape:export-ydpi="89.913002" />
+    <path
+       id="path49206"
+       d="m 77.882345,771.65084 c -2.01499,1.37556 -3.51618,3.40396 -4.30594,5.76055 l 10.06721,0 z"
+       style="fill:#ff0000"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cccc"
+       inkscape:export-filename="/home/nharrington/wasatch/Sandbox/ExtendedTest/ui_components/tall_graph_area.png"
+       inkscape:export-xdpi="89.913002"
+       inkscape:export-ydpi="89.913002" />
+  </g>
+</svg>

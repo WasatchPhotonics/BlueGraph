@@ -68,6 +68,7 @@ class BasicSVG(QtGui.QMainWindow):
 
         filename = "bluegraph/assets/green_box.svg"
         filename = "bluegraph/assets/tall_graph_area.svg"
+        filename = "bluegraph/assets/border_graph.svg"
         self.svg_back = QtSvg.QGraphicsSvgItem(filename)
         result = self.scene.addItem(self.svg_back)
         self.svg_back.setParentItem(self.title)
@@ -77,7 +78,7 @@ class BasicSVG(QtGui.QMainWindow):
         self.result = self.scene.addWidget(self.plot_widget)
         self.result.setParentItem(self.svg_back) 
         self.result.setPos(100, 100)
-        self.result.setGeometry(QtCore.QRectF(40, 50, 920, 420))
+        self.result.setGeometry(QtCore.QRectF(40, 50, 700, 250))
 
         self.view = QtGui.QGraphicsView(self.scene)
         self.main_layout.addWidget(self.view)
