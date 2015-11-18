@@ -104,9 +104,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.69384476"
-     inkscape:cx="653.04509"
-     inkscape:cy="-149.76219"
+     inkscape:zoom="5.4915659"
+     inkscape:cx="118.02498"
+     inkscape:cy="311.89579"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -272,5 +272,29 @@
        inkscape:export-filename="/home/nharrington/wasatch/Sandbox/ExtendedTest/ui_components/tall_graph_area.png"
        inkscape:export-xdpi="89.913002"
        inkscape:export-ydpi="89.913002" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="104.60763"
+       y="787.02631"
+       id="textTitle"
+       sodipodi:linespacing="125%"
+       inkscape:label="#textTitle"><tspan
+         sodipodi:role="line"
+         id="tspan4172"
+         x="104.60763"
+         y="787.02631"
+         style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:12.5px;line-height:125%;font-family:'Gears of Peace';-inkscape-font-specification:'Gears of Peace, Medium';text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1">LASER POWER</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="1387.1788"
+       y="1044.3481"
+       id="text4174"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4176"
+         x="1387.1788"
+         y="1044.3481" /></text>
   </g>
 </svg>

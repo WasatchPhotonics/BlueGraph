@@ -10,7 +10,7 @@ import unittest
 
 from PySide import QtGui, QtTest, QtCore
 
-from bluegraph.views import Basic, BasicSVG
+from bluegraph.views import Basic, BasicSVG, LayeredGraphDisplay
 
 # All the classes below will reuese this qapplication
 app = QtGui.QApplication([])
@@ -68,6 +68,14 @@ class TestBasicSVGGraphInterface(unittest.TestCase):
         data = self.form.curve.dataBounds(1)
         self.assertEqual(data[0], 5000) 
         self.assertEqual(data[-1], 6000) 
-       
+
+class TestLayeredGraphDisplay(unittest.TestCase):
+    def setUp(self):
+        self.form = LayeredGraphDisplay()
+
+    def test_graph_starts_with_default_text(self):
+        display = self.form.text_display
+        self.assertEqual(display.text(), "BlueGraph")
+
 if __name__ == "__main__":
     unittest.main()

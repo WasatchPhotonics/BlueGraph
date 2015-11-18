@@ -61,7 +61,8 @@ class BlueGraphApplication(object):
         self.delay_close()
 
         #self.form = views.Basic()
-        self.form = views.BasicSVG()
+        #self.form = views.BasicSVG()
+        self.form = views.LayeredGraphDisplay()
 
         sys.exit(app.exec_())
 
