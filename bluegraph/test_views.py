@@ -21,7 +21,7 @@ log.setLevel(logging.DEBUG)
 
 class TestBasicGraphInterface(unittest.TestCase):
     def setUp(self):
-        self.form = Basic()
+        self.form = views.Basic()
 
     def tearDown(self):
         log.info("Is the close all necessary?")
@@ -35,51 +35,9 @@ class TestBasicGraphInterface(unittest.TestCase):
         self.assertEqual(self.form.width(), 800)
         self.assertEqual(self.form.height(), 600)
 
-class TestBasicSVGGraphInterface(unittest.TestCase):
+class TestPixmapBackedGraph(unittest.TestCase):
     def setUp(self):
-        self.form = BasicSVG()
-
-    def tearDown(self):
-        pass
-
-    def test_svg_border_startup_size(self):
-        bounding = self.form.border.boundingRect()
-    
-        self.assertEqual(bounding.width(), 783)
-        self.assertEqual(bounding.height(), 333)
-
-    def test_internal_pyqtgraph_area_is_available_with_default_data(self):
-        plot = self.form.plot
-        self.assertEqual(plot.width(), 700)
-        self.assertEqual(plot.height(), 250)
-       
-        data = self.form.curve.dataBounds(0)
-        self.assertEqual(data[0], 0) 
-        self.assertEqual(data[-1], 2047) 
-       
-        data = self.form.curve.dataBounds(1)
-        self.assertEqual(data[0], 0) 
-        self.assertEqual(data[-1], 2047) 
-           
-    def test_pyqtgraph_update_data_updates_main_plot(self):
-        new_data = numpy.linspace(5000, 6000, 2048)
-        self.form.update_graph(new_data)
- 
-        data = self.form.curve.dataBounds(1)
-        self.assertEqual(data[0], 5000) 
-        self.assertEqual(data[-1], 6000) 
-
-class TestLayeredGraphDisplay(unittest.TestCase):
-    def setUp(self):
-        self.form = LayeredGraphDisplay()
-
-    def test_graph_starts_with_default_text(self):
-        display = self.form.text_display
-        self.assertEqual(display.text(), "BlueGraph")
-
-class TestPixmapGraph(unittest.TestCase):
-    def setUp(self):
-        self.form = views.PixmapGraph()
+        self.form = views.PixmapBackedGraph()
 
     def test_graph_starts_with_default_text(self):
         display = self.form.graphback.title

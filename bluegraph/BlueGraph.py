@@ -62,14 +62,7 @@ class BlueGraphApplication(object):
         app = QtGui.QApplication([])
         self.delay_close()
 
-        #self.form = views.Basic()
-        #self.form = views.BasicSVG()
-        #self.form = views.LayeredGraphDisplay()
-        #self.form = views.FormBasic()
-        #self.form = views.FormBasicSVG()
-        #self.form = views.ClassRects()
-        #self.form = views.PixmapGraph()
-        self.form = views.WidgetTestGraph()
+        self.form = views.PixmapBackedGraph()
 
         sys.exit(app.exec_())
 
