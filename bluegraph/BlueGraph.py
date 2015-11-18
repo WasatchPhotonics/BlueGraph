@@ -20,6 +20,12 @@ strm.setFormatter(frmt)
 log.addHandler(strm)
 log.setLevel(logging.DEBUG)
 
+import signal
+def signal_handler(signal, frame):
+        log.critical('You pressed Ctrl+C!')
+        sys.exit(0)
+signal.signal(signal.SIGINT, signal_handler)
+
 class BlueGraphApplication(object):
     """ Create the window with the graphs, setup communication based on
     the specified device.
@@ -60,7 +66,7 @@ class BlueGraphApplication(object):
         the unittest generated controller.
         """
         app = QtGui.QApplication([])
-        self.delay_close()
+        #self.delay_close()
 
         self.form = views.PixmapBackedGraph()
 
@@ -70,15 +76,17 @@ class BlueGraphApplication(object):
         """ For testing purposes, create a qtimer that triggers the
         close event after a delay.
         """
-        log.debug("Trigger delay close")
         self.close_timer = QtCore.QTimer()
         self.close_timer.timeout.connect(self.closeEvent)
         if not self.args.openhold:
+            log.debug("Trigger delay close")
             self.close_timer.start(5000)
 
-    def closeEvent(self):
-        # .quit required for test cases to exit 
-        QtGui.QApplication.quit()
+    #def closeEvent(self):
+        #log.debug("Close event")
+        #self.close_timer.stop()
+        ## .quit required for test cases to exit 
+        #QtGui.QApplication.quit()
         #event.accept()
 
 

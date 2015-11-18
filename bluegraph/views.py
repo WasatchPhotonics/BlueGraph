@@ -1,9 +1,10 @@
 """ GUI components for the BlueGraph application.
 """
 
+import sys
+import numpy
 import logging
 
-import numpy
 import pyqtgraph
 
 from PySide import QtGui, QtSvg, QtCore
@@ -57,6 +58,9 @@ class PixmapBackedGraph(QtGui.QWidget):
         ramp_data = numpy.linspace(0, 2047, 2048)
         self.curve = self.graphback.plot.plot(ramp_data)
 
+    def closeEvent(self, event):
+        log.debug("Pixmap level close")
+        sys.exit()
 
 class SceneGraphBackground(QtGui.QGraphicsPixmapItem):
     """ Like GraphBackground, but include the scene parameter so
@@ -69,7 +73,7 @@ class SceneGraphBackground(QtGui.QGraphicsPixmapItem):
         super(SceneGraphBackground, self).__init__(filename)
 
         # The plot widget
-        self.plot = pyqtgraph.PlotWidget(name="mystery")
+        self.plot = pyqtgraph.PlotWidget(name="mystery", pen=(0,0,255))
         result = scene.addWidget(self.plot)
         result.setParentItem(self)
         self.plot.setGeometry(QtCore.QRect(40, 50, 700, 250))
