@@ -594,20 +594,109 @@ class ClassRects(QtGui.QMainWindow):
         self.curve.setData(new_data)
         
 
+
+class PixmapGraph(QtGui.QMainWindow):
+    """ Exported png rendering from inkscape svg as graph UI element
+    backing. Addition of text and graphics items.
+    """
+    def __init__(self):
+        super(PixmapGraph, self).__init__()
+
+        # Establish the layout, central widget which may be necessary
+        # for properly encapsulating the pyqtgraph widget/graphicsitem
+        # so it can inherit offset position from the svg widget
+        self.setWindowTitle("form test")
+        #self.resize(1250, 550)
+        self.container_widget = QtGui.QWidget()
+        self.setCentralWidget(self.container_widget)
+        self.main_layout = QtGui.QVBoxLayout()
+        self.container_widget.setLayout(self.main_layout)
+        self.main_layout.setContentsMargins(0, 0, 0, 0)
+
+        self.scene = QtGui.QGraphicsScene()
+
+        inside_rect = QtCore.QRectF(0, 0, 783, 333)
+        yellow_pen = QtGui.QPen(QtGui.QColor(255, 125, 0, 255))
+        self.yellow_rect = Recter(inside_rect, yellow_pen)
+        self.scene.addItem(self.yellow_rect)
+
+        filename = "bluegraph/assets/graph_export.png"
+        self.graphback = SceneGraphBackground(self.scene, filename)
+        self.scene.addItem(self.graphback)
+        self.graphback.setParentItem(self.yellow_rect)
+
+        # Clip view at rect border, red is just another element, blue is
+        # the parent of subs
+        #self.red_rect.setFlag(QtGui.QGraphicsItem.ItemClipsChildrenToShape)
+        #self.blueish.setFlag(QtGui.QGraphicsItem.ItemClipsChildrenToShape)
+
+        self.view = QtGui.QGraphicsView(self.scene)
+        self.main_layout.addWidget(self.view)
+        self.show()
+
+        self.scale = 1.0
+        ramp_data = numpy.linspace(0, 2047, 2048)
+        self.curve = self.graphback.plot.plot(ramp_data)
+
+        self.timer = QtCore.QTimer()
+        self.timer.timeout.connect(self.update_timer_graph)
+        self.timer.start(1)
+
+    def mousePressEvent(self, event):
+        log.info("Clicked %s", event)
+        self.blueish.setScale(self.scale)
+
+        self.scale -= 0.01
+
+    def update_timer_graph(self):
+        nru = numpy.random.uniform
+        low_data = nru(100, 200, 2048)
+        self.update_graph(low_data)
+
+    def update_graph(self, new_data):
+        """ wrapper function to update the pyqtgraph line data, as well
+        as any associated updates to the interface.
+        """
+        self.curve.setData(new_data)
+        
+
+
 class SceneGraphBackground(QtGui.QGraphicsPixmapItem):
     """ Like GraphBackground below, but include the scene parameter so
     certain widgets will add correctly. pyqtgraph plotwidget for
     example, requires that you add it to the scene first, then set the
     parent on the return of the addwidget command.
     """
-    def __init__(self, scene, filename):
+    def __init__(self, scene, filename, title="BLUE GRAPH",
+                 icon="default"):
         super(SceneGraphBackground, self).__init__(filename)
 
+        # The plot widget
         self.plot = pyqtgraph.PlotWidget(name="mystery")
         result = scene.addWidget(self.plot)
         result.setParentItem(self)
         self.plot.setGeometry(QtCore.QRect(40, 50, 700, 250))
 
+
+        # The main title
+        font_name = "bluegraph/assets/fonts/GearsOfPeace.ttf"
+        QtGui.QFontDatabase.addApplicationFont(font_name)
+
+        self.default_font = QtGui.QFont("GearsOfPeace")
+        self.default_font.setPointSize( 10 )
+
+        white = QtGui.QColor(255, 255, 255, 255)
+        self.title = QtGui.QGraphicsSimpleTextItem(title)
+        self.title.setPos(65, 20)
+        self.title.setBrush(white)
+        self.title.setParentItem(self)
+        self.title.setFont(self.default_font)
+
+        icon_filename = "bluegraph/assets/default_icon.png"
+        self.icon = QtGui.QGraphicsPixmapItem(icon_filename)
+        self.icon.setPos(33, 13)
+        self.icon.setParentItem(self)
+        # The icon to the left of the main title
         #sub_rect = QtCore.QRectF(0, 0, 383, 133)
         #yellow_pen = QtGui.QPen(QtGui.QColor(255, 125, 0, 255))
         #self.yellow_rect = Recter(sub_rect, yellow_pen)
