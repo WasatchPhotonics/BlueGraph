@@ -774,7 +774,9 @@ class SceneGraphBackground(QtGui.QGraphicsPixmapItem):
         font_name = "bluegraph/assets/fonts/GearsOfPeace.ttf"
         QtGui.QFontDatabase.addApplicationFont(font_name)
 
-        self.default_font = QtGui.QFont("GearsOfPeace")
+        # Filename will work on linux, actual font name with spaces is
+        # required for success on windows
+        self.default_font = QtGui.QFont("Gears of Peace")
         self.default_font.setPointSize( 10 )
 
         white = QtGui.QColor(255, 255, 255, 255)
