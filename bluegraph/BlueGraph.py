@@ -68,7 +68,8 @@ class BlueGraphApplication(object):
         #self.form = views.FormBasic()
         #self.form = views.FormBasicSVG()
         #self.form = views.ClassRects()
-        self.form = views.PixmapGraph()
+        #self.form = views.PixmapGraph()
+        self.form = views.WidgetTestGraph()
 
         sys.exit(app.exec_())
 

@@ -595,6 +595,85 @@ class ClassRects(QtGui.QMainWindow):
         
 
 
+class WidgetTestGraph(QtGui.QWidget):
+    def __init__(self):
+        super(WidgetTestGraph, self).__init__()
+
+        # Establish the layout, central widget which may be necessary
+        # for properly encapsulating the pyqtgraph widget/graphicsitem
+        # so it can inherit offset position from the svg widget
+        #self.setWindowTitle("form test")
+        #self.resize(1250, 550)
+        #self.container_widget = QtGui.QWidget()
+        #self.setCentralWidget(self.container_widget)
+        self.main_layout = QtGui.QVBoxLayout()
+        #self.container_widget.setLayout(self.main_layout)
+        #self.main_layout.setContentsMargins(0, 0, 0, 0)
+        self.setLayout(self.main_layout)
+
+        self.scene = QtGui.QGraphicsScene()
+        #self.scene.setBackgroundBrush( QtGui.QColor(0, 0, 0, 0) )
+
+        #inside_rect = QtCore.QRectF(0, 0, 783, 333)
+        #yellow_pen = QtGui.QPen(QtGui.QColor(255, 125, 0, 255))
+        #self.yellow_rect = Recter(inside_rect, yellow_pen)
+        #self.scene.addItem(self.yellow_rect)
+
+        filename = "bluegraph/assets/graph_export.png"
+        self.graphback = SceneGraphBackground(self.scene, filename)
+        self.scene.addItem(self.graphback)
+        #self.graphback.setParentItem(self.yellow_rect)
+
+        # Clip view at rect border, red is just another element, blue is
+        # the parent of subs
+        #self.red_rect.setFlag(QtGui.QGraphicsItem.ItemClipsChildrenToShape)
+        #self.blueish.setFlag(QtGui.QGraphicsItem.ItemClipsChildrenToShape)
+
+        self.view = QtGui.QGraphicsView(self.scene)
+        view_style = ("background: transparent;"
+                      "border: 0px"
+                     )
+        self.view.setStyleSheet(view_style)
+        self.main_layout.addWidget(self.view)
+
+        # Requires a compositing window manager to be translucent
+        self.setAttribute(QtCore.Qt.WA_TranslucentBackground) 
+        self.setWindowFlags(QtCore.Qt.Tool | QtCore.Qt.FramelessWindowHint)
+        self.setWindowFlags(self.windowFlags() 
+            | QtCore.Qt.WindowStaysOnTopHint)
+
+        self.show()
+
+        self.scale = 1.0
+        ramp_data = numpy.linspace(0, 2047, 2048)
+        self.curve = self.graphback.plot.plot(ramp_data)
+
+        self.timer = QtCore.QTimer()
+        self.timer.timeout.connect(self.update_timer_graph)
+        self.timer.start(1)
+
+
+    def mousePressEvent(self, event):
+        log.info("Clicked %s", event)
+        self.blueish.setScale(self.scale)
+
+        self.scale -= 0.01
+
+    def update_timer_graph(self):
+        nru = numpy.random.uniform
+        low_data = nru(100, 200, 2048)
+        self.update_graph(low_data)
+
+    def update_graph(self, new_data):
+        """ wrapper function to update the pyqtgraph line data, as well
+        as any associated updates to the interface.
+        """
+        self.curve.setData(new_data)
+        
+
+
+
+
 class PixmapGraph(QtGui.QMainWindow):
     """ Exported png rendering from inkscape svg as graph UI element
     backing. Addition of text and graphics items.
@@ -631,7 +710,19 @@ class PixmapGraph(QtGui.QMainWindow):
         #self.blueish.setFlag(QtGui.QGraphicsItem.ItemClipsChildrenToShape)
 
         self.view = QtGui.QGraphicsView(self.scene)
+        view_style = ("background: transparent;"
+                      "border: 0px"
+                     )
+        self.view.setStyleSheet(view_style)
+
         self.main_layout.addWidget(self.view)
+
+        # Requires a compositing window manager to be translucent
+        self.setAttribute(QtCore.Qt.WA_TranslucentBackground) 
+        self.setWindowFlags(QtCore.Qt.Tool | QtCore.Qt.FramelessWindowHint)
+        self.setWindowFlags(self.windowFlags() 
+            | QtCore.Qt.WindowStaysOnTopHint)
+
         self.show()
 
         self.scale = 1.0
@@ -641,6 +732,7 @@ class PixmapGraph(QtGui.QMainWindow):
         self.timer = QtCore.QTimer()
         self.timer.timeout.connect(self.update_timer_graph)
         self.timer.start(1)
+
 
     def mousePressEvent(self, event):
         log.info("Clicked %s", event)
@@ -692,20 +784,11 @@ class SceneGraphBackground(QtGui.QGraphicsPixmapItem):
         self.title.setParentItem(self)
         self.title.setFont(self.default_font)
 
+        # The icon to the left of the main title
         icon_filename = "bluegraph/assets/default_icon.png"
         self.icon = QtGui.QGraphicsPixmapItem(icon_filename)
         self.icon.setPos(33, 13)
         self.icon.setParentItem(self)
-        # The icon to the left of the main title
-        #sub_rect = QtCore.QRectF(0, 0, 383, 133)
-        #yellow_pen = QtGui.QPen(QtGui.QColor(255, 125, 0, 255))
-        #self.yellow_rect = Recter(sub_rect, yellow_pen)
-        #self.yellow_rect.setParentItem(self)
-        #self.yellow_rect.setPos(50, 50)
-
-        #result = scene.addItem(self.yellow_rect)
-        #result.setParentItem(self)
-
 
 
 class GraphBackground(QtGui.QGraphicsPixmapItem):
