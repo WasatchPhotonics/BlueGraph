@@ -48,6 +48,8 @@ class BlueGraphApplication(object):
         help_str = "Automatically terminate the program for testing"
         parser.add_argument("-t", "--testing", action="store_true",
                             help=help_str)
+        parser.add_argument("-o", "--openhold", action="store_true",
+                            help=help_str)
         return parser
 
     def run(self):
@@ -74,7 +76,8 @@ class BlueGraphApplication(object):
         log.debug("Trigger delay close")
         self.close_timer = QtCore.QTimer()
         self.close_timer.timeout.connect(self.closeEvent)
-        self.close_timer.start(5000)
+        if not self.args.openhold:
+            self.close_timer.start(5000)
 
     def closeEvent(self):
         # .quit required for test cases to exit 
