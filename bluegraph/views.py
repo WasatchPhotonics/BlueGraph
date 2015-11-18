@@ -222,7 +222,7 @@ class RectBasedLayout(QtGui.QGraphicsRectItem):
     def __init__(self, scene, title="BlueGraph"):
         super(RectBasedLayout, self).__init__()
 
-        large_rect = QtCore.QRectF(100, 50, 700, 450)
+        large_rect = QtCore.QRectF(100, 50, 700, 250)
         self.setPen(QtGui.QPen(QtGui.QColor(255,0,0,255)))
         self.setRect(large_rect)
 
@@ -300,4 +300,108 @@ class MySvg(QtSvg.QGraphicsSvgItem):
             #self.renderer().load( self.prefix + 'animate_exam_default.svg')
         #self._status = "default"
 
+
+
+class FormBasicSVG(QtGui.QMainWindow):
+    def __init__(self):
+        super(FormBasicSVG, self).__init__()
+
+
+        # Establish the layout, central widget which may be necessary
+        # for properly encapsulating the pyqtgraph widget/graphicsitem
+        # so it can inherit offset position from the svg widget
+        self.setWindowTitle("form test")
+        self.resize(1250, 550)
+        self.container_widget = QtGui.QWidget()
+        self.setCentralWidget(self.container_widget)
+        self.main_layout = QtGui.QVBoxLayout()
+        self.container_widget.setLayout(self.main_layout)
+        self.main_layout.setContentsMargins(0, 0, 0, 0)
+
+
+       
+        #self.scene = QtGui.QGraphicsScene()
+#
+        #filename = "bluegraph/assets/border_graph.svg"
+        #self.border = QtSvg.QGraphicsSvgItem(filename)
+        #result = self.scene.addItem(self.border)
+#
+        #self.plot = pyqtgraph.PlotWidget(name="plotsub")
+        #self.result = self.scene.addWidget(self.plot)
+        #self.result.setParentItem(self.border) 
+        #self.result.setPos(100, 100)
+        #self.result.setGeometry(QtCore.QRectF(40, 50, 700, 250))
+#
+        #self.view = QtGui.QGraphicsView(self.scene)
+        #self.main_layout.addWidget(self.view)
+#
+        #
+        #nru = numpy.random.uniform
+        #low_data = nru(100, 200, 2048)
+        #self.curve = self.plot.plot(low_data)
+
+        # Establish the form first to place the graphics view in,
+        # otherwise it will require view.show and not respect the parent
+        # rectitem size. If you do self.show it will show a separate
+        # window
+        self.scene = QtGui.QGraphicsScene()
+
+        large_rect = QtCore.QRectF(0, 0, 700, 250)
+        red_pen = QtGui.QPen(QtGui.QColor(255,0,0,255))
+        self.red_rect = QtGui.QGraphicsRectItem(large_rect)
+        self.red_rect.setPen(red_pen)
+        result = self.scene.addItem(self.red_rect)
+
+
+        sub_blue_rect = QtCore.QRectF(0, 0, 600, 200)
+        blue_pen = QtGui.QPen(QtGui.QColor(0, 0, 255, 255))
+        self.blue_rect = QtGui.QGraphicsRectItem(sub_blue_rect)
+        self.blue_rect.setPen(blue_pen)
+        result = self.scene.addItem(self.blue_rect)
+        self.blue_rect.setPos(150, 0)
+
+        inside_rect = QtCore.QRectF(0, 0, 350, 125)
+        green_pen = QtGui.QPen(QtGui.QColor(0,255,0,255))
+        self.green_rect = QtGui.QGraphicsRectItem(inside_rect,
+                                                  parent=self.blue_rect)
+        self.green_rect.setPen(green_pen)
+        #result = self.scene.addItem(self.green_rect)
+        #result.setParentItem(self.red_rect)
+        #self.green_rect.setParentItem(self.red_rect)
+        self.green_rect.setPos(100, 150)
+    
+        # Clip green rect at blue rect border
+        self.blue_rect.setFlag(QtGui.QGraphicsItem.ItemClipsChildrenToShape)
+
+        self.plot = pyqtgraph.PlotWidget(name="plotsub")
+        self.result = self.scene.addWidget(self.plot)
+        self.result.setParentItem(self.blue_rect) 
+        #self.result.setGeometry(QtCore.QRectF(0, 0, 600, 150))
+    
+        blue_size = self.blue_rect.boundingRect()
+        self.result.setGeometry(blue_size)
+        self.result.setPos(100, 0)
+
+
+
+        self.view = QtGui.QGraphicsView(self.scene)
+        self.main_layout.addWidget(self.view)
+        self.show()
+
+        self.timer = QtCore.QTimer()
+        self.timer.timeout.connect(self.update_timer_graph)
+        #self.timer.start(1)
+
+    def update_graph(self, new_data):
+        """ wrapper function to update the pyqtgraph line data, as well
+        as any associated updates to the interface.
+        """
+        self.curve.setData(new_data)
+
+    def update_timer_graph(self):
+        nru = numpy.random.uniform
+        low_data = nru(100, 200, 2048)
+        #self.scale_factor -= 0.001
+        #self.border.setScale(self.scale_factor)
+        self.update_graph(low_data)
 
