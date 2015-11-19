@@ -1,4 +1,4 @@
-""" unit and functional tests for bluegraph application.
+""" GUI component tests for bluegraph application
 """
 
 import os
@@ -12,20 +12,23 @@ from PySide import QtGui, QtTest, QtCore
 
 from bluegraph import views
 
-# All the classes below will reuese this qapplication
-app = QtGui.QApplication([])
-
 log = logging.getLogger()
 log.setLevel(logging.DEBUG)
+
+# Catch qapplication re-use runtime errors from nosetests if a
+# previously loaded module has started a qapplication. Note that there
+# is a now a unspecified app variable providing qt services if this is
+# the case.
+try:
+    # All the classes below will reuese this qapplication
+    app = QtGui.QApplication([])
+except RuntimeError:
+    log.critical("Runtime")
 
 
 class TestBasicGraphInterface(unittest.TestCase):
     def setUp(self):
         self.form = views.Basic()
-
-    def tearDown(self):
-        log.info("Is the close all necessary?")
-        app.closeAllWindows()
 
     def test_label_is_available_on_fedora_and_xvfb(self):
         self.assertEqual(self.form.lblInfo.text(), "Default")

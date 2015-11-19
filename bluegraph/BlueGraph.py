@@ -8,7 +8,7 @@ import argparse
 from PySide import QtGui, QtCore
 
 # This should really be controller import, which in turn loads the views
-from bluegraph import views
+from bluegraph import control
 
 logging.basicConfig(filename="BlueGraph_log.txt", filemode="w",
                     level=logging.DEBUG)
@@ -67,7 +67,7 @@ class BlueGraphApplication(object):
         if self.args.testing:
             self.delay_close()
 
-        self.form = views.PixmapBackedGraph()
+        self.control = control.BlueGraphController()
 
         sys.exit(app.exec_())
 

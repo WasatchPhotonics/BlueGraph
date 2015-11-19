@@ -15,8 +15,8 @@ CHANGES=""
 requires = [
     "nose",
     "coverage",
-    "pyside",
     "pyqtgraph",
+    #"pyside", # required, up to the developer to install - see notes
     ]
 
 setup(name="bluegraph",
