@@ -54,8 +54,6 @@ class BlueGraphApplication(object):
         help_str = "Automatically terminate the program for testing"
         parser.add_argument("-t", "--testing", action="store_true",
                             help=help_str)
-        parser.add_argument("-o", "--openhold", action="store_true",
-                            help=help_str)
         return parser
 
     def run(self):
@@ -66,7 +64,8 @@ class BlueGraphApplication(object):
         the unittest generated controller.
         """
         app = QtGui.QApplication([])
-        #self.delay_close()
+        if self.args.testing:
+            self.delay_close()
 
         self.form = views.PixmapBackedGraph()
 
@@ -78,16 +77,13 @@ class BlueGraphApplication(object):
         """
         self.close_timer = QtCore.QTimer()
         self.close_timer.timeout.connect(self.closeEvent)
-        if not self.args.openhold:
-            log.debug("Trigger delay close")
-            self.close_timer.start(5000)
+        log.debug("Trigger delay close")
+        self.close_timer.start(5000)
 
-    #def closeEvent(self):
-        #log.debug("Close event")
-        #self.close_timer.stop()
-        ## .quit required for test cases to exit 
-        #QtGui.QApplication.quit()
-        #event.accept()
+    def closeEvent(self):
+        log.debug("Close event")
+        self.close_timer.stop()
+        QtGui.QApplication.quit()
 
 
 def main(argv=None):
