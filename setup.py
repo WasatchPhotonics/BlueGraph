@@ -13,8 +13,9 @@ README=""
 CHANGES=""
 
 requires = [
-    "nose",
-    "coverage",
+    "pytest",
+    "pytest-cov",
+    "pytest-qt",
     "pyqtgraph",
     #"pyside", # required, up to the developer to install - see notes
     ]
