@@ -34,6 +34,7 @@ install:
 
  # others
  - pip install coveralls --use-wheel
+ - pip install PySide
 
 script:
  - python setup.py develop
