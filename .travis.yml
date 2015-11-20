@@ -1,26 +1,54 @@
 language: python
+sudo: required
+dist: trusty
 
-matrix:
-  include:
-    - python: "2.7"
-install: 
-  #### install PySide
-  - sudo apt-get install libqt4-dev
-  - travis_wait pip install --find-links https://parkin.github.io/python-wheelhouse/ --use-wheel PySide;
-  # Finish the PySide install, since we are in a virtualenv
-  - python ~/virtualenv/python${TRAVIS_PYTHON_VERSION}/bin/pyside_postinstall.py -install
-  # Setup coverage and the development mode
-  - pip install pyside
-  - pip install coveralls
-  - "python setup.py develop"
+python:
+  - "2.7"
+
+virtualenv:
+  system_site_packages: true
+
+install:
+ - sudo apt-get update
+
+ # Xvfb
+ - sudo apt-get install -y xvfb
+
+ # Qt
+ - python scripts/install-qt.py
+
+ # PyTest
+ - pip install -U pytest
+
+ # others
+ - pip install coveralls --use-wheel
+
+# From https://github.com/pytest-dev/pytest-qt/blob/master/.travis.yml
+#script:
+# - python setup.py develop
+# - catchsegv xvfb-run coverage run --source=pytestqt setup.py test
+# #
+# From other:
+#before_script:
+#  - export DISPLAY=:99
+#  - sh -e /etc/init.d/xvfb start
+#  - sleep 3
+#
+#script:
+#  - nosetests --cover-erase --with-coverage --cover-package=bluegraph
+#
+
 
 before_script:
   - export DISPLAY=:99
   - sh -e /etc/init.d/xvfb start
   - sleep 3
 
-script: 
-  - nosetests --cover-erase --with-coverage --cover-package=bluegraph
+script:
+  - python setup.py develop
+  - py.test --cov=bluegraph tests/
 
-notifications:
-  email: false
+after_success:
+ - coveralls
+
+
