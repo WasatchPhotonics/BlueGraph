@@ -4,15 +4,21 @@ dist: trusty
 
 python:
   - "2.7"
+  - "3.4"
 
 virtualenv:
   system_site_packages: true
 
+matrix:
+  exclude:
+    - env: PYTEST_QT_API=pyqt5
+      python: "2.7"
+
 env:
- #- PYTEST_QT_API=pyqt4
- #- PYTEST_QT_API=pyqt4v2
+ - PYTEST_QT_API=pyqt4
+ - PYTEST_QT_API=pyqt4v2
  - PYTEST_QT_API=pyside
- #- PYTEST_QT_API=pyqt5
+ - PYTEST_QT_API=pyqt5
 
 install:
  - sudo apt-get update
@@ -29,32 +35,9 @@ install:
  # others
  - pip install coveralls --use-wheel
 
-# From https://github.com/pytest-dev/pytest-qt/blob/master/.travis.yml
-#script:
-# - python setup.py develop
-# - catchsegv xvfb-run coverage run --source=pytestqt setup.py test
-# #
-# From other:
-#before_script:
-#  - export DISPLAY=:99
-#  - sh -e /etc/init.d/xvfb start
-#  - sleep 3
-#
-#script:
-#  - nosetests --cover-erase --with-coverage --cover-package=bluegraph
-#
-
-
-before_script:
-  - export DISPLAY=:99
-  - sh -e /etc/init.d/xvfb start
-  - sleep 3
-
 script:
-  - python setup.py develop
-  - py.test --cov=bluegraph tests/
+ - python setup.py develop
+ - py.test --cov=bluegraph tests/
 
 after_success:
  - coveralls
-
-
