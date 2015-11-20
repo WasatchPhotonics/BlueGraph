@@ -74,7 +74,7 @@ elif 'TRAVIS' in os.environ:
         #else:
             #pkg = 'python-pyside'
         #apt_get_install([pkg])
-    apg_get_install(['python-pyside'])
+    apt_get_install(['python-pyside'])
 
 else:
     print('Nothing to do (not in Travis or AppVeyor)')
