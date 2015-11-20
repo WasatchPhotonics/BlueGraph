@@ -2,7 +2,6 @@
 """
 
 import sys
-import numpy
 import logging
 
 from PySide import QtCore

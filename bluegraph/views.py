@@ -2,7 +2,6 @@
 """
 
 import sys
-import numpy
 import logging
 
 import pyqtgraph
@@ -55,7 +54,7 @@ class PixmapBackedGraph(QtGui.QWidget):
         self.show()
 
         self.scale = 1.0
-        ramp_data = numpy.linspace(0, 2047, 2048)
+        ramp_data = range(2048)
         self.curve = self.graphback.plot.plot(ramp_data)
 
     def closeEvent(self, event):
