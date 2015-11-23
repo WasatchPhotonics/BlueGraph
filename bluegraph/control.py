@@ -21,8 +21,6 @@ class BlueGraphController(object):
         self.form = views.PixmapBackedGraph()
 
         log.debug("pixmap graph setup")
-        ramp_data = range(2048)
-        
 
         self.fps = utils.SimpleFPS()
 
