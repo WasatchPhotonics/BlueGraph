@@ -100,7 +100,7 @@ class SceneGraphBackground(QtGui.QGraphicsPixmapItem):
         self.maximum.setParentItem(self)
         
 
-        self.maximum = SmallTextBox(prefix="FPS:", val="987.65")
+        self.maximum = SmallTextBox(prefix="FPS:", val="9999")
         self.maximum.setPos(706, 333-95)
         self.maximum.setParentItem(self)
        
