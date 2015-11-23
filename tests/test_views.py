@@ -7,7 +7,6 @@ from bluegraph import views
 
 class TestBasicGraphInterface:
     def test_label_is_available_on_fedora_and_xvfb(self, qtbot):
-
         form = views.Basic()
 
         assert form.lblInfo.text() == "Default"
@@ -57,3 +56,11 @@ class TestPixmapBackedGraph:
         qtbot.mouseClick(widget, QtCore.Qt.LeftButton, pos=center)
 
         assert form.graphback.pause_button.state == "pause"
+
+    def test_iconagraphy_and_text_are_updatable(self, qtbot):
+        form = views.PixmapBackedGraph()
+        QtTest.QTest.qWaitForWindowShown(form)
+
+        assert form.graphback.title.text() == "BLUE GRAPH"
+        form.graphback.title.setText("SECONDARY")
+        assert form.graphback.title.text() == "SECONDARY"

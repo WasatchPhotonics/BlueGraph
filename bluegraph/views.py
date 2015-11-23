@@ -61,6 +61,11 @@ class PixmapBackedGraph(QtGui.QWidget):
         log.debug("Pixmap level close")
         sys.exit()
 
+    def mousePressEvent(self, event):
+        log.debug("Mouse: %s", event)
+        self.graphback.title.setText(str(event))
+        
+
 class SceneGraphBackground(QtGui.QGraphicsPixmapItem):
     """ Like GraphBackground, but include the scene parameter so
     certain widgets will add correctly. pyqtgraph plotwidget for
@@ -71,15 +76,50 @@ class SceneGraphBackground(QtGui.QGraphicsPixmapItem):
                  icon="default"):
         super(SceneGraphBackground, self).__init__(filename)
 
+        # The main font
+        font_name = "bluegraph/assets/fonts/GearsOfPeace.ttf"
+        QtGui.QFontDatabase.addApplicationFont(font_name)
+
         # The plot widget
         self.plot = pyqtgraph.PlotWidget(name="mystery", pen=(0,0,255))
         result = scene.addWidget(self.plot)
         result.setParentItem(self)
         self.plot.setGeometry(QtCore.QRect(32, 333-291, 668, 270))
 
-        # The main title
-        font_name = "bluegraph/assets/fonts/GearsOfPeace.ttf"
-        QtGui.QFontDatabase.addApplicationFont(font_name)
+        self.add_main_title(title, self)
+
+        icon_filename = "bluegraph/assets/default_icon.png"
+        self.add_main_icon(icon_filename, self)
+
+        self.minimum = SmallTextBox(prefix="MIN:")
+        self.minimum.setPos(706, 333-233)
+        self.minimum.setParentItem(self)
+
+        self.maximum = SmallTextBox(prefix="MAX:", val="987.65")
+        self.maximum.setPos(706, 333-164)
+        self.maximum.setParentItem(self)
+        
+
+        self.maximum = SmallTextBox(prefix="FPS:", val="987.65")
+        self.maximum.setPos(706, 333-95)
+        self.maximum.setParentItem(self)
+       
+        prefix = "bluegraph/assets/toggle_button_"
+        self.pause_button = ToggleButton(prefix=prefix)
+        self.pause_button.setPos(706, 333-289)
+        self.pause_button.setParentItem(self)
+
+    def add_main_icon(self, filename, parent):
+        """ Add a graphical indicator pixmap to the title area.
+        """
+        # The icon to the left of the main title
+        self.icon = QtGui.QGraphicsPixmapItem(filename)
+        self.icon.setPos(33, 13)
+        self.icon.setParentItem(parent)
+
+    def add_main_title(self, title, parent):
+        """ Add a text item with drop shadow.
+        """
 
         # Filename will work on linux, actual font name with spaces is
         # required for success on windows
@@ -90,36 +130,29 @@ class SceneGraphBackground(QtGui.QGraphicsPixmapItem):
         self.title = QtGui.QGraphicsSimpleTextItem(title)
         self.title.setPos(65, 14)
         self.title.setBrush(white)
-        self.title.setParentItem(self)
+        self.title.setParentItem(parent)
         self.title.setFont(self.default_font)
 
-        # The icon to the left of the main title
-        icon_filename = "bluegraph/assets/default_icon.png"
-        self.icon = QtGui.QGraphicsPixmapItem(icon_filename)
-        self.icon.setPos(33, 13)
-        self.icon.setParentItem(self)
-
-        self.minimum = SmallTextBox(prefix="MIN:")
-        self.minimum.setPos(706, 333-216)
-        self.minimum.setParentItem(self)
-
-        self.maximum = SmallTextBox(prefix="MAX:", val="987.65")
-        self.maximum.setPos(706, 333-136)
-        self.maximum.setParentItem(self)
-       
-        self.pause_button = ToggleButton()
-        self.pause_button.setPos(706, 333-289)
-        self.pause_button.setParentItem(self)
+        self.shadow = QtGui.QGraphicsDropShadowEffect()
+        self.shadow.setOffset(2, 2)
+        self.title.setGraphicsEffect(self.shadow)
 
 class ToggleButton(QtGui.QGraphicsPixmapItem):
-    """ Swith foreground pixmap elements to indicate toggled states.
+    """ Switch foreground pixmap elements to indicate toggled states.
     """
-    def __init__(self, designator="default"):
-        filename = "bluegraph/assets/toggle_button_activated.png"
-        super(ToggleButton, self).__init__(filename)
+    def __init__(self, designator="default",
+                 prefix="bluegraph/assets/toggle_button_"):
+        self.activated = "%s%s.png" % (prefix, "activated")
+        self.deactivated = "%s%s.png" % (prefix, "deactivated")
+        super(ToggleButton, self).__init__(self.activated)
 
         self._state = "play"
         print "startup with: %s" % self._state
+       
+        self.shadow = QtGui.QGraphicsDropShadowEffect()
+        self.shadow.setColor(QtGui.QColor(0, 0, 0, 128))
+        self.shadow.setOffset(2, 2)
+        self.setGraphicsEffect(self.shadow)
 
     @property
     def state(self):
@@ -129,16 +162,20 @@ class ToggleButton(QtGui.QGraphicsPixmapItem):
         print "you pressed %s", event.pos()
         if self._state == "play":
             self._state = "pause"
+            self.setPixmap(self.deactivated)
         else:
             self._state = "play" 
+            self.setPixmap(self.activated)
 
 class SmallTextBox(QtGui.QGraphicsPixmapItem):
     """ Designed to display an abbreviated text description and a %3.2f
     formatted value.
     """
-    def __init__(self, prefix="Min", val="123.45"):
-        filename = "bluegraph/assets/small_number_designator_export.png"
-        super(SmallTextBox, self).__init__(filename)
+    def __init__(self, prefix="Min", val="123.45",
+                 filename="small_number_designator_export.png"):
+
+        full_path = "bluegraph/assets/%s" % filename
+        super(SmallTextBox, self).__init__(full_path)
         
         white = QtGui.QColor(255, 255, 255, 255)
         self.prefix_font = QtGui.QFont("Gears of Peace")
@@ -157,7 +194,45 @@ class SmallTextBox(QtGui.QGraphicsPixmapItem):
         self.value.setBrush(white)
         self.value.setParentItem(self)
         self.value.setFont(self.value_font)
+       
+        self.shadow = QtGui.QGraphicsDropShadowEffect()
+        self.shadow.setColor(QtGui.QColor(0, 0, 0, 128))
+        self.shadow.setOffset(2, 2)
+        self.setGraphicsEffect(self.shadow)
+ 
+    @property
+    def text(self):
+        return self.value.text()
+
+class TinyTextBox(SmallTextBox):
+    """ Designed to display an abbreviated text description and a %3.2f
+    formatted value. In a very small sub-widget.
+    """
+    def __init__(self, prefix="Min", val="1234",
+                 filename="tiny_number_designator_export.png"):
+
+        full_path = "bluegraph/assets/%s" % filename
+        super(SmallTextBox, self).__init__(full_path)
+        
+        white = QtGui.QColor(255, 255, 255, 255)
+        self.prefix_font = QtGui.QFont("Gears of Peace")
+        self.prefix_font.setPointSize(4)
+
+        self.prefix = QtGui.QGraphicsSimpleTextItem(prefix)
+        self.prefix.setPos(8, 4)
+        self.prefix.setBrush(white)
+        self.prefix.setParentItem(self)
+        self.prefix.setFont(self.prefix_font)
+
+        self.value_font = QtGui.QFont("Gears of Peace")
+        self.value_font.setPointSize(4)
+        self.value = QtGui.QGraphicsSimpleTextItem(val)
+        self.value.setPos(7, 12)
+        self.value.setBrush(white)
+        self.value.setParentItem(self)
+        self.value.setFont(self.value_font)
         
     @property
     def text(self):
         return self.value.text()
+
