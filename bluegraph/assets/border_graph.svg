@@ -317,7 +317,7 @@
        xlink:href="#linearGradient5945-7-4-7-5-2-0"
        id="linearGradient12592"
        gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(0.13081909,0,0,0.13090571,504.97705,26.38248)"
+       gradientTransform="matrix(0.13081909,0,0,0.13090571,504.73027,27.195054)"
        x1="2095.6724"
        y1="127.50148"
        x2="2095.6724"
@@ -410,9 +410,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.0156489"
-     inkscape:cx="612.40328"
-     inkscape:cy="226.84204"
+     inkscape:zoom="0.77483061"
+     inkscape:cx="744.26899"
+     inkscape:cy="266.1501"
      inkscape:document-units="px"
      inkscape:current-layer="layer2"
      showgrid="false"
@@ -554,7 +554,7 @@
          sodipodi:role="line"
          id="tspan14866"
          x="725.45276"
-         y="188.54234"></tspan></text>
+         y="188.54234" /></text>
   </g>
   <g
      inkscape:groupmode="layer"
@@ -805,73 +805,68 @@
          y="222.28809"
          style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:10px;line-height:125%;font-family:'Gears of Peace';-inkscape-font-specification:'Gears of Peace, Medium';text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1"
          id="tspan10276" /></text>
-    <g
-       transform="translate(-0.24677682,0.8125738)"
-       style="display:inline"
-       id="g12601">
-      <path
-         inkscape:export-ydpi="89.913002"
-         inkscape:export-xdpi="89.913002"
-         inkscape:export-filename="/home/nharrington/wasatch/Sandbox/ExtendedTest/ui_components/tall_graph_area.png"
-         sodipodi:nodetypes="ccccccc"
-         inkscape:connector-curvature="0"
-         id="path10118-1-0"
-         d="m 708.10943,46.34864 0,37.471105 60.01936,0 3.52,-3.52001 0,-37.473215 -60.01938,0 -3.5917,3.70192"
-         style="display:inline;opacity:0.325;fill:none;stroke:#3cdbdf;stroke-width:0.51668954;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
-      <path
-         style="display:inline;fill:url(#linearGradient12592);fill-opacity:1;stroke:none"
-         d="m 708.07949,80.12183 0,-33.76925 1.70475,-1.76512 1.70475,-1.76512 30.33833,0 30.02244,0 0,18.75037 0,18.914255 -1.71138,1.71113 -1.7114,1.71114 -28.27632,0 -32.07117,0 z"
-         id="path10120-1-8"
-         inkscape:connector-curvature="0"
-         sodipodi:nodetypes="ccccccccccccc"
-         inkscape:export-filename="/home/nharrington/wasatch/Sandbox/ExtendedTest/ui_components/tall_graph_area.png"
-         inkscape:export-xdpi="89.913002"
-         inkscape:export-ydpi="89.913002" />
-      <path
-         transform="matrix(0.17128225,0,0,0.17128225,700.38584,-87.451349)"
-         style="display:inline;fill:none;stroke:#3cdbdf;stroke-width:3.03480601;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter4414-97-2)"
-         d="m 42.760355,780.3057 0,220.6141 354.952805,0 20.6749,-20.67487 0,-220.62654 -354.952935,0 -21.0961,21.74344"
-         id="path10122-7-7"
-         inkscape:connector-curvature="0"
-         sodipodi:nodetypes="ccccccc"
-         inkscape:export-filename="/home/nharrington/wasatch/Sandbox/ExtendedTest/ui_components/tall_graph_area.png"
-         inkscape:export-xdpi="89.913002"
-         inkscape:export-ydpi="89.913002" />
-      <path
-         style="display:inline;fill:#18457a;fill-opacity:1;stroke:#18457a;stroke-width:0.17128226px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-         d="m 771.70095,70.266365 -2.55335,2.24939 0,2.85733 -6.10983,6.10982 -4.6566,0 -1.83923,1.49668 -10.47967,0.0389 -1.59288,0.72902 23.76628,0 3.3361,-3.33608 z"
-         id="path10128-4-4"
-         inkscape:connector-curvature="0"
-         sodipodi:nodetypes="ccccccccccc"
-         inkscape:export-filename="/home/nharrington/wasatch/Sandbox/ExtendedTest/ui_components/tall_graph_area.png"
-         inkscape:export-xdpi="89.913002"
-         inkscape:export-ydpi="89.913002" />
-      <path
-         style="display:inline;opacity:0.91150447;fill:#2b669e;fill-opacity:1;stroke:#2b669e;stroke-width:0.17128226px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-         d="m 771.48443,77.323085 -5.52539,5.52541 0.75016,0 0.55254,-0.55254 1.80282,0 2.55096,-2.55096 0,-2.42191 z"
-         id="path10130-2-5"
-         inkscape:connector-curvature="0"
-         sodipodi:nodetypes="cccccccc"
-         inkscape:export-filename="/home/nharrington/wasatch/Sandbox/ExtendedTest/ui_components/tall_graph_area.png"
-         inkscape:export-xdpi="89.913002"
-         inkscape:export-ydpi="89.913002" />
-      <path
-         style="display:inline;opacity:0.80088495;fill:#2b669e;fill-opacity:1;stroke:#2b669e;stroke-width:0.17128226px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-         d="m 745.34767,83.311305 -0.36986,0.16483 17.25211,0 0.21631,0.21629 1.094,0 0.50468,-0.3838 z"
-         id="path10132-2-9"
-         inkscape:connector-curvature="0"
-         sodipodi:nodetypes="ccccccc"
-         inkscape:export-filename="/home/nharrington/wasatch/Sandbox/ExtendedTest/ui_components/tall_graph_area.png"
-         inkscape:export-xdpi="89.913002"
-         inkscape:export-ydpi="89.913002" />
-      <path
-         sodipodi:nodetypes="sssssccccccccccc"
-         transform="matrix(0.60315326,0,0,0.60315326,209.4997,-15.961291)"
-         inkscape:connector-curvature="0"
-         style="display:inline;fill:#ef9f00;fill-opacity:1;filter:url(#filter12301-5-2-4-7-0-5)"
-         d="m 879.20441,107.19355 c -12.21328,0 -22.1155,9.90224 -22.1155,22.11561 0,12.21317 9.90222,22.11539 22.1155,22.11539 12.21325,0 22.11547,-9.90222 22.11547,-22.11539 0,-12.21334 -9.90222,-22.11561 -22.11547,-22.11561 z m 2.76442,30.40877 2.76444,0 -5.52886,5.52887 -5.52887,-5.52887 2.76442,0 0,-16.58654 -2.76442,0 5.52887,-5.52885 5.52886,5.52885 -2.76444,0 z"
-         id="path7434-7-2-1-4" />
-    </g>
+    <path
+       style="display:inline;opacity:0.325;fill:none;stroke:#3cdbdf;stroke-width:0.51668954;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 707.86265,47.161214 0,29.471105 60.01936,0 3.52,-3.52001 0,-29.473215 -60.01938,0 -3.5917,3.70192"
+       id="path10118-1-0"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccccccc"
+       inkscape:export-filename="/home/nharrington/wasatch/Sandbox/ExtendedTest/ui_components/tall_graph_area.png"
+       inkscape:export-xdpi="89.913002"
+       inkscape:export-ydpi="89.913002" />
+    <path
+       inkscape:export-ydpi="89.913002"
+       inkscape:export-xdpi="89.913002"
+       inkscape:export-filename="/home/nharrington/wasatch/Sandbox/ExtendedTest/ui_components/tall_graph_area.png"
+       sodipodi:nodetypes="ccccccccccccc"
+       inkscape:connector-curvature="0"
+       id="path10120-1-8"
+       d="m 707.83271,72.934404 0,-25.76925 1.70475,-1.76512 1.70475,-1.76512 30.33833,0 30.02244,0 0,18.75037 0,10.914255 -1.71138,1.71113 -1.7114,1.71114 -28.27632,0 -32.07117,0 z"
+       style="display:inline;fill:url(#linearGradient12592);fill-opacity:1;stroke:none" />
+    <path
+       inkscape:export-ydpi="89.913002"
+       inkscape:export-xdpi="89.913002"
+       inkscape:export-filename="/home/nharrington/wasatch/Sandbox/ExtendedTest/ui_components/tall_graph_area.png"
+       sodipodi:nodetypes="ccccccc"
+       inkscape:connector-curvature="0"
+       id="path10122-7-7"
+       d="m 42.760355,780.3057 0,173.90757 354.952805,0 20.6749,-20.67487 0,-173.92001 -354.952935,0 -21.0961,21.74344"
+       style="display:inline;fill:none;stroke:#3cdbdf;stroke-width:3.03480601;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter4414-97-2)"
+       transform="matrix(0.17128225,0,0,0.17128225,700.13906,-86.638775)" />
+    <path
+       inkscape:export-ydpi="89.913002"
+       inkscape:export-xdpi="89.913002"
+       inkscape:export-filename="/home/nharrington/wasatch/Sandbox/ExtendedTest/ui_components/tall_graph_area.png"
+       sodipodi:nodetypes="ccccccccccc"
+       inkscape:connector-curvature="0"
+       id="path10128-4-4"
+       d="m 771.45417,63.078939 -2.55335,2.24939 0,2.85733 -6.10983,6.10982 -4.6566,0 -1.83923,1.49668 -10.47967,0.0389 -1.59288,0.72902 23.76628,0 3.3361,-3.33608 z"
+       style="display:inline;fill:#18457a;fill-opacity:1;stroke:#18457a;stroke-width:0.17128226px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       inkscape:export-ydpi="89.913002"
+       inkscape:export-xdpi="89.913002"
+       inkscape:export-filename="/home/nharrington/wasatch/Sandbox/ExtendedTest/ui_components/tall_graph_area.png"
+       sodipodi:nodetypes="cccccccc"
+       inkscape:connector-curvature="0"
+       id="path10130-2-5"
+       d="m 771.23765,70.135659 -5.52539,5.52541 0.75016,0 0.55254,-0.55254 1.80282,0 2.55096,-2.55096 0,-2.42191 z"
+       style="display:inline;opacity:0.91150447;fill:#2b669e;fill-opacity:1;stroke:#2b669e;stroke-width:0.17128226px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       inkscape:export-ydpi="89.913002"
+       inkscape:export-xdpi="89.913002"
+       inkscape:export-filename="/home/nharrington/wasatch/Sandbox/ExtendedTest/ui_components/tall_graph_area.png"
+       sodipodi:nodetypes="ccccccc"
+       inkscape:connector-curvature="0"
+       id="path10132-2-9"
+       d="m 745.10089,76.123879 -0.36986,0.16483 17.25211,0 0.21631,0.21629 1.094,0 0.50468,-0.3838 z"
+       style="display:inline;opacity:0.80088495;fill:#2b669e;fill-opacity:1;stroke:#2b669e;stroke-width:0.17128226px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <path
+       id="path7434-7-2-1-4"
+       d="m 879.20441,107.19355 c -12.21328,0 -22.1155,9.90224 -22.1155,22.11561 0,12.21317 9.90222,22.11539 22.1155,22.11539 12.21325,0 22.11547,-9.90222 22.11547,-22.11539 0,-12.21334 -9.90222,-22.11561 -22.11547,-22.11561 z m 2.76442,30.40877 2.76444,0 -5.52886,5.52887 -5.52887,-5.52887 2.76442,0 0,-16.58654 -2.76442,0 5.52887,-5.52885 5.52886,5.52885 -2.76444,0 z"
+       style="display:inline;fill:#ef9f00;fill-opacity:1;filter:url(#filter12301-5-2-4-7-0-5)"
+       inkscape:connector-curvature="0"
+       transform="matrix(0.43052209,0,0,0.43052209,361.41279,3.5558383)"
+       sodipodi:nodetypes="sssssccccccccccc" />
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;display:inline;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"

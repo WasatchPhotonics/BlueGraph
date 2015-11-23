@@ -1,5 +1,7 @@
 """ GUI component tests for bluegraph application
 """
+
+from PySide import QtCore, QtTest
         
 from bluegraph import views
 
@@ -26,5 +28,32 @@ class TestPixmapBackedGraph:
     
     def test_min_max_text_starts_with_default(self):
         form = views.PixmapBackedGraph()
-        assert form.graphback.minimum.text() == "123.45"
-        assert form.graphback.maximum.text() == "987.65"
+        assert form.graphback.minimum.text == "123.45"
+        assert form.graphback.maximum.text == "987.65"
+
+    def test_play_button_starts_in_play_mode(self):
+        form = views.PixmapBackedGraph()
+        assert form.graphback.pause_button.state == "play"
+
+    def test_play_button_switches_to_pause_back_to_play(self, qtbot):
+        form = views.PixmapBackedGraph()
+        QtTest.QTest.qWaitForWindowShown(form)
+
+        assert form.graphback.pause_button.state == "play"
+
+        # You want to click the items in the graphicsscene, but the 
+        # mouseclick method signature expects widgets. Based on: 
+        # http://stackoverflow.com/questions/16299779/\
+        # qt-qgraphicsview-unit-testing-how-to-keep-the-mouse\
+        #   -in-a-pressed-state
+        # But now you have to know precisely where the graphicsitems are
+        # in viewport coordinates, instead of calling them by name.
+        # Perhaps you could use a qabstractwidget as well? 
+        #qtbot.mouseClick(form.graphback.pause_button, 
+                         #QtCore.Qt.LeftButton)
+
+        widget = form.view.viewport()
+        center = QtCore.QPoint(740, 333-270)
+        qtbot.mouseClick(widget, QtCore.Qt.LeftButton, pos=center)
+
+        assert form.graphback.pause_button.state == "pause"

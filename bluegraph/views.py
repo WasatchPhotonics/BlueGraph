@@ -103,10 +103,34 @@ class SceneGraphBackground(QtGui.QGraphicsPixmapItem):
         self.minimum.setPos(706, 333-216)
         self.minimum.setParentItem(self)
 
-        self.minimum = SmallTextBox(prefix="MAX:", val="999.99")
-        self.minimum.setPos(706, 333-136)
-        self.minimum.setParentItem(self)
-        
+        self.maximum = SmallTextBox(prefix="MAX:", val="987.65")
+        self.maximum.setPos(706, 333-136)
+        self.maximum.setParentItem(self)
+       
+        self.pause_button = ToggleButton()
+        self.pause_button.setPos(706, 333-289)
+        self.pause_button.setParentItem(self)
+
+class ToggleButton(QtGui.QGraphicsPixmapItem):
+    """ Swith foreground pixmap elements to indicate toggled states.
+    """
+    def __init__(self, designator="default"):
+        filename = "bluegraph/assets/toggle_button_activated.png"
+        super(ToggleButton, self).__init__(filename)
+
+        self._state = "play"
+        print "startup with: %s" % self._state
+
+    @property
+    def state(self):
+        return self._state
+
+    def mousePressEvent(self, event):
+        print "you pressed %s", event.pos()
+        if self._state == "play":
+            self._state = "pause"
+        else:
+            self._state = "play" 
 
 class SmallTextBox(QtGui.QGraphicsPixmapItem):
     """ Designed to display an abbreviated text description and a %3.2f
@@ -134,3 +158,6 @@ class SmallTextBox(QtGui.QGraphicsPixmapItem):
         self.value.setParentItem(self)
         self.value.setFont(self.value_font)
         
+    @property
+    def text(self):
+        return self.value.text()
