@@ -100,9 +100,9 @@ class SceneGraphBackground(QtGui.QGraphicsPixmapItem):
         self.maximum.setParentItem(self)
         
 
-        self.maximum = SmallTextBox(prefix="FPS:", val="9999")
-        self.maximum.setPos(706, 333-95)
-        self.maximum.setParentItem(self)
+        self.fps = SmallTextBox(prefix="FPS:", val="9999")
+        self.fps.setPos(706, 333-95)
+        self.fps.setParentItem(self)
        
         prefix = "bluegraph/assets/toggle_button_"
         self.pause_button = ToggleButton(prefix=prefix)
@@ -203,6 +203,9 @@ class SmallTextBox(QtGui.QGraphicsPixmapItem):
     @property
     def text(self):
         return self.value.text()
+
+    def setText(self, new_text):
+        self.value.setText(str(new_text))
 
 class TinyTextBox(SmallTextBox):
     """ Designed to display an abbreviated text description and a %3.2f
