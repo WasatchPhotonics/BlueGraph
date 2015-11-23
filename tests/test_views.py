@@ -23,4 +23,8 @@ class TestPixmapBackedGraph:
         icon = form.graphback.icon.boundingRect()
         assert icon.width() == 23
         assert icon.height() == 23 
-
+    
+    def test_min_max_text_starts_with_default(self):
+        form = views.PixmapBackedGraph()
+        assert form.graphback.minimum.text() == "123.45"
+        assert form.graphback.maximum.text() == "987.65"

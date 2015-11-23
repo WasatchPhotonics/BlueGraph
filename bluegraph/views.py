@@ -75,7 +75,7 @@ class SceneGraphBackground(QtGui.QGraphicsPixmapItem):
         self.plot = pyqtgraph.PlotWidget(name="mystery", pen=(0,0,255))
         result = scene.addWidget(self.plot)
         result.setParentItem(self)
-        self.plot.setGeometry(QtCore.QRect(40, 50, 700, 250))
+        self.plot.setGeometry(QtCore.QRect(32, 333-291, 668, 270))
 
         # The main title
         font_name = "bluegraph/assets/fonts/GearsOfPeace.ttf"
@@ -84,11 +84,11 @@ class SceneGraphBackground(QtGui.QGraphicsPixmapItem):
         # Filename will work on linux, actual font name with spaces is
         # required for success on windows
         self.default_font = QtGui.QFont("Gears of Peace")
-        self.default_font.setPointSize( 10 )
+        self.default_font.setPointSize( 12 )
 
         white = QtGui.QColor(255, 255, 255, 255)
         self.title = QtGui.QGraphicsSimpleTextItem(title)
-        self.title.setPos(65, 20)
+        self.title.setPos(65, 14)
         self.title.setBrush(white)
         self.title.setParentItem(self)
         self.title.setFont(self.default_font)
@@ -99,4 +99,38 @@ class SceneGraphBackground(QtGui.QGraphicsPixmapItem):
         self.icon.setPos(33, 13)
         self.icon.setParentItem(self)
 
+        self.minimum = SmallTextBox(prefix="MIN:")
+        self.minimum.setPos(706, 333-216)
+        self.minimum.setParentItem(self)
 
+        self.minimum = SmallTextBox(prefix="MAX:", val="999.99")
+        self.minimum.setPos(706, 333-136)
+        self.minimum.setParentItem(self)
+        
+
+class SmallTextBox(QtGui.QGraphicsPixmapItem):
+    """ Designed to display an abbreviated text description and a %3.2f
+    formatted value.
+    """
+    def __init__(self, prefix="Min", val="123.45"):
+        filename = "bluegraph/assets/small_number_designator_export.png"
+        super(SmallTextBox, self).__init__(filename)
+        
+        white = QtGui.QColor(255, 255, 255, 255)
+        self.prefix_font = QtGui.QFont("Gears of Peace")
+        self.prefix_font.setPointSize(7)
+
+        self.prefix = QtGui.QGraphicsSimpleTextItem(prefix)
+        self.prefix.setPos(5, 5)
+        self.prefix.setBrush(white)
+        self.prefix.setParentItem(self)
+        self.prefix.setFont(self.prefix_font)
+
+        self.value_font = QtGui.QFont("Gears of Peace")
+        self.value_font.setPointSize(8)
+        self.value = QtGui.QGraphicsSimpleTextItem(val)
+        self.value.setPos(4, 22)
+        self.value.setBrush(white)
+        self.value.setParentItem(self)
+        self.value.setFont(self.value_font)
+        
