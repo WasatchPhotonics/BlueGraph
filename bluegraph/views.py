@@ -74,7 +74,7 @@ class SceneGraphBackground(QtGui.QGraphicsPixmapItem):
         super(SceneGraphBackground, self).__init__(filename)
 
         # The main font
-        font_name = "bluegraph/assets/fonts/GearsOfPeace.ttf"
+        font_name = ":ui/fonts/GearsOfPeace.ttf"
         QtGui.QFontDatabase.addApplicationFont(font_name)
 
         # The plot widget

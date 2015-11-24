@@ -1,6 +1,7 @@
 <RCC>
   <qresource prefix="ui">
     <file>graph_export.png</file>
+    <file>fonts/GearsOfPeace.ttf</file>
     <file>default_icon.png</file>
     <file>toggle_button_activated.png</file>
     <file>toggle_button_deactivated.png</file>
