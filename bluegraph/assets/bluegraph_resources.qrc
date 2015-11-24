@@ -1,0 +1,9 @@
+<RCC>
+  <qresource prefix="ui">
+    <file>graph_export.png</file>
+    <file>default_icon.png</file>
+    <file>toggle_button_activated.png</file>
+    <file>toggle_button_deactivated.png</file>
+    <file>small_number_designator_export.png</file>
+  </qresource>
+</RCC>

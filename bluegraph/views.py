@@ -8,6 +8,8 @@ import pyqtgraph
 
 from PySide import QtGui, QtSvg, QtCore
 
+from bluegraph.assets import bluegraph_resources_rc 
+
 log = logging.getLogger(__name__)
 
 class Basic(QtGui.QMainWindow):
@@ -34,7 +36,7 @@ class PixmapBackedGraph(QtGui.QWidget):
 
         self.scene = QtGui.QGraphicsScene()
 
-        filename = "bluegraph/assets/graph_export.png"
+        filename = ":ui/graph_export.png"
         self.graphback = SceneGraphBackground(self.scene, filename)
         self.scene.addItem(self.graphback)
 
@@ -61,11 +63,6 @@ class PixmapBackedGraph(QtGui.QWidget):
         log.debug("Pixmap level close")
         sys.exit()
 
-    def mousePressEvent(self, event):
-        log.debug("Mouse: %s", event)
-        self.graphback.title.setText(str(event))
-        
-
 class SceneGraphBackground(QtGui.QGraphicsPixmapItem):
     """ Like GraphBackground, but include the scene parameter so
     certain widgets will add correctly. pyqtgraph plotwidget for
@@ -88,7 +85,7 @@ class SceneGraphBackground(QtGui.QGraphicsPixmapItem):
 
         self.add_main_title(title, self)
 
-        icon_filename = "bluegraph/assets/default_icon.png"
+        icon_filename = ":ui/default_icon.png"
         self.add_main_icon(icon_filename, self)
 
         self.minimum = SmallTextBox(prefix="MIN:")
@@ -104,7 +101,7 @@ class SceneGraphBackground(QtGui.QGraphicsPixmapItem):
         self.fps.setPos(706, 333-95)
         self.fps.setParentItem(self)
        
-        prefix = "bluegraph/assets/toggle_button_"
+        prefix = ":ui/toggle_button_"
         self.pause_button = ToggleButton(prefix=prefix)
         self.pause_button.setPos(706, 333-289)
         self.pause_button.setParentItem(self)
@@ -141,7 +138,7 @@ class ToggleButton(QtGui.QGraphicsPixmapItem):
     """ Switch foreground pixmap elements to indicate toggled states.
     """
     def __init__(self, designator="default",
-                 prefix="bluegraph/assets/toggle_button_"):
+                 prefix=":ui/toggle_button_"):
         self.activated = "%s%s.png" % (prefix, "activated")
         self.deactivated = "%s%s.png" % (prefix, "deactivated")
         super(ToggleButton, self).__init__(self.activated)
@@ -159,7 +156,7 @@ class ToggleButton(QtGui.QGraphicsPixmapItem):
         return self._state
 
     def mousePressEvent(self, event):
-        print "you pressed %s", event.pos()
+        log.debug("you pressed %s", event.pos())
         if self._state == "play":
             self._state = "pause"
             self.setPixmap(self.deactivated)
@@ -174,7 +171,7 @@ class SmallTextBox(QtGui.QGraphicsPixmapItem):
     def __init__(self, prefix="Min", val="123.45",
                  filename="small_number_designator_export.png"):
 
-        full_path = "bluegraph/assets/%s" % filename
+        full_path = ":ui/%s" % filename
         super(SmallTextBox, self).__init__(full_path)
         
         white = QtGui.QColor(255, 255, 255, 255)
@@ -214,7 +211,7 @@ class TinyTextBox(SmallTextBox):
     def __init__(self, prefix="Min", val="1234",
                  filename="tiny_number_designator_export.png"):
 
-        full_path = "bluegraph/assets/%s" % filename
+        full_path = ":ui/%s" % filename
         super(SmallTextBox, self).__init__(full_path)
         
         white = QtGui.QColor(255, 255, 255, 255)
