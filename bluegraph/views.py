@@ -45,6 +45,7 @@ class PixmapBackedGraph(QtGui.QWidget):
                       "border: 0px"
                      )
         self.view.setStyleSheet(view_style)
+        self.setStyleSheet(view_style)
         self.main_layout.addWidget(self.view)
 
         # Requires a compositing window manager to be translucent
@@ -77,8 +78,15 @@ class SceneGraphBackground(QtGui.QGraphicsPixmapItem):
         font_name = ":ui/fonts/GearsOfPeace.ttf"
         QtGui.QFontDatabase.addApplicationFont(font_name)
 
-        # The plot widget
-        self.plot = pyqtgraph.PlotWidget(name="mystery", pen=(0,0,255))
+
+        # The plot widget. As a component of a qgraphicspixmapitem,
+        # apparently the background=None does not actually set the
+        # background to none. Override it with a background set to
+        # transparent in the style sheet parameter
+        self.plot = pyqtgraph.PlotWidget(name="mystery", pen=(0,0,255),
+                                         background=None)
+        self.plot.setStyleSheet("background: transparent;")
+
         result = scene.addWidget(self.plot)
         result.setParentItem(self)
         self.plot.setGeometry(QtCore.QRect(32, 333-291, 668, 270))
