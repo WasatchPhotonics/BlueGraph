@@ -51,9 +51,9 @@ class TestBasicGraphInterface:
         #qtbot.mouseClick(form.graphback.pause_button, 
                          #QtCore.Qt.LeftButton)
 
-        widget = form.view.viewport()
-        center = QtCore.QPoint(740, 333-270)
-        qtbot.mouseClick(widget, QtCore.Qt.LeftButton, pos=center)
+        #widget = form.view.viewport()
+        #center = QtCore.QPoint(740, 333-270)
+        #qtbot.mouseClick(widget, QtCore.Qt.LeftButton, pos=center)
 
         #assert form.graphback.pause_button.state == "pause"
 
