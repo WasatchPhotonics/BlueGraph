@@ -21,10 +21,10 @@ class TestController:
         simulator = control.BlueGraphController()
         with qtbot.wait_signal(simulator.form.customContextMenuRequested, timeout=2000):
             simulator.form.show()
-        #assert simulator.form.width() == 805
-        #assert simulator.form.height() == 355
         assert simulator.form.width() > 5
         assert simulator.form.height() > 5
+        #assert simulator.form.width() == 805
+        #assert simulator.form.height() == 355
 
     def test_control_fps_is_available(self, qtbot):
         simulator = control.BlueGraphController()
