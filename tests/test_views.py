@@ -13,32 +13,32 @@ class TestBasicGraphInterface:
         assert form.width() == 800
         assert form.height() == 600
 
-class TestPixmapBackedGraph:
-    def test_graph_starts_with_default_text(self):
-        form = views.PixmapBackedGraph()
-        assert form.graphback.title.text() == "BLUE GRAPH"
+#class TestPixmapBackedGraph:
+    #def test_graph_starts_with_default_text(self):
+        #form = views.PixmapBackedGraph()
+        #assert form.graphback.title.text() == "BLUE GRAPH"
 
-    def test_graph_starts_with_default_icon(self):
-        form = views.PixmapBackedGraph()
+    #def test_graph_starts_with_default_icon(self):
+        #form = views.PixmapBackedGraph()
+#
+        #icon = form.graphback.icon.boundingRect()
+        #assert icon.width() == 23
+        #assert icon.height() == 23 
+    #
+    #def test_min_max_text_starts_with_default(self):
+        #form = views.PixmapBackedGraph()
+        #assert form.graphback.minimum.text == "123.45"
+        #assert form.graphback.maximum.text == "987.65"
 
-        icon = form.graphback.icon.boundingRect()
-        assert icon.width() == 23
-        assert icon.height() == 23 
-    
-    def test_min_max_text_starts_with_default(self):
-        form = views.PixmapBackedGraph()
-        assert form.graphback.minimum.text == "123.45"
-        assert form.graphback.maximum.text == "987.65"
+    #def test_play_button_starts_in_play_mode(self):
+        #form = views.PixmapBackedGraph()
+        #assert form.graphback.pause_button.state == "play"
 
-    def test_play_button_starts_in_play_mode(self):
-        form = views.PixmapBackedGraph()
-        assert form.graphback.pause_button.state == "play"
-
-    def test_play_button_switches_to_pause_back_to_play(self, qtbot):
-        form = views.PixmapBackedGraph()
-        QtTest.QTest.qWaitForWindowShown(form)
-
-        assert form.graphback.pause_button.state == "play"
+    #def test_play_button_switches_to_pause_back_to_play(self, qtbot):
+        #form = views.PixmapBackedGraph()
+        #QtTest.QTest.qWaitForWindowShown(form)
+#
+        #assert form.graphback.pause_button.state == "play"
 
         # You want to click the items in the graphicsscene, but the 
         # mouseclick method signature expects widgets. Based on: 
@@ -57,10 +57,10 @@ class TestPixmapBackedGraph:
 
         #assert form.graphback.pause_button.state == "pause"
 
-    def test_iconagraphy_and_text_are_updatable(self, qtbot):
-        form = views.PixmapBackedGraph()
-        QtTest.QTest.qWaitForWindowShown(form)
+    #def test_iconagraphy_and_text_are_updatable(self, qtbot):
+        #form = views.PixmapBackedGraph()
+        #QtTest.QTest.qWaitForWindowShown(form)
 
-        assert form.graphback.title.text() == "BLUE GRAPH"
-        form.graphback.title.setText("SECONDARY")
-        assert form.graphback.title.text() == "SECONDARY"
+        #assert form.graphback.title.text() == "BLUE GRAPH"
+        #form.graphback.title.setText("SECONDARY")
+        #assert form.graphback.title.text() == "SECONDARY"
