@@ -58,10 +58,10 @@ class TestPixmapBackedGraph:
         center = QtCore.QPoint(740, 333-270)
         qtbot.mouseClick(widget, QtCore.Qt.LeftButton, pos=center)
 
-        assert form.graphback.pause_button.state == "pause"
         known_signal = form.customContextMenuRequested
         with qtbot.wait_signal(known_signal, timeout=200):
             form.show()
+        assert form.graphback.pause_button.state == "pause"
         #simulator = control.BlueGraphController()
         #with qtbot.wait_signal(simulator.form.customContextMenuRequested, timeout=2000):
             #simulator.form.show()
