@@ -1,6 +1,6 @@
 language: python
 sudo: false
-# Based heavily on pyqtgraph .travis.yml
+# Based heavily on pyqtgraph .travis.yml 2015-11-30 06:57
 
 # Here we use anaconda for 2.6 and 3.3, since it provides the simplest
 # interface for running different versions of Python. We could also use
