@@ -51,16 +51,24 @@ class TestPixmapBackedGraph:
         #qtbot.mouseClick(form.graphback.pause_button, 
                          #QtCore.Qt.LeftButton)
 
-        # This will work on fedora, but not on travis
-        coords = form.graphback.pause_button.pos()
-        print "Coords: %s", coords
+        # This will work on fedora, but not on travis - the coords of
+        # the widget are the same. Maybe you just need to wait some time
+        # on travis for the event to propagate?
         widget = form.view.viewport()
         center = QtCore.QPoint(740, 333-270)
         qtbot.mouseClick(widget, QtCore.Qt.LeftButton, pos=center)
 
         assert form.graphback.pause_button.state == "pause"
+        known_signal = form.customContextMenuRequested
+        with qtbot.wait_signal(known_signal, timeout=200):
+            form.show()
+        #simulator = control.BlueGraphController()
+        #with qtbot.wait_signal(simulator.form.customContextMenuRequested, timeout=2000):
+            #simulator.form.show()
 
         qtbot.mouseClick(widget, QtCore.Qt.LeftButton, pos=center)
+        with qtbot.wait_signal(known_signal, timeout=200):
+            form.show()
         assert form.graphback.pause_button.state == "play"
 
     def test_iconagraphy_and_text_are_updatable(self, qtbot):
