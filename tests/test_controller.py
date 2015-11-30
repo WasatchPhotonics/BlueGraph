@@ -1,5 +1,7 @@
 """ unit and functional tests for bluegraph application.
 """
+
+from PySide import QtTest
         
 from bluegraph import control
 from bluegraph.devices import Simulation
@@ -37,3 +39,10 @@ class TestController:
         assert simulator.fps.rate() > 10
 
    # def test_control_fps_signal_updates_interface(self, qtbot):
+
+    def test_close_event_triggered(self, qtbot):
+        simulator = control.BlueGraphController()
+        QtTest.QTest.qWaitForWindowShown(simulator.form)
+        with qtbot.wait_signal(simulator.form.customContextMenuRequested, timeout=2000):
+            simulator.form.show()
+        simulator.form.closeEvent(None)

@@ -77,3 +77,4 @@ class TestPixmapBackedGraph:
         assert form.graphback.title.text() == "BLUE GRAPH"
         form.graphback.title.setText("SECONDARY")
         assert form.graphback.title.text() == "SECONDARY"
+        

@@ -26,6 +26,20 @@ class BlueGraphController(object):
 
         self.setup_fps_timer()
 
+        self.connect_signals()
+
+    def connect_signals(self):
+        """ Hook into GUI control signals from main controller.
+        """
+        self.form.exit_signal.exit.connect(self.close)
+
+    def close(self, event):
+        """ Cleanup and exit.
+        """
+        log.debug("blue graph controller level")
+        self.data_timer.stop()
+        #sys.exit()
+
     def setup_fps_timer(self):
         """ Update the display Frames per second at every qt event
         timeout.
@@ -48,10 +62,3 @@ class BlueGraphController(object):
         #log.debug(fps_text)
         self.form.graphback.fps.setText(self.fps.rate())
         self.data_timer.start(0)
-
-
-#def someFunc():
- #print "someFunc has been called!"
- #
-#button = QtGui.QPushButton("Call someFunc")
-#button.clicked.connect(someFunc)

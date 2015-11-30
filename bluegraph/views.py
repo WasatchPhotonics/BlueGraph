@@ -60,9 +60,19 @@ class PixmapBackedGraph(QtGui.QWidget):
         ramp_data = range(2048)
         self.curve = self.graphback.plot.plot(ramp_data)
 
+        self.create_signals()
+
+    def create_signals(self):
+        """ Create signal objects to be used by controller.
+        """
+        class ViewClose(QtCore.QObject):
+            exit = QtCore.Signal(str)
+
+        self.exit_signal = ViewClose() 
+
     def closeEvent(self, event):
         log.debug("Pixmap level close")
-        sys.exit()
+        self.exit_signal.exit.emit("close event")
 
 class SceneGraphBackground(QtGui.QGraphicsPixmapItem):
     """ Like GraphBackground, but include the scene parameter so
