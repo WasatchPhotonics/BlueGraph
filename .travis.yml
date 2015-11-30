@@ -63,8 +63,11 @@ install:
     - if [ "${QT}" == "pyside" ]; then
           conda install pyside --yes;
       fi;
+
     - pip install pytest-xdist # multi-thread py.test
     - pip install pytest-cov # add coverage stats
+
+    - pip install pyqtgraph # 
 
     - pip install pytest-qt # qtbot signals and button clicking
     
