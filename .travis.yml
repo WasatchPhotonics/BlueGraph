@@ -70,6 +70,13 @@ install:
     - pip install pyqtgraph # 
 
     - pip install pytest-qt # qtbot signals and button clicking
+
+    # Require linegrab utility functions
+    - cd ..
+    - git clone git://github.com/WasatchPhotonics/LineGrab.git
+    - cd 
+    - python setup.py develop
+    - cd ..
     
     # Debugging helpers
     - uname -a
