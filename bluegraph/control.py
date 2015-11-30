@@ -10,7 +10,7 @@ from PySide import QtCore
 from bluegraph import views
 from bluegraph.devices import Simulation
 
-from linegrab import utils
+from bluegraph import utils
 
 log = logging.getLogger(__name__)
 
