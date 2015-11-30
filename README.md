@@ -1,6 +1,7 @@
 # BlueGraph
 [![Build Status](https://travis-ci.org/WasatchPhotonics/BlueGraph.svg?branch=master)](https://travis-ci.org/WasatchPhotonics/BlueGraph) [![Coverage Status](https://coveralls.io/repos/WasatchPhotonics/BlueGraph/badge.svg?branch=master&service=github)](https://coveralls.io/github/WasatchPhotonics/BlueGraph?branch=master)
-high speed graphing and logging with guiqwt and zmq. SVG blueness in pyqt.
+
+High speed graphing and logging with guiqwt and zmq. SVG blueness in pyqt.
 
 This is a rewrite of the internal "ExtendedTest" interface, and should
 look like this:

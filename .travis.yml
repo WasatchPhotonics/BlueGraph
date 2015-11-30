@@ -2,13 +2,6 @@ language: python
 sudo: false
 # Based heavily on pyqtgraph .travis.yml 2015-11-30 06:57
 
-# Here we use anaconda for 2.6 and 3.3, since it provides the simplest
-# interface for running different versions of Python. We could also use
-# it for 2.7, but the Ubuntu system has installable 2.7 Qt4-GL, which
-# allows for more complete testing.
-notifications:
-  email: false
-
 virtualenv:
     system_site_packages: true
 
@@ -27,8 +20,8 @@ install:
     - conda update conda --yes
     - conda create -n test_env python=${PYTHON} --yes
     - source activate test_env
-    #- conda install numpy pyopengl pytest flake8 six coverage --yes
     - conda install numpy pytest --yes
+
     - echo ${QT}
     - echo ${TEST}
     - echo ${PYTHON}
@@ -40,7 +33,6 @@ install:
 
     - pip install pytest-cov # test coverage
     - pip install pytest-qt # qtbot signals and button clicking
-
     - pip install pyqtgraph 
 
 before_script:
