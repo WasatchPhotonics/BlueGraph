@@ -8,7 +8,7 @@ import pyqtgraph
 
 from PySide import QtGui, QtSvg, QtCore
 
-from bluegraph.assets import bluegraph_resources_rc 
+from assets import bluegraph_resources_rc 
 
 log = logging.getLogger(__name__)
 
@@ -211,36 +211,3 @@ class SmallTextBox(QtGui.QGraphicsPixmapItem):
 
     def setText(self, new_text):
         self.value.setText(str(new_text))
-
-class TinyTextBox(SmallTextBox):
-    """ Designed to display an abbreviated text description and a %3.2f
-    formatted value. In a very small sub-widget.
-    """
-    def __init__(self, prefix="Min", val="1234",
-                 filename="tiny_number_designator_export.png"):
-
-        full_path = ":ui/%s" % filename
-        super(SmallTextBox, self).__init__(full_path)
-        
-        white = QtGui.QColor(255, 255, 255, 255)
-        self.prefix_font = QtGui.QFont("Gears of Peace")
-        self.prefix_font.setPointSize(4)
-
-        self.prefix = QtGui.QGraphicsSimpleTextItem(prefix)
-        self.prefix.setPos(8, 4)
-        self.prefix.setBrush(white)
-        self.prefix.setParentItem(self)
-        self.prefix.setFont(self.prefix_font)
-
-        self.value_font = QtGui.QFont("Gears of Peace")
-        self.value_font.setPointSize(4)
-        self.value = QtGui.QGraphicsSimpleTextItem(val)
-        self.value.setPos(7, 12)
-        self.value.setBrush(white)
-        self.value.setParentItem(self)
-        self.value.setFont(self.value_font)
-        
-    @property
-    def text(self):
-        return self.value.text()
-

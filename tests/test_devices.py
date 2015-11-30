@@ -15,6 +15,9 @@ class TestSimulatedLaserPowerMeter:
         device = Simulation.SimulatedLaserPowerMeter() 
         assert device.connect() == True
         assert device.is_open() == True
+        
+        device.close() 
+        assert device.is_open() == False
  
 
     def test_get_stream_returns_10_reads_per_second(self):        

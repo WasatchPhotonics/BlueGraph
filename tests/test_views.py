@@ -51,11 +51,17 @@ class TestPixmapBackedGraph:
         #qtbot.mouseClick(form.graphback.pause_button, 
                          #QtCore.Qt.LeftButton)
 
+        # This will work on fedora, but not on travis
+        coords = form.graphback.pause_button.pos()
+        print "Coords: %s", coords
         widget = form.view.viewport()
         center = QtCore.QPoint(740, 333-270)
         qtbot.mouseClick(widget, QtCore.Qt.LeftButton, pos=center)
 
         assert form.graphback.pause_button.state == "pause"
+
+        qtbot.mouseClick(widget, QtCore.Qt.LeftButton, pos=center)
+        assert form.graphback.pause_button.state == "play"
 
     def test_iconagraphy_and_text_are_updatable(self, qtbot):
         form = views.PixmapBackedGraph()

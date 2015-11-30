@@ -74,7 +74,7 @@ script:
     
     # Run unit tests
     - start_test "unit tests";
-      PYTHONPATH=. py.test  --cov bluegraph;
+      PYTHONPATH=. py.test -s --cov bluegraph; 
       check_output "unit tests";
     - echo "test script finished. Current directory:"
     - pwd

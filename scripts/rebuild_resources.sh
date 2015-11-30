@@ -6,6 +6,6 @@
 # BlueGraph % ./scripts/rebuild_resources.sh
 
 pyside-rcc \
-    bluegraph/assets/bluegraph_resources.qrc \
-    -o bluegraph/assets/bluegraph_resources_rc.py
+    assets/bluegraph_resources.qrc \
+    -o assets/bluegraph_resources_rc.py
 

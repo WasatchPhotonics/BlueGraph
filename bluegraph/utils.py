@@ -1,23 +1,24 @@
-""" linegrab utils - classes and helper functions for the linegrab
+""" bluegraph utils - classes and helper functions for the BlueGraph
 application.
 """
 
-try:
-    from PyQt4.QtCore import QTimer
-except ImportError:
-    from PySide.QtCore import QTimer
-    
+from PySide import QtGui, QtCore
 
-def load_style_sheet(filename):
-    """ Load the qss stylesheet into a string suitable for passing
-    to the main widget.
+class Basic(QtGui.QMainWindow):
+    """ The most basic window possible for testing pyside, xvfb and
+    travis integration. Specifically requried for py.test to
+    automatically generate the qapplication.
     """
-    qss_file = open("linegrab/ui/%s" % filename)
-    temp_string = ""
-    for line in qss_file.readlines():
-        temp_string += line
+    def __init__(self):
+        super(Basic, self).__init__()
+        self.lblInfo = QtGui.QLabel("Default")
 
-    return temp_string
+        self.hbox = QtGui.QHBoxLayout()
+        self.hbox.addWidget(self.lblInfo)
+        self.setLayout(self.hbox)
+
+        self.setGeometry(0, 0, 800, 600)
+        self.show()
 
 class SimpleFPS(object):
     """ Use qtimer and a tick function to return the number of ticks
@@ -28,7 +29,7 @@ class SimpleFPS(object):
         self.fps = -1
         self.ticks = 0
 
-        self.fps_timer = QTimer()
+        self.fps_timer = QtCore.QTimer()
         self.fps_timer.timeout.connect(self.update_fps)
         self.fps_timer.start(0)
 
