@@ -26,14 +26,6 @@ Development Setup
 Ideally the fonts could be embedded in the svg file, then addressed
 during the text update procedure of the interface creation in python.
 The workaround for now is to install the fonts in assets/fonts on your
-system, then load the svg files. The text designators are deleted at
-runtime, and replaced with QGraphicsTextItems.
-
-Apparently the way nosetests works may be importing all of the existing
-tests into one module, then running them. This in turn will create
-duplicate log prints, unexpected re-use of qapplication and other issues
-associated with the runner. Only define a log handler in the
-alphabetically first test procedure. Catch qapplication re-define
-runtime errors in the test_views, after it has already been established
-in the alphabetically preceeding test_controller.
-
+system, then load the svg files for editing in inkscape. Export with the
+text layers hidden. The custom interface items will use the font
+embedded in the Qt Resource.

@@ -1,8 +1,11 @@
 """ unit and functional tests for bluegraph application.
 """
 
+import zmq
 import time
+
 from bluegraph.devices import Simulation
+from bluegraph.devices import ZMQWrapper
 
 class TestSimulatedLaserPowerMeter:
     def test_list_hardware_returns_simulated_device(self):
@@ -38,3 +41,29 @@ class TestSimulatedLaserPowerMeter:
         device.connect()
         first = device.read()
         assert first != device.read()
+
+class TestZMQSimulationWrapper:
+    def test_wrapper_creation_exposes_publisher(self):
+        pub_wrap = ZMQWrapper.Publisher("SimulatedLaserPower")
+        assert isinstance(pub_wrap.context, zmq.Context)
+        assert isinstance(pub_wrap.socket, zmq.Socket)
+
+    def test_connect_to_publisher(self):
+        pub_wrap = ZMQWrapper.Publisher("SimulatedLaserPower")
+
+        temp_context = zmq.Context()
+        temp_socket = temp_context.socket(zmq.SUB)
+        temp_socket.connect ("tcp://127.0.0.1:5678")
+        temp_socket.setsockopt(zmq.SUBSCRIBE, "SimulatedLaserPower")
+
+    def test_subscribed_events_return_blind_data(self):
+        temp_context = zmq.Context()
+        temp_socket = temp_context.socket(zmq.SUB)
+        temp_socket.connect ("tcp://127.0.0.1:5678")
+        temp_socket.setsockopt(zmq.SUBSCRIBE, "SimulatedLaserPower")
+
+        pub_wrap = ZMQWrapper.Publisher("SimulatedLaserPower", 1)
+        result = temp_socket.recv()
+        topic, message_data = result.split(",")
+        assert topic == "SimulatedLaserPower"
+        assert message_data != -1.0

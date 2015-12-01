@@ -17,6 +17,7 @@ requires = [
     "pytest-cov",
     "pytest-qt",
     "pyqtgraph",
+    "pyzmq",
     #"pyside", # required, up to the developer to install - see notes
     ]
 
