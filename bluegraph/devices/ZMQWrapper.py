@@ -15,7 +15,7 @@ class Publisher(object):
     """ Provide a tcp publisher socket for readings from the specified
     device.
     """
-    def __init__(self, device=None, max_publish=None):
+    def __init__(self, device=None, max_publish=1):
         super(Publisher, self).__init__()
 
         self.max_publish = max_publish
@@ -27,6 +27,7 @@ class Publisher(object):
        
         self.emit_proc = multiprocessing.Process(target=self.emit_continuously)
         self.emit_proc.start()
+        self.emit_proc.join()
 
     def emit_continuously(self, interval=0.500):
         """ Every interval wall clock seconds, emit a message on the

@@ -43,10 +43,6 @@ class TestSimulatedLaserPowerMeter:
         assert first != device.read()
 
 class TestZMQSimulationWrapper:
-    def test_wrapper_creation_exposes_publisher(self):
-        pub_wrap = ZMQWrapper.Publisher("SimulatedLaserPower")
-        assert isinstance(pub_wrap.context, zmq.Context)
-        assert isinstance(pub_wrap.socket, zmq.Socket)
 
     def test_connect_to_publisher(self):
         pub_wrap = ZMQWrapper.Publisher("SimulatedLaserPower")
