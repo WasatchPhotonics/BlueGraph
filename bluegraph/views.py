@@ -8,7 +8,7 @@ import pyqtgraph
 
 from PySide import QtGui, QtSvg, QtCore
 
-from assets import bluegraph_resources_rc 
+from assets import bluegraph_resources_rc
 
 log = logging.getLogger(__name__)
 
@@ -49,16 +49,17 @@ class PixmapBackedGraph(QtGui.QWidget):
         self.main_layout.addWidget(self.view)
 
         # Requires a compositing window manager to be translucent
-        self.setAttribute(QtCore.Qt.WA_TranslucentBackground) 
+        self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
         self.setWindowFlags(QtCore.Qt.Tool | QtCore.Qt.FramelessWindowHint)
-        self.setWindowFlags(self.windowFlags() 
+        self.setWindowFlags(self.windowFlags()
             | QtCore.Qt.WindowStaysOnTopHint)
 
         self.show()
 
         self.scale = 1.0
         ramp_data = range(2048)
-        self.curve = self.graphback.plot.plot(ramp_data)
+        green_pen = "#1fd11f" # semi light-green
+        self.curve = self.graphback.plot.plot(ramp_data, pen=green_pen)
 
         self.create_signals()
 
@@ -68,7 +69,7 @@ class PixmapBackedGraph(QtGui.QWidget):
         class ViewClose(QtCore.QObject):
             exit = QtCore.Signal(str)
 
-        self.exit_signal = ViewClose() 
+        self.exit_signal = ViewClose()
 
     def closeEvent(self, event):
         log.debug("Pixmap level close")
@@ -93,7 +94,7 @@ class SceneGraphBackground(QtGui.QGraphicsPixmapItem):
         # apparently the background=None does not actually set the
         # background to none. Override it with a background set to
         # transparent in the style sheet parameter
-        self.plot = pyqtgraph.PlotWidget(name="mystery", pen=(0,0,255),
+        self.plot = pyqtgraph.PlotWidget(name="mystery",
                                          background=None)
         self.plot.setStyleSheet("background: transparent;")
 
@@ -113,12 +114,12 @@ class SceneGraphBackground(QtGui.QGraphicsPixmapItem):
         self.maximum = SmallTextBox(prefix="MAX:", val="987.65")
         self.maximum.setPos(706, 333-164)
         self.maximum.setParentItem(self)
-        
+
 
         self.fps = SmallTextBox(prefix="FPS:", val="9999")
         self.fps.setPos(706, 333-95)
         self.fps.setParentItem(self)
-       
+
         prefix = ":ui/toggle_button_"
         self.pause_button = ToggleButton(prefix=prefix)
         self.pause_button.setPos(706, 333-289)
@@ -162,8 +163,7 @@ class ToggleButton(QtGui.QGraphicsPixmapItem):
         super(ToggleButton, self).__init__(self.activated)
 
         self._state = "play"
-        print "startup with: %s" % self._state
-       
+
         self.shadow = QtGui.QGraphicsDropShadowEffect()
         self.shadow.setColor(QtGui.QColor(0, 0, 0, 128))
         self.shadow.setOffset(2, 2)
@@ -179,7 +179,7 @@ class ToggleButton(QtGui.QGraphicsPixmapItem):
             self._state = "pause"
             self.setPixmap(self.deactivated)
         else:
-            self._state = "play" 
+            self._state = "play"
             self.setPixmap(self.activated)
 
 class SmallTextBox(QtGui.QGraphicsPixmapItem):
@@ -191,7 +191,7 @@ class SmallTextBox(QtGui.QGraphicsPixmapItem):
 
         full_path = ":ui/%s" % filename
         super(SmallTextBox, self).__init__(full_path)
-        
+
         white = QtGui.QColor(255, 255, 255, 255)
         self.prefix_font = QtGui.QFont("Gears of Peace")
         self.prefix_font.setPointSize(7)
@@ -209,12 +209,12 @@ class SmallTextBox(QtGui.QGraphicsPixmapItem):
         self.value.setBrush(white)
         self.value.setParentItem(self)
         self.value.setFont(self.value_font)
-       
+
         self.shadow = QtGui.QGraphicsDropShadowEffect()
         self.shadow.setColor(QtGui.QColor(0, 0, 0, 128))
         self.shadow.setOffset(2, 2)
         self.setGraphicsEffect(self.shadow)
- 
+
     @property
     def text(self):
         return self.value.text()
