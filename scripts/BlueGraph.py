@@ -64,27 +64,16 @@ class BlueGraphApplication(object):
         the unittest generated controller.
         """
         app = QtGui.QApplication([])
-        if self.args.testing:
-            self.delay_close()
-
         self.control = control.BlueGraphController()
-
+        self.control.control_exit_signal.exit.connect(self.closeEvent)
         sys.exit(app.exec_())
 
-    def delay_close(self):
-        """ For testing purposes, create a qtimer that triggers the
-        close event after a delay.
-        """
-        self.close_timer = QtCore.QTimer()
-        self.close_timer.timeout.connect(self.closeEvent)
-        log.debug("Trigger delay close")
-        self.close_timer.start(5000)
-
     def closeEvent(self):
+        """ catch the exit signal from the control application, and
+        call qapplication Quit. This will prevent hangs on exit.
+        """
         log.debug("Close event")
-        self.close_timer.stop()
         QtGui.QApplication.quit()
-
 
 def main(argv=None):
     """ main calls the wrapper code around the application objects with

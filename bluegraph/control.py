@@ -17,7 +17,7 @@ log = logging.getLogger(__name__)
 class BlueGraphController(object):
     def __init__(self):
         self.device = Simulation.SimulatedLaserPowerMeter()
-        
+
         self.form = views.PixmapBackedGraph()
 
         log.debug("pixmap graph setup")
@@ -33,12 +33,19 @@ class BlueGraphController(object):
         """
         self.form.exit_signal.exit.connect(self.close)
 
+        class ControlClose(QtCore.QObject):
+            exit = QtCore.Signal(str)
+
+        self.control_exit_signal = ControlClose()
+
     def close(self, event):
-        """ Cleanup and exit.
+        """ Cleanup and exit. Don't issue qapplication quit here,
+        as that will terminate the qapplication during tests. Use the
+        qapplication control from py.test.
         """
-        log.debug("blue graph controller level")
-        self.data_timer.stop()
-        #sys.exit()
+        log.debug("blue graph controller level close")
+        self.control_exit_signal.exit.emit("control exit")
+
 
     def setup_fps_timer(self):
         """ Update the display Frames per second at every qt event
@@ -55,7 +62,7 @@ class BlueGraphController(object):
         """ Add tick, display the current rate.
         """
         rnd_data = numpy.random.uniform(1, 65535, 2048)
-        self.form.curve.setData(rnd_data) 
+        self.form.curve.setData(rnd_data)
 
         self.fps.tick()
         fps_text = "Update: %s FPS" % self.fps.rate()
