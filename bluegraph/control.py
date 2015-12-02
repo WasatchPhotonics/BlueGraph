@@ -17,7 +17,7 @@ log = logging.getLogger(__name__)
 class BlueGraphController(object):
     def __init__(self):
         self.device = Simulation.SimulatedLaserPowerMeter()
-        
+
         self.form = views.PixmapBackedGraph()
 
         log.debug("pixmap graph setup")
@@ -55,7 +55,7 @@ class BlueGraphController(object):
         """ Add tick, display the current rate.
         """
         rnd_data = numpy.random.uniform(1, 65535, 2048)
-        self.form.curve.setData(rnd_data) 
+        self.form.curve.setData(rnd_data)
 
         self.fps.tick()
         fps_text = "Update: %s FPS" % self.fps.rate()

@@ -2,7 +2,7 @@
 """
 
 from PySide import QtTest
-        
+
 from bluegraph import control
 from bluegraph.devices import Simulation
 
@@ -21,7 +21,8 @@ class TestController:
 
     def test_control_creates_bluegraph_widget(self, qtbot):
         simulator = control.BlueGraphController()
-        with qtbot.wait_signal(simulator.form.customContextMenuRequested, timeout=2000):
+        known_signal = simulator.form.customContextMenuRequested
+        with qtbot.wait_signal(known_signal, timeout=2000):
             simulator.form.show()
         assert simulator.form.width() > 5
         assert simulator.form.height() > 5
@@ -30,12 +31,13 @@ class TestController:
 
     def test_control_fps_is_available(self, qtbot):
         simulator = control.BlueGraphController()
-       
+
         # Don't wait for just 1 second, as pyqtgraph loading takes
         # consumes that time.
-        with qtbot.wait_signal(simulator.form.customContextMenuRequested, timeout=2000):
+        known_signal = simulator.form.customContextMenuRequested
+        with qtbot.wait_signal(known_signal, timeout=2000):
             simulator.form.show()
-    
+
         assert simulator.fps.rate() > 10
 
    # def test_control_fps_signal_updates_interface(self, qtbot):
@@ -43,6 +45,7 @@ class TestController:
     def test_close_event_triggered(self, qtbot):
         simulator = control.BlueGraphController()
         QtTest.QTest.qWaitForWindowShown(simulator.form)
-        with qtbot.wait_signal(simulator.form.customContextMenuRequested, timeout=2000):
+        known_signal = simulator.form.customContextMenuRequested
+        with qtbot.wait_signal(known_signal, timeout=2000):
             simulator.form.show()
         simulator.form.closeEvent(None)
