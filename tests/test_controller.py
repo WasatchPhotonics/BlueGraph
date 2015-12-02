@@ -1,10 +1,20 @@
 """ unit and functional tests for bluegraph application.
 """
 
+import sys
+import logging
+
 from PySide import QtTest
 
 from bluegraph import control
 from bluegraph.devices import Simulation
+
+log = logging.getLogger()
+strm = logging.StreamHandler(sys.stderr)
+frmt = logging.Formatter("%(name)s - %(levelname)s %(message)s")
+strm.setFormatter(frmt)
+log.addHandler(strm)
+log.setLevel(logging.DEBUG)
 
 class TestController:
     def test_control_creates_simulation_device(self, qtbot):
@@ -56,3 +66,14 @@ class TestController:
         assert simulator.fps.rate() >= 20
         assert simulator.fps.rate() <= 200
         print "Actual measured rate: %s" % simulator.fps.rate()
+
+    def test_zmq_simulation_device_available(self, qtbot):
+        return
+        simulator = control.BlueGraphController("ZMQLaserPower")
+        known_signal = simulator.form.customContextMenuRequested
+        with qtbot.wait_signal(known_signal, timeout=1100):
+            simulator.form.show()
+
+        assert simulator.fps.rate() >= 9
+        assert simulator.fps.rate() <= 11
+

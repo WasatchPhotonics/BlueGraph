@@ -2,6 +2,7 @@
 """
 
 import sys
+import zmq
 import time
 import numpy
 import logging
@@ -9,9 +10,9 @@ import logging
 from PySide import QtCore, QtGui
 
 from bluegraph import views
-from bluegraph.devices import Simulation
-
 from bluegraph import utils
+from bluegraph.devices import Simulation
+from bluegraph.devices import ZMQWrapper
 
 log = logging.getLogger(__name__)
 
@@ -23,6 +24,10 @@ class BlueGraphController(object):
 
         elif data_source == "SimulatedLaser":
             self.device = Simulation.SimulatedLaserPowerMeter()
+
+        elif data_source == "ZMQLaserPower":
+            self.device = ZMQReader()
+            self.zmq_pub = ZMQWrapper.Publisher("SimulatedLaserPower", 10)
 
         else:
             self.device = InternalSlow()
@@ -101,3 +106,40 @@ class InternalSlow(object):
             time.sleep(abs(time_wait))
 
         return rnd_data
+
+class ZMQReader(object):
+    """ Wrapper interface around the zmq socket to expose the same API
+    as the direct simulation device.
+    """
+    def __init__(self):
+        super(ZMQReader, self).__init__()
+        log.debug("Setup zmq context and socket reader")
+        self.context = zmq.Context()
+        self.socket = self.context.socket(zmq.SUB)
+        self.socket.connect ("tcp://127.0.0.1:5678")
+        self.socket.setsockopt(zmq.SUBSCRIBE, "SimulatedLaserPower")
+
+    def connect(self):
+        """ setup zmq connection
+        """
+        log.debug("Connect placeholder")
+
+    def read(self):
+
+        result = self.socket.recv()
+        log.debug("Got: %s", result)
+        return result
+
+
+        try:
+            self.socket.RCVTIMEO = 1000
+            result = self.socket.recv()
+            log.debug("Got: %s", result)
+            return result
+            topic, value = result.split(",")
+            return float(value)
+        except Exception as exc:
+            log.critical("Exception: %s", exc)
+
+    def close(self):
+        log.debug("close zmq reader")

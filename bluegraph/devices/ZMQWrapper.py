@@ -21,13 +21,14 @@ class Publisher(object):
         self.max_publish = max_publish
         self._device_name = device
 
-        self.device = Simulation.SimulatedLaserPowerMeter()
+        #self.device = Simulation.SimulatedLaserPowerMeter()
+        self.device = Simulation.SimulatedSpectra()
         self.device.connect()
         print "Pre continuous"
 
-        self.emit_proc = multiprocessing.Process(target=self.emit_continuously)
+        self.emit_proc = multiprocessing.Process(
+                            target=self.emit_continuously)
         self.emit_proc.start()
-        #self.emit_proc.join()
 
     def close(self):
         self.emit_proc.join()
@@ -44,7 +45,8 @@ class Publisher(object):
         while(self.max_publish > 0):
             str_mesg = "%s, %s" % (self._device_name, self.device.read())
             log.debug("send: %s", str_mesg)
-            print("send: %s" % str_mesg)
+            #str_mesg = self.device.read()
+            #print("send: %s" % str_mesg)
             self.socket.send(str_mesg)
 
             time.sleep(interval)
