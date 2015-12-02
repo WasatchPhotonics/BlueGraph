@@ -41,7 +41,7 @@ class SimulatedLaserPowerMeter(object):
         if serial == None:
             serial = self.list_hardware()[0]
         self._open = True
-        return self._open        
+        return self._open
 
     def read(self):
         """ Perform a simulated read from the device, respecting
@@ -49,12 +49,12 @@ class SimulatedLaserPowerMeter(object):
         meter read when greater than 115. Add random hundredths.
         """
         time.sleep(self.wait_interval)
-        val = self.last_val 
+        val = self.last_val
         val += 1
         if val > 115:
             val = 110
         self.last_val = val
-        
+
         val += random.random()
         log.info("Read: %s", val)
         return val

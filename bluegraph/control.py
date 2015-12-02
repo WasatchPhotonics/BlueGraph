@@ -40,11 +40,12 @@ class BlueGraphController(object):
 
 
     def close(self, event):
-        """ Cleanup and exit.
+        """ Cleanup and exit. Don't issue qapplication quit here,
+        as that will terminate the qapplication during tests. Use the
+        qapplication control from py.test.
         """
-        log.debug("blue graph controller level")
+        log.debug("blue graph controller level close")
         self.data_timer.stop()
-        #QtGui.QApplication.quit()
         self.control_exit_signal.exit.emit("control exit")
 
     def setup_fps_timer(self):
