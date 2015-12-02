@@ -67,6 +67,7 @@ class BlueGraphApplication(object):
             self.delay_close()
 
         self.control = control.BlueGraphController()
+        self.control.control_exit_signal.exit.connect(self.closeEvent)
 
         sys.exit(app.exec_())
 
@@ -81,7 +82,6 @@ class BlueGraphApplication(object):
 
     def closeEvent(self):
         log.debug("Close event")
-        self.close_timer.stop()
         QtGui.QApplication.quit()
 
 

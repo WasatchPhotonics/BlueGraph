@@ -33,12 +33,19 @@ class BlueGraphController(object):
         """
         self.form.exit_signal.exit.connect(self.close)
 
+        class ControlClose(QtCore.QObject):
+            exit = QtCore.Signal(str)
+
+        self.control_exit_signal = ControlClose()
+
+
     def close(self, event):
         """ Cleanup and exit.
         """
         log.debug("blue graph controller level")
         self.data_timer.stop()
-        QtGui.QApplication.quit()
+        #QtGui.QApplication.quit()
+        self.control_exit_signal.exit.emit("control exit")
 
     def setup_fps_timer(self):
         """ Update the display Frames per second at every qt event
