@@ -2,6 +2,7 @@
 """
 
 import sys
+import time
 import numpy
 import logging
 
@@ -19,8 +20,14 @@ class BlueGraphController(object):
 
         if data_source == "SimulatedSpectra":
             self.device = Simulation.SimulatedSpectra()
-        else:
+
+        elif data_source == "SimulatedLaser":
             self.device = Simulation.SimulatedLaserPowerMeter()
+
+        else:
+            self.device = InternalSlow()
+
+        self.device.connect()
 
         self.form = views.PixmapBackedGraph()
 
@@ -64,7 +71,7 @@ class BlueGraphController(object):
     def update_fps(self):
         """ Add tick, display the current rate.
         """
-        rnd_data = numpy.random.uniform(1, 65535, 2048)
+        rnd_data = self.device.read()
         self.form.curve.setData(rnd_data)
 
         self.fps.tick()
@@ -72,3 +79,25 @@ class BlueGraphController(object):
         #log.debug(fps_text)
         self.form.graphback.fps.setText(self.fps.rate())
         self.data_timer.start(0)
+
+class InternalSlow(object):
+    """ force slow readback rate with data for testing.
+    """
+    def __init__(self):
+        super(InternalSlow, self).__init__()
+
+    def connect(self):
+        return
+
+    def read(self):
+        """ return randomized data. Force to a slow speed for testing
+        """
+        start_time = time.time()
+        rnd_data = numpy.random.uniform(1, 65535, 2048)
+
+        time_diff = start_time - time.time()
+        if time_diff < 0.100:
+            time_wait = 0.100 - abs(time_diff)
+            time.sleep(abs(time_wait))
+
+        return rnd_data

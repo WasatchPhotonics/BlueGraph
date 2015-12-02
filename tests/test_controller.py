@@ -57,3 +57,21 @@ class TestController:
         assert isinstance(simulator.device,
                           Simulation.SimulatedSpectra)
 
+    def test_simulated_internal_random_display_speed(self, qtbot):
+        simulator = control.BlueGraphController("InternalSlow")
+        known_signal = simulator.form.customContextMenuRequested
+        with qtbot.wait_signal(known_signal, timeout=2000):
+            simulator.form.show()
+
+        assert simulator.fps.rate() >= 9
+        assert simulator.fps.rate() <= 11
+
+    def test_simulated_spectra_displays_fast(self, qtbot):
+        simulator = control.BlueGraphController("SimulatedSpectra")
+        known_signal = simulator.form.customContextMenuRequested
+        with qtbot.wait_signal(known_signal, timeout=2000):
+            simulator.form.show()
+
+        assert simulator.fps.rate() >= 20
+        assert simulator.fps.rate() <= 200
+        print "Actual measured rate: %s" % simulator.fps.rate()

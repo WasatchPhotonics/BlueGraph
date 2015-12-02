@@ -64,7 +64,7 @@ class BlueGraphApplication(object):
         """
         app = QtGui.QApplication([])
 
-        self.control = control.BlueGraphController()
+        self.control = control.BlueGraphController("SimulatedSpectra")
         self.control.control_exit_signal.exit.connect(self.closeEvent)
 
         sys.exit(app.exec_())

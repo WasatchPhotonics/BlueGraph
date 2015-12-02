@@ -69,7 +69,6 @@ class SimulatedSpectra(SimulatedLaserPowerMeter):
         super(SimulatedSpectra, self).__init__()
         log.debug("Simulated Spectra")
         self._hardware_list = ["Simulated Spectra"]
-        self.wait_interval = 0.010
         self.pixel_width = pixel_width
 
     def read(self):
