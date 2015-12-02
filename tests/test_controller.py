@@ -42,10 +42,10 @@ class TestController:
 
    # def test_control_fps_signal_updates_interface(self, qtbot):
 
-    def test_close_event_triggered(self, qtbot):
-        simulator = control.BlueGraphController()
-        QtTest.QTest.qWaitForWindowShown(simulator.form)
-        known_signal = simulator.form.customContextMenuRequested
-        with qtbot.wait_signal(known_signal, timeout=2000):
-            simulator.form.show()
-        simulator.form.closeEvent(None)
+    #def test_close_event_triggered(self, qtbot):
+        #simulator = control.BlueGraphController()
+        #QtTest.QTest.qWaitForWindowShown(simulator.form)
+        ##known_signal = simulator.form.customContextMenuRequested
+        #with qtbot.wait_signal(known_signal, timeout=2000):
+            #simulator.form.show()
+        #simulator.form.closeEvent(None)

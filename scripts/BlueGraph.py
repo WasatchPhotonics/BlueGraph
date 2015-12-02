@@ -7,7 +7,6 @@ import argparse
 
 from PySide import QtGui, QtCore
 
-# This should really be controller import, which in turn loads the views
 from bluegraph import control
 
 logging.basicConfig(filename="BlueGraph_log.txt", filemode="w",

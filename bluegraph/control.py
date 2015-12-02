@@ -5,7 +5,7 @@ import sys
 import numpy
 import logging
 
-from PySide import QtCore
+from PySide import QtCore, QtGui
 
 from bluegraph import views
 from bluegraph.devices import Simulation
@@ -38,16 +38,14 @@ class BlueGraphController(object):
         """
         log.debug("blue graph controller level")
         self.data_timer.stop()
-        #sys.exit()
+        QtGui.QApplication.quit()
 
     def setup_fps_timer(self):
         """ Update the display Frames per second at every qt event
         timeout.
         """
-        #for item in range(10):
-            #self.fps.tick()
-        #log.debug("setup fps timer %s", self.fps.rate())
         self.data_timer = QtCore.QTimer()
+        self.data_timer.setSingleShot(True)
         self.data_timer.timeout.connect(self.update_fps)
         self.data_timer.start(0)
 
