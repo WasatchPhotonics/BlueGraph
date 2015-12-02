@@ -16,7 +16,7 @@ from bluegraph import utils
 log = logging.getLogger(__name__)
 
 class BlueGraphController(object):
-    def __init__(self, data_source="SimulatedLaser"):
+    def __init__(self, data_source="InternalSlow"):
 
         if data_source == "SimulatedSpectra":
             self.device = Simulation.SimulatedSpectra()
