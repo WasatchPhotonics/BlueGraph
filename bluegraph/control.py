@@ -15,8 +15,12 @@ from bluegraph import utils
 log = logging.getLogger(__name__)
 
 class BlueGraphController(object):
-    def __init__(self):
-        self.device = Simulation.SimulatedLaserPowerMeter()
+    def __init__(self, data_source="SimulatedLaser"):
+
+        if data_source == "SimulatedSpectra":
+            self.device = Simulation.SimulatedSpectra()
+        else:
+            self.device = Simulation.SimulatedLaserPowerMeter()
 
         self.form = views.PixmapBackedGraph()
 

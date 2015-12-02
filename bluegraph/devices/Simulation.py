@@ -2,6 +2,7 @@
 """
 
 import time
+import numpy
 import random
 import logging
 
@@ -14,6 +15,7 @@ class SimulatedLaserPowerMeter(object):
     def __init__(self):
         super(SimulatedLaserPowerMeter, self).__init__()
         log.info("init device")
+        self._hardware_list = ["Simulated PM100"]
         self._open = False
         self.wait_interval = 0.100
         self.last_val = 110
@@ -33,7 +35,7 @@ class SimulatedLaserPowerMeter(object):
     def list_hardware(self):
         """ Provide a list of available devices.
         """
-        return ["Simulated PM100"]
+        return self._hardware_list
 
     def connect(self, serial=None):
         """ Connect to the first device in the list if none specified.
@@ -58,3 +60,33 @@ class SimulatedLaserPowerMeter(object):
         val += random.random()
         log.info("Read: %s", val)
         return val
+
+class SimulatedSpectra(SimulatedLaserPowerMeter):
+    """ Return the specified number of pixels with randomized peaks for
+    use in test visualizations.
+    """
+    def __init__(self, pixel_width=1024):
+        super(SimulatedSpectra, self).__init__()
+        log.debug("Simulated Spectra")
+        self._hardware_list = ["Simulated Spectra"]
+        self.wait_interval = 0.010
+        self.pixel_width = pixel_width
+
+    def read(self):
+        """ Return simulated data. Generate the noise applied waveform
+        then sleep the remainder of the time to lock the return of data
+        to once every N ms.
+        """
+
+        start_time = time.time()
+        nru = numpy.random.uniform
+        noise_data = nru(10, 20, self.pixel_width)
+
+        time_diff = start_time - time.time()
+        if time_diff < 0.005:
+            time_wait = 0.005 - abs(time_diff)
+            #print "force sleep: %s %s" % (time_diff, time_wait)
+            time.sleep(abs(time_wait))
+
+        return noise_data
+

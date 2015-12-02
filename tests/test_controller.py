@@ -24,10 +24,10 @@ class TestController:
         known_signal = simulator.form.customContextMenuRequested
         with qtbot.wait_signal(known_signal, timeout=2000):
             simulator.form.show()
-        #assert simulator.form.width() > 5
-        #assert simulator.form.height() > 5
-        assert simulator.form.width() == 805
-        assert simulator.form.height() == 355
+        assert simulator.form.width() > 5
+        assert simulator.form.height() > 5
+        #assert simulator.form.width() == 805
+        #assert simulator.form.height() == 355
 
     def test_control_fps_is_available(self, qtbot):
         simulator = control.BlueGraphController()
@@ -48,4 +48,12 @@ class TestController:
             simulator.form.show()
         simulator.form.closeEvent(None)
 
-    #def test_
+    def test_control_creates_specified_device(self, qtbot):
+        simulator = control.BlueGraphController()
+        assert isinstance(simulator.device,
+                          Simulation.SimulatedLaserPowerMeter)
+
+        simulator = control.BlueGraphController("SimulatedSpectra")
+        assert isinstance(simulator.device,
+                          Simulation.SimulatedSpectra)
+

@@ -3,6 +3,7 @@
 
 import zmq
 import time
+import numpy
 
 from bluegraph.devices import Simulation
 from bluegraph.devices import ZMQWrapper
@@ -22,7 +23,6 @@ class TestSimulatedLaserPowerMeter:
         device.close()
         assert device.is_open() == False
 
-
     def test_get_stream_returns_10_reads_per_second(self):
         device = Simulation.SimulatedLaserPowerMeter()
         device.connect()
@@ -41,6 +41,37 @@ class TestSimulatedLaserPowerMeter:
         device.connect()
         first = device.read()
         assert first != device.read()
+
+class TestSimulatedSpectra:
+    def test_spectra_stream_returns_expected_reads_per_second(self):
+        device = Simulation.SimulatedSpectra()
+        device.connect()
+
+        start_time = time.time()
+        for i in range(200):
+            device.read()
+        end_time = time.time()
+
+        time_diff = end_time - start_time
+        print "Actual diff %s" % time_diff
+        assert time_diff < 1.1
+        assert time_diff > 0.9
+
+    def test_stream_data_is_randomized(self):
+        device = Simulation.SimulatedSpectra()
+        device.connect()
+        first = device.read()
+        assert numpy.array_equal(first, device.read()) == False
+
+    def test_stream_data_is_specified_width_in_pixels(self):
+        device = Simulation.SimulatedSpectra()
+        device.connect()
+        assert len(device.read()) == 1024
+
+        device = Simulation.SimulatedSpectra(2048)
+        device.connect()
+        assert len(device.read()) == 2048
+
 
 class TestZMQSimulationWrapper:
 
@@ -112,3 +143,5 @@ class TestZMQSimulationWrapper:
         # second for the actual reads?
         assert time_diff < 3.1
         assert time_diff > 2.9
+
+

@@ -162,7 +162,6 @@ class ToggleButton(QtGui.QGraphicsPixmapItem):
         super(ToggleButton, self).__init__(self.activated)
 
         self._state = "play"
-        print "startup with: %s" % self._state
 
         self.shadow = QtGui.QGraphicsDropShadowEffect()
         self.shadow.setColor(QtGui.QColor(0, 0, 0, 128))
