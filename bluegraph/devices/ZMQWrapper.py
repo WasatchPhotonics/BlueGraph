@@ -20,16 +20,19 @@ class Publisher(object):
 
         self.max_publish = max_publish
         self._device_name = device
-       
-        self.device = Simulation.SimulatedLaserPowerMeter() 
+
+        self.device = Simulation.SimulatedLaserPowerMeter()
         self.device.connect()
         print "Pre continuous"
-       
+
         self.emit_proc = multiprocessing.Process(target=self.emit_continuously)
         self.emit_proc.start()
+        #self.emit_proc.join()
+
+    def close(self):
         self.emit_proc.join()
 
-    def emit_continuously(self, interval=0.500):
+    def emit_continuously(self, interval=0.100):
         """ Every interval wall clock seconds, emit a message on the
         publisher queue.
         """
@@ -37,11 +40,11 @@ class Publisher(object):
         self.socket = self.context.socket(zmq.PUB)
         self.socket.bind("tcp://127.0.0.1:5678")
         time.sleep(1) # required to let the subscriber connect
-       
-        while(self.max_publish > 0): 
+
+        while(self.max_publish > 0):
             str_mesg = "%s, %s" % (self._device_name, self.device.read())
-            log.debug("send: %s", str_mesg) 
-            print("send: %s" % str_mesg) 
+            log.debug("send: %s", str_mesg)
+            print("send: %s" % str_mesg)
             self.socket.send(str_mesg)
 
             time.sleep(interval)
