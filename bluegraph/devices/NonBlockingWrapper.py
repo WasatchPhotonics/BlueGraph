@@ -27,14 +27,23 @@ class Wrapper(object):
         continue_reading = True
         while(continue_reading):
             log.debug("At command read")
-            command = control_queue.get()
-            log.debug("Command: %s", command)
+            command = None
+            try:
+                command = control_queue.get_nowait()
+                log.debug("Command: %s", command)
+            except Queue.Empty:
+                pass
+            except Exception as exc:
+                log.critical("Control queue exception: %s", exc)
+
             if command == "STOP":
                 continue_reading = False
+            else:
+                reading = device.read()
+                data_queue.put(reading)
+                log.debug("Add reading: %s", reading)
 
-            reading = device.read()
-            data_queue.put(reading)
-            log.debug("Add reading: %s", reading)
+        log.debug("Exit reader")
 
     def connect(self):
         self.device = Simulation.SimulatedTemperature()
@@ -51,6 +60,7 @@ class Wrapper(object):
         self.connected = self.device.connected
 
         mp = multiprocessing.Process
+        log.info("Start process")
         self.process = mp(target=self.temp_reader,
                           args=(self.device, self.read_queue,
                                 self.control_queue)
@@ -63,7 +73,6 @@ class Wrapper(object):
         log.debug("Wrapper disconnect")
         self.device.disconnect()
         self.connected = self.device.connected
-        log.info("Set to: %s", self.connected)
         self.control_queue.put("STOP")
         self.process.join()
 
@@ -75,7 +84,7 @@ class Wrapper(object):
             self.control_queue.put("ACQUIRE")
 
         except Queue.Empty:
-            log.debug("Empty queue")
+            #log.debug("Empty queue")
             pass
 
         except Exception as exc:
