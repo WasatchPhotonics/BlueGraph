@@ -2,10 +2,35 @@
 """
 
 import time
+import numpy
 import random
 import logging
 
 log = logging.getLogger(__name__)
+
+class SimulatedTemperature(object):
+    """ Base class api definition for blocking device read simulations.
+    """
+    def __init__(self):
+        super(SimulatedTemperature, self).__init__()
+        self.connected = False
+        self.base_value = 100.00
+
+    def connect(self):
+        self.connected = True
+        return True
+
+    def disconnect(self):
+        self.connected = False
+        return True
+
+    def read(self):
+        """ Return a randomized value plus a baseline
+        """
+        noise = numpy.random.uniform(0, 99, 1)
+        value = self.base_value + (noise / 100.0)
+        time.sleep(0.10)
+        return value
 
 class SimulatedLaserPowerMeter(object):
     """ Provide a Thorlabs pm100usb encapsulation of typical values seen
@@ -41,7 +66,7 @@ class SimulatedLaserPowerMeter(object):
         if serial == None:
             serial = self.list_hardware()[0]
         self._open = True
-        return self._open        
+        return self._open
 
     def read(self):
         """ Perform a simulated read from the device, respecting
@@ -49,12 +74,12 @@ class SimulatedLaserPowerMeter(object):
         meter read when greater than 115. Add random hundredths.
         """
         time.sleep(self.wait_interval)
-        val = self.last_val 
+        val = self.last_val
         val += 1
         if val > 115:
             val = 110
         self.last_val = val
-        
+
         val += random.random()
         log.info("Read: %s", val)
         return val
