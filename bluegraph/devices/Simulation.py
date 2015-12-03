@@ -5,6 +5,9 @@ import time
 import numpy
 import random
 import logging
+import Queue
+import multiprocessing
+
 
 log = logging.getLogger(__name__)
 
@@ -31,6 +34,84 @@ class SimulatedTemperature(object):
         value = self.base_value + (noise / 100.0)
         time.sleep(0.10)
         return value
+
+class BlockingInterface(object):
+    def __init__(self):
+        super(BlockingInterface, self).__init__()
+
+        self.data_queue = multiprocessing.Queue()
+        self.control_queue = multiprocessing.Queue()
+
+        mp = multiprocessing.Process
+        self.process = mp(target=self.worker,
+                          args=(self.control_queue, self.data_queue)
+                         )
+        self.process.start()
+
+    def worker(self, control_queue, data_queue):
+        continue_loop = True
+        self.device = None
+        while(continue_loop):
+            command = control_queue.get()
+            response = None
+            if command == "CONNECT":
+                self.device = SimulatedTemperature()
+                self.device.connect()
+                response = "connect_successful"
+
+            elif command == "DISCONNECT":
+                self.device.disconnect()
+                continue_loop = False
+                response = "disconnect_successful"
+
+            else:
+                response = self.device.read()
+
+            data_queue.put(response)
+
+
+    def connect(self):
+        self.control_queue.put("CONNECT")
+        status = self.data_queue.get()
+        if status == "connect_successful":
+            return True
+
+        log.critical("Problem connecting %s", status)
+        return False
+
+    def disconnect(self):
+        self.control_queue.put("DISCONNECT")
+        status = self.data_queue.get()
+        if status == "disconnect_successful":
+            return True
+
+        log.critical("Problem disconnecting %s", status)
+        self.process.join()
+        return False
+
+    def read(self):
+        self.control_queue.put("ACQUIRE")
+        result = self.data_queue.get()
+        return result
+
+class NonBlockingInterface(BlockingInterface):
+    def __init__(self):
+        super(NonBlockingInterface, self).__init__()
+
+    def read(self):
+        result = None
+        try:
+            if self.control_queue.empty():
+                self.control_queue.put("ACQUIRE")
+            result = self.data_queue.get_nowait()
+        except Queue.Empty:
+            log.debug("empty queue")
+        except Exception as exc:
+            log.critical("Unknown exception: %s", exc)
+
+        return result
+
+
 
 class SimulatedLaserPowerMeter(object):
     """ Provide a Thorlabs pm100usb encapsulation of typical values seen

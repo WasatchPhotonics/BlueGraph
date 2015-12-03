@@ -115,3 +115,47 @@ class TestSimulatedLaserPowerMeter:
         device.connect()
         first = device.read()
         assert first != device.read()
+
+
+class TestMultiProcessingSimulation:
+    def test_connect_and_disconnect_close_effectively(self):
+        block = Simulation.BlockingInterface()
+        assert block.connect() == True
+        assert block.disconnect() == True
+
+    def test_blocking_returns_random_data(self):
+        block = Simulation.BlockingInterface()
+        block.connect()
+        first = block.read()
+        second = block.read()
+        block.disconnect()
+
+        assert first != second
+
+    def test_blocking_data_stream_is_time_locked(self):
+        block = Simulation.BlockingInterface()
+        assert block.connect() == True
+
+        start_time = time.time()
+        for i in range(10):
+            block.read()
+        assert block.disconnect() == True
+        end_time = time.time()
+
+        time_diff = end_time - start_time
+        assert time_diff > 0.9
+        assert time_diff < 1.1
+
+    def test_nonblocking_returns_random_data(self):
+        nblk = Simulation.NonBlockingInterface()
+        nblk.connect()
+        first = nblk.read()
+        while first is None:
+            first = nblk.read()
+
+        second = nblk.read()
+        while second is None:
+            second = nblk.read()
+
+        nblk.disconnect()
+        assert first != second

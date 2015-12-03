@@ -19,11 +19,29 @@ class Wrapper(object):
     def __init__(self):
         super(Wrapper, self).__init__()
         log.debug("In wrapper")
-        self.connected = False
+
+        self.control_queue = multiprocessing.Queue()
+        self.read_queue = multiprocessing.Queue()
+
+        mp = multiprocessing.Process
+        log.info("Start process")
+        self.process = mp(target=self.temp_reader,
+                          args=(self.device, self.read_queue,
+                                self.control_queue)
+                         )
+        self.process.start()
 
     def temp_reader(self, device, data_queue, control_queue):
         """ multiprocessing function call
         """
+        self.device = Simulation.SimulatedTemperature()
+        if not self.device.connect():
+            log.critical("Problem connecting to device")
+            return False
+
+        self.read_queue.put(123.00)
+        self.control_queue.put("ACQUIRE")
+
         continue_reading = True
         while(continue_reading):
             log.debug("At command read")
@@ -46,35 +64,14 @@ class Wrapper(object):
         log.debug("Exit reader")
 
     def connect(self):
-        self.device = Simulation.SimulatedTemperature()
-        self.control_queue = multiprocessing.Queue()
-        self.read_queue = multiprocessing.Queue()
-
-        if not self.device.connect():
-            log.critical("Problem connecting to device")
-            return False
-
-        self.read_queue.put(123.00)
-        self.control_queue.put("ACQUIRE")
-
-        self.connected = self.device.connected
-
-        mp = multiprocessing.Process
-        log.info("Start process")
-        self.process = mp(target=self.temp_reader,
-                          args=(self.device, self.read_queue,
-                                self.control_queue)
-                         )
-        self.process.start()
-
+        self.control_queue.put("CONNECT")
         return True
 
     def disconnect(self):
         log.debug("Wrapper disconnect")
-        self.device.disconnect()
-        self.connected = self.device.connected
-        self.control_queue.put("STOP")
+        self.control_queue.put("DISCONNECT")
         self.process.join()
+        return True
 
     def read(self):
         result = None
