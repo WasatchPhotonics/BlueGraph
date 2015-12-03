@@ -74,7 +74,7 @@ class TestNonBlockingWrapper:
         # These 100 reads should return close to instantly because
         # queue read is non blocking
         start_time = time.time()
-        for i in range(1000):
+        for i in range(100):
             wrapper.read()
         end_time = time.time()
 
