@@ -57,14 +57,18 @@ class TestNonBlockingWrapper:
     def test_data_stream_is_randomized(self):
         wrapper = NonBlockingWrapper.Wrapper()
         wrapper.connect()
+        log.debug("At first")
         first = wrapper.read()
         while first is None:
             first = wrapper.read()
 
+        log.debug("At second")
         second = wrapper.read()
         while second is None:
             second = wrapper.read()
+        wrapper.disconnect()
 
+        log.debug("At comparison")
         assert first != second
 
     def test_data_stream_is_not_speed_locked(self):
@@ -76,10 +80,11 @@ class TestNonBlockingWrapper:
         start_time = time.time()
         for i in range(100):
             wrapper.read()
+        wrapper.disconnect()
         end_time = time.time()
 
         time_diff = end_time - start_time
-        assert time_diff < 0.1
+        assert time_diff < 0.5
 
 class TestSimulatedLaserPowerMeter:
     def test_list_hardware_returns_simulated_device(self):
