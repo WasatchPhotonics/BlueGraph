@@ -178,20 +178,3 @@ class TestMultiProcessingSimulation:
         assert time_diff <= 1.1
 
         nblk.disconnect()
-
-    def test_simulated_spectra_wait_is_time_locked(self):
-
-        nblk = Simulation.NonBlockingInterface("SimulatedSpectra")
-        nblk.connect()
-        start_time = time.time()
-        for i in range(10):
-            result = nblk.read()
-            while result is None:
-                result = nblk.read()
-        end_time = time.time()
-
-        time_diff = end_time - start_time
-        assert time_diff >= 0.9
-        assert time_diff <= 1.1
-
-        nblk.disconnect()

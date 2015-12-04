@@ -44,7 +44,6 @@ class SimulatedSpectra(SimulatedDevice):
     def __init__(self, pixel_width=1024):
         super(SimulatedSpectra, self).__init__()
         log.debug("Simulated Spectra")
-        log.info("sim startup")
         self.pixel_width = pixel_width
 
     def read(self):
@@ -52,16 +51,9 @@ class SimulatedSpectra(SimulatedDevice):
         then sleep the remainder of the time to lock the return of data
         to once every N ms.
         """
-        log.info("In simualted spectra read")
         start_time = time.time()
         nru = numpy.random.uniform
-        noise_data = nru(10, 20, self.pixel_width)
-
-        time_diff = start_time - time.time()
-        if time_diff < 0.100:
-            time_wait = 0.100 - abs(time_diff)
-            #print "force sleep: %s %s" % (time_diff, time_wait)
-            time.sleep(abs(time_wait))
+        noise_data = nru(1, 65535, self.pixel_width)
         return noise_data
 
 
