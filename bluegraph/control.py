@@ -80,7 +80,7 @@ class BlueGraphController(object):
         """ Add tick, display the current rate.
         """
         rnd_data = self.device.read()
-        if rnd_data != None:
+        if rnd_data is not None:
             self.form.curve.setData(rnd_data)
             self.data_fps.tick()
             self.form.graphback.data_fps.setText(self.data_fps.rate())

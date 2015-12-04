@@ -19,42 +19,26 @@ log.setLevel(logging.INFO)
 class TestController:
     def test_control_creates_simulation_device(self, qtbot):
         simulator = control.BlueGraphController()
-
-        # From the documentation examples - do you need to register the
-        # widgets?
-        #window = Window()
-        #window.show()
-        #qtbot.addWidget(window)
-
-        assert isinstance(simulator.device,
-                          Simulation.SimulatedLaserPowerMeter)
+        assert isinstance(simulator.device, Simulation.SimulatedDevice)
 
     def test_control_creates_bluegraph_widget(self, qtbot):
         simulator = control.BlueGraphController()
-        with qtbot.wait_signal(simulator.form.customContextMenuRequested, timeout=2000):
+        signal = simulator.form.customContextMenuRequested
+        with qtbot.wait_signal(signal, timeout=2000):
             simulator.form.show()
         assert simulator.form.width() > 5
         assert simulator.form.height() > 5
         #assert simulator.form.width() == 805
         #assert simulator.form.height() == 355
 
-    def test_control_fps_is_available(self, qtbot):
-        simulator = control.BlueGraphController()
-
-        # Don't wait for just 1 second, as pyqtgraph loading takes
-        # consumes that time.
-        with qtbot.wait_signal(simulator.form.customContextMenuRequested, timeout=2000):
-            simulator.form.show()
-
-        assert simulator.fps.rate() > 10
-
-   # def test_control_fps_signal_updates_interface(self, qtbot):
-
     def test_close_event_triggered(self, qtbot):
         simulator = control.BlueGraphController()
         QtTest.QTest.qWaitForWindowShown(simulator.form)
-        with qtbot.wait_signal(simulator.form.customContextMenuRequested, timeout=2000):
+
+        signal = simulator.form.customContextMenuRequested
+        with qtbot.wait_signal(signal, timeout=2000):
             simulator.form.show()
+
         simulator.form.closeEvent(None)
 
     def test_data_fps_and_render_fps_avialable(self, qtbot):
@@ -64,10 +48,10 @@ class TestController:
         with qtbot.wait_signal(signal, timeout=2000):
             simulator.form.show()
 
-        assert simulator.render_fps.rate() > 10
-        assert simulator.data_fps.rate() > 10
+        assert simulator.render_fps.rate() > 2
+        assert simulator.data_fps.rate() > 2
 
-    def test_data_and_fps_regulated_to_same_speed_by_device(self, qtbot):
+    def test_data_and_render_regulated_to_same_speed_dev(self, qtbot):
         simulator = control.BlueGraphController()
 
         signal = simulator.form.customContextMenuRequested
