@@ -8,14 +8,15 @@ import logging
 import Queue
 import multiprocessing
 
-
 log = logging.getLogger(__name__)
 
-class SimulatedTemperature(object):
-    """ Base class api definition for blocking device read simulations.
+class SimulatedDevice(object):
+    """ Base class api definition for device read simulations. Inherit from
+    this device and reimplment the functions below to communicate with
+    actual devices.
     """
     def __init__(self):
-        super(SimulatedTemperature, self).__init__()
+        super(SimulatedDevice, self).__init__()
         self.connected = False
         self.base_value = 100.00
 
@@ -35,27 +36,68 @@ class SimulatedTemperature(object):
         time.sleep(0.10)
         return value
 
+
+class SimulatedSpectra(SimulatedDevice):
+    """ Return the specified number of pixels with randomized peaks for
+    use in test visualizations.
+    """
+    def __init__(self, pixel_width=1024):
+        super(SimulatedSpectra, self).__init__()
+        log.debug("Simulated Spectra")
+        log.info("sim startup")
+        self.pixel_width = pixel_width
+
+    def read(self):
+        """ Return simulated data. Generate the noise applied waveform
+        then sleep the remainder of the time to lock the return of data
+        to once every N ms.
+        """
+        log.info("In simualted spectra read")
+        start_time = time.time()
+        nru = numpy.random.uniform
+        noise_data = nru(10, 20, self.pixel_width)
+
+        time_diff = start_time - time.time()
+        if time_diff < 0.100:
+            time_wait = 0.100 - abs(time_diff)
+            #print "force sleep: %s %s" % (time_diff, time_wait)
+            time.sleep(abs(time_wait))
+        return noise_data
+
+
 class BlockingInterface(object):
-    def __init__(self):
+    """ Wrap the defined device in a separate process. Use queues to
+    request and emit data in lock step to create a blocking interface.
+    """
+    def __init__(self, device_type="SimulatedDevice"):
         super(BlockingInterface, self).__init__()
 
+        self.device_type = device_type
         self.data_queue = multiprocessing.Queue()
         self.control_queue = multiprocessing.Queue()
 
         mp = multiprocessing.Process
-        self.process = mp(target=self.worker,
-                          args=(self.control_queue, self.data_queue)
-                         )
+        args = (self.control_queue, self.data_queue)
+        self.process = mp(target=self.worker, args=args)
         self.process.start()
 
     def worker(self, control_queue, data_queue):
+        """ While the stop command poison pill is not received, read
+        commands from the control queue. Connect, disconnect and read
+        data from the device as specified.
+        """
         continue_loop = True
         self.device = None
+
         while(continue_loop):
             command = control_queue.get()
-            response = None
+
             if command == "CONNECT":
-                self.device = SimulatedTemperature()
+                if self.device_type == "SimulatedDevice":
+                    self.device = SimulatedDevice()
+                elif self.device_type == "SimulatedSpectra":
+                    self.device = SimulatedSpectra()
+
                 self.device.connect()
                 response = "connect_successful"
 
@@ -71,53 +113,80 @@ class BlockingInterface(object):
 
 
     def connect(self):
-        self.control_queue.put("CONNECT")
+        """ Add the connection command to the queue.
+        """
+        result = self.queue_command("CONNECT", "connect_successful")
+        return result
+
+    def queue_command(self, command, success):
+        """ Respect the simple device interface by issuing commands on the
+        control queue. Wait for a response on the data queue for lock step
+        control.
+        """
+        self.control_queue.put(command)
         status = self.data_queue.get()
-        if status == "connect_successful":
+        if status == success:
             return True
 
-        log.critical("Problem connecting %s", status)
+        log.critical("Command %s problem: %s", command, status)
         return False
 
     def disconnect(self):
-        self.control_queue.put("DISCONNECT")
-        status = self.data_queue.get()
-        if status == "disconnect_successful":
-            return True
+        """ Add the disconnection command to the queue, terminate any
+        running processes.
+        """
+        result = self.queue_command("DISCONNECT", "disconnect_successful")
 
-        log.critical("Problem disconnecting %s", status)
+        # Always exit the processes, event if disconnect fails
         self.process.join()
-        return False
+        return result
 
     def read(self):
+        """ Add the acquire command to the control queue, then do a
+        blocking wait on the data queue.
+        """
         self.control_queue.put("ACQUIRE")
         result = self.data_queue.get()
         return result
 
 class NonBlockingInterface(BlockingInterface):
-    def __init__(self):
-        super(NonBlockingInterface, self).__init__()
+    """ Wrapper around the blocking interface that allows for immediate
+    empty queue returns of the data queue. Use this in applications that
+    need better responsivity by continuously calling read(), and sleep
+    when the response is None.
+    """
+    def __init__(self, device_type="SimulatedDevice"):
+        self.device_type = device_type
+        super(NonBlockingInterface, self).__init__(device_type=device_type)
+
+        self.acquire_sent = False # Wait for an acquire to complete
 
     def send_acquire(self):
-        if self._acquire_sent:
+        """ Only send one acquire onto the control queue at a time.
+        Requires that the removal of the data from the data queue resets
+        the acquire_sent parameter.
+        """
+        if self.acquire_sent:
             return
 
         if self.control_queue.empty():
             self.control_queue.put("ACQUIRE")
-            self._acquire_sent = True
+            self.acquire_sent = True
 
     def read(self):
+        """ Send an acquire command on the control queue. Immediately
+        attempt to retrieve data from the data queue, returning a None
+        when the data queue is empty.
+        """
         self.send_acquire()
 
         result = None
         try:
             result = self.data_queue.get_nowait()
-            self._acquire_sent = False
+            self.acquire_sent = False
 
         except Queue.Empty:
             log.debug("empty queue")
-        except Exception as exc:
-            log.critical("Unknown exception: %s", exc)
 
         return result
 

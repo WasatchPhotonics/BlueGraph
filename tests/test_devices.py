@@ -2,10 +2,10 @@
 """
 import sys
 import time
+import numpy
 import logging
 
 from bluegraph.devices import Simulation
-from bluegraph.devices import NonBlockingWrapper
 
 
 log = logging.getLogger()
@@ -14,11 +14,11 @@ strm = logging.StreamHandler(sys.stderr)
 frmt = logging.Formatter("%(name)s - %(levelname)s %(message)s")
 strm.setFormatter(frmt)
 log.addHandler(strm)
-log.setLevel(logging.DEBUG)
+log.setLevel(logging.INFO)
 
-class TestSimulatedTemperature:
+class TestSimulatedDevice:
     def test_connect_and_disconnect_status_track(self):
-        device = Simulation.SimulatedTemperature()
+        device = Simulation.SimulatedDevice()
         assert device.connect() == True
         assert device.connected == True
 
@@ -26,13 +26,13 @@ class TestSimulatedTemperature:
         assert device.connected == False
 
     def test_data_stream_is_random(self):
-        device = Simulation.SimulatedTemperature()
+        device = Simulation.SimulatedDevice()
         device.connect()
         first = device.read()
         assert first != device.read()
 
     def test_data_stream_is_speed_locked(self):
-        device = Simulation.SimulatedTemperature()
+        device = Simulation.SimulatedDevice()
         device.connect()
 
         start_time = time.time()
@@ -44,43 +44,33 @@ class TestSimulatedTemperature:
         assert time_diff > 0.9
         assert time_diff < 1.1
 
-class TestNonBlockingWrapper:
-    def test_connect_exposes_same_read_interface(self):
-        wrapper = NonBlockingWrapper.Wrapper()
-        assert wrapper.connect() == True
-        assert wrapper.connected == True
+class TestSimulatedSpectra:
+    def test_connect_disconnect(self):
+        device = Simulation.SimulatedSpectra()
+        assert device.connect() == True
+        assert device.connected == True
 
-        wrapper.disconnect()
-        assert wrapper.connected == False
+        device.disconnect()
+        assert device.connected == False
 
     def test_data_stream_is_randomized(self):
-        wrapper = NonBlockingWrapper.Wrapper()
-        wrapper.connect()
-        first = wrapper.read()
-        while first is None:
-            first = wrapper.read()
+        device = Simulation.SimulatedSpectra()
+        device.connect()
+        first = device.read()
+        second = device.read()
+        assert numpy.array_equal(first, second) == False
+        device.disconnect()
 
-        second = wrapper.read()
-        while second is None:
-            second = wrapper.read()
+    def test_stream_data_is_specified_pixels_width(self):
+        device = Simulation.SimulatedSpectra()
+        device.connect()
+        assert len(device.read()) == 1024
+        device.disconnect()
 
-        wrapper.disconnect()
-        assert first != second
-
-    def test_data_stream_is_not_speed_locked(self):
-        wrapper = NonBlockingWrapper.Wrapper()
-        wrapper.connect()
-
-        # These 100 reads should return close to instantly because
-        # queue read is non blocking
-        start_time = time.time()
-        for i in range(100):
-            wrapper.read()
-        end_time = time.time()
-
-        wrapper.disconnect()
-        time_diff = end_time - start_time
-        assert time_diff < 0.1
+        device = Simulation.SimulatedSpectra(pixel_width=2048)
+        device.connect()
+        assert len(device.read()) == 2048
+        device.disconnect()
 
 class TestSimulatedLaserPowerMeter:
     def test_list_hardware_returns_simulated_device(self):
@@ -159,3 +149,49 @@ class TestMultiProcessingSimulation:
 
         nblk.disconnect()
         assert first != second
+
+    def test_nonblocking_data_stream_is_not_time_locked(self):
+        nblk = Simulation.NonBlockingInterface()
+        nblk.connect()
+
+        start_time = time.time()
+        for i in range(200):
+            nblk.read()
+        end_time = time.time()
+
+        time_diff = end_time - start_time
+        assert time_diff <= 1.0
+        nblk.disconnect()
+
+    def test_nonblocking_wait_for_data_is_time_locked(self):
+        nblk = Simulation.NonBlockingInterface()
+        nblk.connect()
+        start_time = time.time()
+        for i in range(10):
+            result = nblk.read()
+            while result is None:
+                result = nblk.read()
+        end_time = time.time()
+
+        time_diff = end_time - start_time
+        assert time_diff >= 0.9
+        assert time_diff <= 1.1
+
+        nblk.disconnect()
+
+    def test_simulated_spectra_wait_is_time_locked(self):
+
+        nblk = Simulation.NonBlockingInterface("SimulatedSpectra")
+        nblk.connect()
+        start_time = time.time()
+        for i in range(10):
+            result = nblk.read()
+            while result is None:
+                result = nblk.read()
+        end_time = time.time()
+
+        time_diff = end_time - start_time
+        assert time_diff >= 0.9
+        assert time_diff <= 1.1
+
+        nblk.disconnect()
