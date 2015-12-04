@@ -44,34 +44,6 @@ class TestSimulatedDevice:
         assert time_diff > 0.9
         assert time_diff < 1.1
 
-class TestSimulatedSpectra:
-    def test_connect_disconnect(self):
-        device = Simulation.SimulatedSpectra()
-        assert device.connect() == True
-        assert device.connected == True
-
-        device.disconnect()
-        assert device.connected == False
-
-    def test_data_stream_is_randomized(self):
-        device = Simulation.SimulatedSpectra()
-        device.connect()
-        first = device.read()
-        second = device.read()
-        assert numpy.array_equal(first, second) == False
-        device.disconnect()
-
-    def test_stream_data_is_specified_pixels_width(self):
-        device = Simulation.SimulatedSpectra()
-        device.connect()
-        assert len(device.read()) == 1024
-        device.disconnect()
-
-        device = Simulation.SimulatedSpectra(pixel_width=2048)
-        device.connect()
-        assert len(device.read()) == 2048
-        device.disconnect()
-
 class TestSimulatedLaserPowerMeter:
     def test_list_hardware_returns_simulated_device(self):
         device = Simulation.SimulatedLaserPowerMeter()
@@ -178,3 +150,75 @@ class TestMultiProcessingSimulation:
         assert time_diff <= 1.1
 
         nblk.disconnect()
+
+class TestSimulatedSpectra:
+    def test_connect_disconnect(self):
+        device = Simulation.SimulatedSpectra()
+        assert device.connect() == True
+        assert device.connected == True
+
+        device.disconnect()
+        assert device.connected == False
+
+    def test_data_stream_is_randomized(self):
+        device = Simulation.SimulatedSpectra()
+        device.connect()
+        first = device.read()
+        second = device.read()
+        assert numpy.array_equal(first, second) == False
+        device.disconnect()
+
+    def test_stream_data_is_specified_pixels_width(self):
+        device = Simulation.SimulatedSpectra()
+        device.connect()
+        assert len(device.read()) == 1024
+        device.disconnect()
+
+        device = Simulation.SimulatedSpectra(pixel_width=2048)
+        device.connect()
+        assert len(device.read()) == 2048
+        device.disconnect()
+
+class TestRegulatedSpectra:
+    def test_stream_data_is_time_regulated(self):
+        device = Simulation.RegulatedSpectra()
+        assert device.connect() == True
+
+        start_time = time.time()
+        total_reads = 0
+        for i in range(10):
+            total_reads += 1
+            result = device.read()
+        cease_time = time.time()
+
+        time_diff = cease_time - start_time
+        assert time_diff >= 1.9
+        assert time_diff <= 2.1
+        assert total_reads == 10
+
+        assert device.disconnect() == True
+
+    def test_nonblocking_regulated_stream_data(self):
+        device = Simulation.NonBlockingInterface("RegulatedSpectra")
+        assert device.connect() == True
+
+        # Total reads should be vastly higher than the requested reads
+        # as the non blocking queue get should return almost instantly
+        start_time = time.time()
+        total_reads = 0
+        for i in range(10):
+            total_reads += 1
+            result = device.read()
+            while result is None:
+                total_reads += 1
+                result = device.read()
+        cease_time = time.time()
+
+        time_diff = cease_time - start_time
+        log.info("total reasd: %s", total_reads)
+        assert total_reads > 1000
+        assert time_diff >= 1.9
+        assert time_diff <= 2.1
+
+        assert device.disconnect() == True
+

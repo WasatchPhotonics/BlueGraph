@@ -1,10 +1,20 @@
 """ unit and functional tests for bluegraph application.
 """
+import sys
+import logging
 
 from PySide import QtTest
-        
+
 from bluegraph import control
 from bluegraph.devices import Simulation
+
+
+log = logging.getLogger()
+strm = logging.StreamHandler(sys.stderr)
+frmt = logging.Formatter("%(name)s - %(levelname)s %(message)s")
+strm.setFormatter(frmt)
+log.addHandler(strm)
+log.setLevel(logging.INFO)
 
 class TestController:
     def test_control_creates_simulation_device(self, qtbot):
@@ -30,12 +40,12 @@ class TestController:
 
     def test_control_fps_is_available(self, qtbot):
         simulator = control.BlueGraphController()
-       
+
         # Don't wait for just 1 second, as pyqtgraph loading takes
         # consumes that time.
         with qtbot.wait_signal(simulator.form.customContextMenuRequested, timeout=2000):
             simulator.form.show()
-    
+
         assert simulator.fps.rate() > 10
 
    # def test_control_fps_signal_updates_interface(self, qtbot):
@@ -45,4 +55,49 @@ class TestController:
         QtTest.QTest.qWaitForWindowShown(simulator.form)
         with qtbot.wait_signal(simulator.form.customContextMenuRequested, timeout=2000):
             simulator.form.show()
+        simulator.form.closeEvent(None)
+
+    def test_data_fps_and_render_fps_avialable(self, qtbot):
+        simulator = control.BlueGraphController()
+
+        signal = simulator.form.customContextMenuRequested
+        with qtbot.wait_signal(signal, timeout=2000):
+            simulator.form.show()
+
+        assert simulator.render_fps.rate() > 10
+        assert simulator.data_fps.rate() > 10
+
+    def test_data_and_fps_regulated_to_same_speed_by_device(self, qtbot):
+        simulator = control.BlueGraphController()
+
+        signal = simulator.form.customContextMenuRequested
+        with qtbot.wait_signal(signal, timeout=2000):
+            simulator.form.show()
+
+        assert simulator.render_fps.rate() == simulator.data_fps.rate()
+
+    def test_nonblocking_regulated_render_fps_is_faster(self, qtbot):
+        simulator = control.BlueGraphController("NonBlockingRegulated")
+
+        signal = simulator.form.customContextMenuRequested
+        with qtbot.wait_signal(signal, timeout=2000):
+            simulator.form.show()
+
+        render_rate = simulator.render_fps.rate()
+        data_rate = simulator.data_fps.rate()
+        log.info("Rates: %s, %s", render_rate, data_rate)
+        assert simulator.render_fps.rate() > simulator.data_fps.rate()
+        simulator.form.closeEvent(None)
+
+    def test_nonblocking_unregulated_render_fps_is_faster(self, qtbot):
+        simulator = control.BlueGraphController("NonBlockingSimulatedSpectra")
+
+        signal = simulator.form.customContextMenuRequested
+        with qtbot.wait_signal(signal, timeout=2000):
+            simulator.form.show()
+
+        render_rate = simulator.render_fps.rate()
+        data_rate = simulator.data_fps.rate()
+        log.info("Rates: %s, %s", render_rate, data_rate)
+        assert simulator.render_fps.rate() > simulator.data_fps.rate()
         simulator.form.closeEvent(None)

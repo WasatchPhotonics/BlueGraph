@@ -15,16 +15,32 @@ from bluegraph import utils
 log = logging.getLogger(__name__)
 
 class BlueGraphController(object):
-    def __init__(self):
-        self.device = Simulation.SimulatedSpectra(2048)
+    def __init__(self, device_type="RegulatedSpectra"):
+        self.device_type = device_type
+        if device_type == "RegulatedSpectra":
+            self.device = Simulation.RegulatedSpectra(2048)
+
+        elif device_type == "SimulatedSpectra":
+            self.device = Simulation.SimulatedSpectra(2048)
+
+        elif device_type == "NonBlockingSimulatedSpectra":
+            simnb = Simulation.NonBlockingInterface
+            self.device = simnb("SimulatedSpectra")
+
+        elif device_type == "NonBlockingRegulated":
+            simnb = Simulation.NonBlockingInterface
+            self.device = simnb("RegulatedSpectra")
+
+        self.device.connect()
 
         self.form = views.PixmapBackedGraph()
 
         log.debug("pixmap graph setup")
 
-        self.fps = utils.SimpleFPS()
+        self.render_fps = utils.SimpleFPS()
+        self.data_fps = utils.SimpleFPS()
 
-        self.setup_fps_timer()
+        self.setup_fps_timers()
 
         self.connect_signals()
 
@@ -44,10 +60,11 @@ class BlueGraphController(object):
         qapplication control from py.test.
         """
         log.debug("blue graph controller level close")
+        self.device.disconnect()
         self.control_exit_signal.exit.emit("control exit")
 
 
-    def setup_fps_timer(self):
+    def setup_fps_timers(self):
         """ Update the display Frames per second at every qt event
         timeout.
         """
@@ -56,15 +73,18 @@ class BlueGraphController(object):
         #log.debug("setup fps timer %s", self.fps.rate())
         self.data_timer = QtCore.QTimer()
         self.data_timer.timeout.connect(self.update_fps)
+        self.data_timer.setSingleShot(True)
         self.data_timer.start(0)
 
     def update_fps(self):
         """ Add tick, display the current rate.
         """
         rnd_data = self.device.read()
-        self.form.curve.setData(rnd_data)
+        if rnd_data != None:
+            self.form.curve.setData(rnd_data)
+            self.data_fps.tick()
+            self.form.graphback.data_fps.setText(self.data_fps.rate())
 
-        self.fps.tick()
-        fps_text = "Update: %s FPS" % self.fps.rate()
-        self.form.graphback.fps.setText(self.fps.rate())
+        self.render_fps.tick()
+        self.form.graphback.render_fps.setText(self.render_fps.rate())
         self.data_timer.start(0)

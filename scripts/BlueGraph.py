@@ -17,7 +17,7 @@ strm = logging.StreamHandler(sys.stderr)
 frmt = logging.Formatter("%(name)s - %(levelname)s %(message)s")
 strm.setFormatter(frmt)
 log.addHandler(strm)
-log.setLevel(logging.DEBUG)
+log.setLevel(logging.INFO)
 
 import signal
 def signal_handler(signal, frame):
@@ -63,7 +63,8 @@ class BlueGraphApplication(object):
         the unittest generated controller.
         """
         app = QtGui.QApplication([])
-        self.control = control.BlueGraphController()
+        self.control = control.BlueGraphController("NonBlockingSimulatedSpectra")
+        #self.control = control.BlueGraphController("SimulatedSpectra")
         self.control.control_exit_signal.exit.connect(self.closeEvent)
         sys.exit(app.exec_())
 

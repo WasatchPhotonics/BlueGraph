@@ -51,10 +51,24 @@ class SimulatedSpectra(SimulatedDevice):
         then sleep the remainder of the time to lock the return of data
         to once every N ms.
         """
-        start_time = time.time()
+        cue_time = time.time()
         nru = numpy.random.uniform
         noise_data = nru(1, 65535, self.pixel_width)
         return noise_data
+
+class RegulatedSpectra(SimulatedSpectra):
+    """ Enforce a minimum time delay for every read.
+    """
+    def read(self):
+        cue_time = time.time()
+        result = super(RegulatedSpectra, self).read()
+        end_time = time.time()
+
+        time_diff = end_time - cue_time
+        if time_diff < 0.2:
+            time.sleep(0.2 - time_diff)
+
+        return result
 
 
 class BlockingInterface(object):
@@ -85,10 +99,13 @@ class BlockingInterface(object):
             command = control_queue.get()
 
             if command == "CONNECT":
+                log.info("Setup: %s", self.device_type)
                 if self.device_type == "SimulatedDevice":
                     self.device = SimulatedDevice()
                 elif self.device_type == "SimulatedSpectra":
                     self.device = SimulatedSpectra()
+                elif self.device_type == "RegulatedSpectra":
+                    self.device = RegulatedSpectra()
 
                 self.device.connect()
                 response = "connect_successful"
@@ -127,6 +144,7 @@ class BlockingInterface(object):
         """ Add the disconnection command to the queue, terminate any
         running processes.
         """
+        log.info("Add disconnect to queue")
         result = self.queue_command("DISCONNECT", "disconnect_successful")
 
         # Always exit the processes, event if disconnect fails

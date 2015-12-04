@@ -2,7 +2,7 @@
 """
 
 from PySide import QtCore, QtTest
-        
+
 from bluegraph import views
 
 class TestBasicGraphInterface:
@@ -23,8 +23,8 @@ class TestPixmapBackedGraph:
 
         icon = form.graphback.icon.boundingRect()
         assert icon.width() == 23
-        assert icon.height() == 23 
-    
+        assert icon.height() == 23
+
     def test_min_max_text_starts_with_default(self):
         form = views.PixmapBackedGraph()
         assert form.graphback.minimum.text == "123.45"
@@ -40,15 +40,15 @@ class TestPixmapBackedGraph:
 
         assert form.graphback.pause_button.state == "play"
 
-        # You want to click the items in the graphicsscene, but the 
-        # mouseclick method signature expects widgets. Based on: 
+        # You want to click the items in the graphicsscene, but the
+        # mouseclick method signature expects widgets. Based on:
         # http://stackoverflow.com/questions/16299779/\
         # qt-qgraphicsview-unit-testing-how-to-keep-the-mouse\
         #   -in-a-pressed-state
         # But now you have to know precisely where the graphicsitems are
         # in viewport coordinates, instead of calling them by name.
-        # Perhaps you could use a qabstractwidget as well? 
-        #qtbot.mouseClick(form.graphback.pause_button, 
+        # Perhaps you could use a qabstractwidget as well?
+        #qtbot.mouseClick(form.graphback.pause_button,
                          #QtCore.Qt.LeftButton)
 
         # This will work on fedora, but not on travis - the coords of
@@ -77,4 +77,4 @@ class TestPixmapBackedGraph:
         assert form.graphback.title.text() == "BLUE GRAPH"
         form.graphback.title.setText("SECONDARY")
         assert form.graphback.title.text() == "SECONDARY"
-        
+
