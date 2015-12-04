@@ -98,12 +98,22 @@ class NonBlockingInterface(BlockingInterface):
     def __init__(self):
         super(NonBlockingInterface, self).__init__()
 
+    def send_acquire(self):
+        if self._acquire_sent:
+            return
+
+        if self.control_queue.empty():
+            self.control_queue.put("ACQUIRE")
+            self._acquire_sent = True
+
     def read(self):
+        self.send_acquire()
+
         result = None
         try:
-            if self.control_queue.empty():
-                self.control_queue.put("ACQUIRE")
             result = self.data_queue.get_nowait()
+            self._acquire_sent = False
+
         except Queue.Empty:
             log.debug("empty queue")
         except Exception as exc:
