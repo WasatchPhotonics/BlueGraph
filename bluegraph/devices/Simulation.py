@@ -174,12 +174,24 @@ class NonBlockingInterface(BlockingInterface):
     def send_acquire(self):
         """ Only send one acquire onto the control queue at a time.
         Requires that the removal of the data from the data queue resets
-        the acquire_sent parameter.
+        the acquire_sent parameter. Apparently python 2.7.x on MS windows
+        blocks somehow on the queue.empty call. Replace with an attempted
+        non blocking get.
         """
         if self.acquire_sent:
             return
 
-        if self.control_queue.empty():
+        queue_empty = True
+        try:
+            result = self.control_queue.get_nowait()
+            result = False
+        except Queue.Empty:
+            log.debug("Queue is empty")
+        except Exception as exc:
+            log.critical("Unknown exception")
+
+        #if self.control_queue.empty():
+        if queue_empty == True:
             self.control_queue.put("ACQUIRE")
             self.acquire_sent = True
 
