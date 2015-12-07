@@ -181,6 +181,7 @@ class NonBlockingInterface(BlockingInterface):
         if self.acquire_sent:
             return
 
+        # See notes above on why queue.empt() is not used.
         queue_empty = True
         try:
             result = self.control_queue.get_nowait()
@@ -190,7 +191,6 @@ class NonBlockingInterface(BlockingInterface):
         except Exception as exc:
             log.critical("Unknown exception")
 
-        #if self.control_queue.empty():
         if queue_empty == True:
             self.control_queue.put("ACQUIRE")
             self.acquire_sent = True
