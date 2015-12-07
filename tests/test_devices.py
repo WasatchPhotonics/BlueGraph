@@ -14,7 +14,7 @@ strm = logging.StreamHandler(sys.stderr)
 frmt = logging.Formatter("%(name)s - %(levelname)s %(message)s")
 strm.setFormatter(frmt)
 log.addHandler(strm)
-log.setLevel(logging.INFO)
+log.setLevel(logging.DEBUG)
 
 class TestSimulatedDevice:
     def test_connect_and_disconnect_status_track(self):
@@ -109,16 +109,24 @@ class TestMultiProcessingSimulation:
         assert time_diff < 1.1
 
     def test_nonblocking_returns_random_data(self):
+        log.info("NBLK setup")
         nblk = Simulation.NonBlockingInterface()
+
+        log.info("NBLK connect")
         nblk.connect()
+
+        log.info("NBLK pre-read")
         first = nblk.read()
+
         while first is None:
+            log.info("NBLK loop-read")
             first = nblk.read()
 
-        second = nblk.read()
-        while second is None:
-            second = nblk.read()
+        #second = nblk.read()
+        #while second is None:
+            #second = nblk.read()
 
+        log.info("NBLK disconnect")
         nblk.disconnect()
         assert first != second
 

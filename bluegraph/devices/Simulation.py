@@ -10,6 +10,11 @@ import multiprocessing
 
 log = logging.getLogger(__name__)
 
+def blank_target(in_queue, out_queue):
+    print "Basic target"
+    #log.debug("Basic target")
+    time.sleep(0.1)
+
 class SimulatedDevice(object):
     """ Base class api definition for device read simulations. Inherit from
     this device and reimplment the functions below to communicate with
@@ -82,42 +87,68 @@ class BlockingInterface(object):
         self.data_queue = multiprocessing.Queue()
         self.control_queue = multiprocessing.Queue()
 
-        mp = multiprocessing.Process
-        args = (self.control_queue, self.data_queue)
-        self.process = mp(target=self.worker, args=args)
-        self.process.start()
+        log.debug("BLK INT setup")
+        time.sleep(0.1)
 
-    def worker(self, control_queue, data_queue):
+        mp = multiprocessing.Process
+        args = (self.control_queue, self.data_queue),
+
+        self.process = mp(target=self.worker, args=args)
+        #self.process = mp(target=blank_target, args=args)
+        time.sleep(0.1)
+        log.debug("BLK INT pre start")
+        time.sleep(0.1)
+        self.process.start()
+        time.sleep(0.1)
+
+    def worker(self, queues):
         """ While the stop command poison pill is not received, read
         commands from the control queue. Connect, disconnect and read
         data from the device as specified.
         """
         continue_loop = True
-        self.device = None
+        device = None
 
+        time.sleep(0.1)
+      
+        control_queue = queues[0]
+        data_queue = queues[1]
+        print "Worker in %s, %s" % (control_queue, data_queue)
+
+        device_type = "SimulatedDevice"
+
+        log.debug("BLK INT pre continue")
         while(continue_loop):
+            time.sleep(0.1)
+            log.debug("BLK INT pre get")
             command = control_queue.get()
+            time.sleep(0.1)
+            log.debug("BLK INT post get")
 
             if command == "CONNECT":
-                log.info("Setup: %s", self.device_type)
-                if self.device_type == "SimulatedDevice":
-                    self.device = SimulatedDevice()
-                elif self.device_type == "SimulatedSpectra":
-                    self.device = SimulatedSpectra()
-                elif self.device_type == "RegulatedSpectra":
-                    self.device = RegulatedSpectra()
+                log.info("Setup: %s", device_type)
+                device = SimulatedDevice()
 
-                self.device.connect()
+                #elif self.device_type == "SimulatedSpectra":
+                    #self.device = SimulatedSpectra()
+#
+                #elif self.device_type == "RegulatedSpectra":
+                    #self.device = RegulatedSpectra()
+
+                device.connect()
                 response = "connect_successful"
 
             elif command == "DISCONNECT":
-                self.device.disconnect()
+                device.disconnect()
                 continue_loop = False
                 response = "disconnect_successful"
 
             else:
-                response = self.device.read()
+                print "Start trigger"
+                response = device.read()
+                print "Trigger device read: %s" % response
 
+            print "Put on queue: %s" % response
             data_queue.put(response)
 
 
@@ -168,7 +199,7 @@ class NonBlockingInterface(BlockingInterface):
     def __init__(self, device_type="SimulatedDevice"):
         self.device_type = device_type
         super(NonBlockingInterface, self).__init__(device_type=device_type)
-
+        print "Post nonblocking setup"
         self.acquire_sent = False # Wait for an acquire to complete
 
     def send_acquire(self):
@@ -176,22 +207,76 @@ class NonBlockingInterface(BlockingInterface):
         Requires that the removal of the data from the data queue resets
         the acquire_sent parameter.
         """
+        time.sleep(0.1)
         if self.acquire_sent:
+            log.debug("Acquire already sent, return")
+            print("Acquire already sent, return")
             return
 
-        if self.control_queue.empty():
+        time.sleep(1.1)
+        log.debug("Check empty queue")
+        print("pre sleep Check empty queue")
+        time.sleep(1.1)
+        print("post empty queue")
+
+        fake_empty = True
+        print "Attempt get no wait"
+        try:
+            result = self.control_queue.get_nowait()
+            print "post get not wait result: %s" % result
+            fake_empty = False
+        except Queue.Empty:
+            print "The queue is raised empty"
+        except Exception as exc:
+            print "Unknown exception %s" % exc
+
+
+        if fake_empty:
+            time.sleep(0.1)
+            print "fake queue empty, put acquire"
+            print("Queue empty, put acquire")
             self.control_queue.put("ACQUIRE")
+            time.sleep(0.1)
+            log.debug("Post queue put")
+            print("Post queue put")
             self.acquire_sent = True
+        else:
+            print "Fake queue not empty - what to do"
+
+
+        #if self.control_queue.empty():
+            #time.sleep(0.1)
+            #log.debug("Queue empty, put acquire")
+            #print("Queue empty, put acquire")
+            #self.control_queue.put("ACQUIRE")
+            #time.sleep(0.1)
+            #log.debug("Post queue put")
+            #print("Post queue put")
+            #self.acquire_sent = True
+        #else:
+            #print("Queue not empty - what to do")
+            #log.debug("Queue not empty - what to do")
+
+        print "Done send acquire"
+
 
     def read(self):
         """ Send an acquire command on the control queue. Immediately
         attempt to retrieve data from the data queue, returning a None
         when the data queue is empty.
         """
+        time.sleep(0.1)
+        #return "Fake read"
+
+        log.debug("Send acquire")
+        time.sleep(0.1)
         self.send_acquire()
+        log.debug("Back to read after send acquire")
 
         result = None
         try:
+            time.sleep(0.1)
+            log.debug("Get no wait on data queue")
             result = self.data_queue.get_nowait()
             self.acquire_sent = False
 
