@@ -6,6 +6,7 @@ import numpy
 import logging
 
 from bluegraph.devices import Simulation
+from bluegraph.devices import DeviceWrappers
 
 
 log = logging.getLogger()
@@ -81,12 +82,12 @@ class TestSimulatedLaserPowerMeter:
 
 class TestMultiProcessingSimulation:
     def test_connect_and_disconnect_close_effectively(self):
-        block = Simulation.BlockingInterface()
+        block = DeviceWrappers.BlockingInterface()
         assert block.connect() == True
         assert block.disconnect() == True
 
     def test_blocking_returns_random_data(self):
-        block = Simulation.BlockingInterface()
+        block = DeviceWrappers.BlockingInterface()
         block.connect()
         first = block.read()
         second = block.read()
@@ -95,7 +96,7 @@ class TestMultiProcessingSimulation:
         assert first != second
 
     def test_blocking_data_stream_is_time_locked(self):
-        block = Simulation.BlockingInterface()
+        block = DeviceWrappers.BlockingInterface()
         assert block.connect() == True
 
         start_time = time.time()
@@ -109,7 +110,7 @@ class TestMultiProcessingSimulation:
         assert time_diff < 1.1
 
     def test_nonblocking_returns_random_data(self):
-        nblk = Simulation.NonBlockingInterface()
+        nblk = DeviceWrappers.NonBlockingInterface()
         nblk.connect()
         first = nblk.read()
         while first is None:
@@ -123,7 +124,7 @@ class TestMultiProcessingSimulation:
         assert first != second
 
     def test_nonblocking_data_stream_is_not_time_locked(self):
-        nblk = Simulation.NonBlockingInterface()
+        nblk = DeviceWrappers.NonBlockingInterface()
         nblk.connect()
 
         start_time = time.time()
@@ -136,7 +137,7 @@ class TestMultiProcessingSimulation:
         nblk.disconnect()
 
     def test_nonblocking_wait_for_data_is_time_locked(self):
-        nblk = Simulation.NonBlockingInterface()
+        nblk = DeviceWrappers.NonBlockingInterface()
         nblk.connect()
         start_time = time.time()
         for i in range(10):
@@ -199,7 +200,7 @@ class TestRegulatedSpectra:
         assert device.disconnect() == True
 
     def test_nonblocking_regulated_stream_data(self):
-        device = Simulation.NonBlockingInterface("RegulatedSpectra")
+        device = DeviceWrappers.NonBlockingInterface("RegulatedSpectra")
         assert device.connect() == True
 
         # Total reads should be vastly higher than the requested reads

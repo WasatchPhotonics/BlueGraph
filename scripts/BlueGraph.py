@@ -63,8 +63,8 @@ class BlueGraphApplication(object):
         the unittest generated controller.
         """
         app = QtGui.QApplication([])
-        #self.control = control.BlueGraphController("SimulatedSpectra")
-        self.control = control.BlueGraphController("NonBlockingSimulatedSpectra")
+        self.control = control.BlueGraphController("SimulatedSpectra")
+        #self.control = control.BlueGraphController("NonBlockingSimulatedSpectra")
         self.control.control_exit_signal.exit.connect(self.closeEvent)
         sys.exit(app.exec_())
 

@@ -9,6 +9,7 @@ from PySide import QtCore
 
 from bluegraph import views
 from bluegraph.devices import Simulation
+from bluegraph.devices import DeviceWrappers
 
 from bluegraph import utils
 
@@ -20,15 +21,12 @@ class BlueGraphController(object):
         if device_type == "RegulatedSpectra":
             self.device = Simulation.RegulatedSpectra(2048)
 
-        elif device_type == "SimulatedSpectra":
-            self.device = Simulation.SimulatedSpectra(2048)
-
         elif device_type == "NonBlockingSimulatedSpectra":
-            simnb = Simulation.NonBlockingInterface
+            simnb = DeviceWrappers.NonBlockingInterface
             self.device = simnb("SimulatedSpectra")
 
         elif device_type == "NonBlockingRegulated":
-            simnb = Simulation.NonBlockingInterface
+            simnb = DeviceWrappers.NonBlockingInterface
             self.device = simnb("RegulatedSpectra")
 
         self.device.connect()
