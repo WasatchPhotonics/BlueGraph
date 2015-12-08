@@ -28,7 +28,7 @@ class Basic(QtGui.QMainWindow):
         self.show()
 
 class PixmapBackedGraph(QtGui.QWidget):
-    def __init__(self):
+    def __init__(self, title="Blue Graph"):
         super(PixmapBackedGraph, self).__init__()
 
         self.main_layout = QtGui.QVBoxLayout()
@@ -37,7 +37,8 @@ class PixmapBackedGraph(QtGui.QWidget):
         self.scene = QtGui.QGraphicsScene()
 
         filename = ":ui/graph_export.png"
-        self.graphback = SceneGraphBackground(self.scene, filename)
+        self.graphback = SceneGraphBackground(self.scene, filename,
+                                              title=title)
         self.scene.addItem(self.graphback)
 
         self.view = QtGui.QGraphicsView(self.scene)

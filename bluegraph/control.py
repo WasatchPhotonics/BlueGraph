@@ -18,6 +18,8 @@ log = logging.getLogger(__name__)
 class BlueGraphController(object):
     def __init__(self, device_type="RegulatedSpectra"):
         self.device_type = device_type
+        title = self.device_type.upper()
+
         if device_type == "RegulatedSpectra":
             self.device = Simulation.RegulatedSpectra(2048)
 
@@ -35,10 +37,11 @@ class BlueGraphController(object):
         elif device_type =="PhidgeterIRTemp":
             simnb = DeviceWrappers.NonBlockingInterface
             self.device = simnb("PhidgeterIRTemp")
+            title = "IR TEMP"
 
         self.device.connect()
 
-        self.form = views.PixmapBackedGraph()
+        self.form = views.PixmapBackedGraph(title=title)
 
         log.debug("pixmap graph setup")
 

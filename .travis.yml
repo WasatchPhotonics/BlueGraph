@@ -14,6 +14,12 @@ env:
     - PYTHON=2.7 QT=pyside TEST=standard
 
 before_install:
+    # Install Wasatch Photonics requirements from source
+    - cd ..
+    - git clone https://github.com/WasatchPhotonics/Phidgeter
+    - cd Phidgeter
+    - python setup.py develop
+
     - if [ ${TRAVIS_PYTHON_VERSION:0:1} == "2" ]; then wget http://repo.continuum.io/miniconda/Miniconda-3.5.5-Linux-x86_64.sh -O miniconda.sh; else wget http://repo.continuum.io/miniconda/Miniconda3-3.5.5-Linux-x86_64.sh -O miniconda.sh; fi
     - chmod +x miniconda.sh
     - ./miniconda.sh -b -p /home/travis/mc
@@ -21,11 +27,6 @@ before_install:
    
 
 install:
-    # Install Wasatch Photonics requirements from source
-    - git clone https://github.com/WasatchPhotonics/Phidgeter
-    - cd Phidgeter
-    - python setup.py develop
-    - cd -
 
     - export GIT_FULL_HASH=`git rev-parse HEAD`
     - conda update conda --yes
