@@ -14,6 +14,9 @@ env:
     - PYTHON=2.7 QT=pyside TEST=standard
 
 before_install:
+    # why do you have to explicity install setuptools here but not in
+    # Cookbook?
+    - pip install setuptools
     # Install Wasatch Photonics requirements from source
     - cd ..
     - git clone https://github.com/WasatchPhotonics/Phidgeter
