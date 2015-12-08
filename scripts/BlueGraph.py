@@ -64,8 +64,10 @@ class BlueGraphApplication(object):
         app = QtGui.QApplication([])
         #self.control = control.BlueGraphController("SimulatedSpectra")
         #self.control = control.BlueGraphController("StripChartDevice")
-        self.control = control.BlueGraphController("PhidgeterIRTemp")
+        #self.control = control.BlueGraphController("PhidgeterIRTemp")
         #self.control = control.BlueGraphController("NonBlockingSimulatedSpectra")
+        dev_name = "PhidgeterWrappers.IRHistory"
+        elf.control = control.BlueGraphController(dev_name)
         self.control.control_exit_signal.exit.connect(self.closeEvent)
         sys.exit(app.exec_())
 

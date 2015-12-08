@@ -8,10 +8,8 @@ import logging
 from PySide import QtCore
 
 from bluegraph import views
-from bluegraph.devices import Simulation
-from bluegraph.devices import DeviceWrappers
-
 from bluegraph import utils
+from bluegraph.devices import *
 
 log = logging.getLogger(__name__)
 
@@ -19,11 +17,16 @@ log = logging.getLogger(__name__)
 class BlueGraphController(object):
     def __init__(self, device_type="Simulation.RegulatedSpectra",
                  device_args=None):
+        print "Device type is: %s" % device_type
         self.device_type = device_type
         title = self.device_type.upper()
 
-        class_name = eval(device_type)
+        #device_str = "devices.%s" % device_type
+        device_str = device_type
+        class_name = eval(device_str)
         log.info("Class name is: %s" % class_name)
+
+
         if device_args != None:
             self.device = class_name(device_args)
         else:
