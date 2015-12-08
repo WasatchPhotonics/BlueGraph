@@ -8,6 +8,8 @@ import logging
 import Queue
 import multiprocessing
 
+from collections import deque
+
 log = logging.getLogger(__name__)
 
 class SimulatedDevice(object):
@@ -35,6 +37,45 @@ class SimulatedDevice(object):
         value = self.base_value + (noise / 100.0)
         time.sleep(0.10)
         return value
+
+
+class RegulatedDevice(SimulatedDevice):
+    """ Enforce a minimum time delay for every read.
+    """
+    def read(self):
+        cue_time = time.time()
+        result = super(RegulatedDevice, self).read()
+        end_time = time.time()
+
+        time_diff = end_time - cue_time
+        if time_diff < 0.2:
+            time.sleep(0.2 - time_diff)
+
+        return result
+
+class StripChartDevice(RegulatedDevice):
+    """ Return a list of readings up to the maximum size. Automatically
+    roll the list when it has been filled.
+    """
+    def __init__(self, size=20):
+        super(StripChartDevice, self).__init__()
+        self.size = size
+        self.history = deque([0.0])
+
+
+    def read(self):
+        """ Read and add to list, then roll.
+        """
+
+        result = super(StripChartDevice, self).read()
+        self.history.append(result[0])
+
+        if len(self.history) > self.size:
+            self.history.popleft()
+
+        #print("History is %s", self.history)
+        return self.history
+
 
 
 class SimulatedSpectra(SimulatedDevice):

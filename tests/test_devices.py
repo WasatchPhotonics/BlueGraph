@@ -3,6 +3,7 @@
 import sys
 import time
 import numpy
+import pytest
 import logging
 
 from bluegraph.devices import Simulation
@@ -44,6 +45,32 @@ class TestSimulatedDevice:
         time_diff = end_time - start_time
         assert time_diff > 0.9
         assert time_diff < 1.1
+
+class TestStripChartDevice:
+    def setUp(self):
+        device = Simulation.StripChartDevice()
+        assert device.connect() == True
+
+    @pytest.fixture
+    def device(self):
+        strip_dev = Simulation.StripChartDevice()
+        assert strip_dev.connect() == True
+        return strip_dev
+
+    def test_stream_starts_length_short(self, device):
+        # one element by default, read adds one more
+        assert len(device.read()) == 2
+
+    def test_length_reads_rolls_by_default(self, device):
+        for i in range(10):
+            device.read()
+
+        assert len(device.read()) == 12
+
+        for i in range(10):
+            device.read()
+
+        assert len(device.read()) == 20
 
 class TestSimulatedLaserPowerMeter:
     def test_list_hardware_returns_simulated_device(self):
@@ -222,4 +249,3 @@ class TestRegulatedSpectra:
         assert time_diff <= 2.1
 
         assert device.disconnect() == True
-

@@ -29,6 +29,9 @@ class BlueGraphController(object):
             simnb = DeviceWrappers.NonBlockingInterface
             self.device = simnb("RegulatedSpectra")
 
+        elif device_type == "StripChartDevice":
+            self.device = Simulation.StripChartDevice()
+
         self.device.connect()
 
         self.form = views.PixmapBackedGraph()

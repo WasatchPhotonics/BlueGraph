@@ -16,11 +16,7 @@ strm.setFormatter(frmt)
 log.addHandler(strm)
 log.setLevel(logging.INFO)
 
-class TestController:
-    def test_control_creates_simulation_device(self, qtbot):
-        simulator = control.BlueGraphController()
-        assert isinstance(simulator.device, Simulation.SimulatedDevice)
-
+class TestControllerSpeed:
     def test_control_creates_bluegraph_widget(self, qtbot):
         simulator = control.BlueGraphController()
         signal = simulator.form.customContextMenuRequested
@@ -85,3 +81,32 @@ class TestController:
         log.info("Rates: %s, %s", render_rate, data_rate)
         assert simulator.render_fps.rate() > simulator.data_fps.rate()
         simulator.form.closeEvent(None)
+
+class TestControllerDevices:
+    def test_control_creates_simulation_device(self, qtbot):
+        simulator = control.BlueGraphController()
+        assert isinstance(simulator.device, Simulation.SimulatedDevice)
+
+    def test_default_device_strip_chart_mode(self, qtbot):
+        simulator = control.BlueGraphController("StripChartDevice")
+
+        signal = simulator.form.customContextMenuRequested
+        with qtbot.wait_signal(signal, timeout=2000):
+            simulator.form.show()
+
+        # Total number of data points in plots is greater than a minimum
+        points = simulator.form.curve.getData()
+        assert len(points[0]) < 20
+
+        # Wait a longer time, make sure the graph continues to update
+        with qtbot.wait_signal(signal, timeout=2000):
+            simulator.form.show()
+        points = simulator.form.curve.getData()
+        assert len(points[0]) == 20
+
+        # Make sure graph rolls at maximum
+        with qtbot.wait_signal(signal, timeout=2000):
+            simulator.form.show()
+        points = simulator.form.curve.getData()
+        assert len(points[0]) == 20
+
