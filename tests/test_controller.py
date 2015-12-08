@@ -71,9 +71,13 @@ class TestControllerSpeed:
         assert simulator.render_fps.rate() == simulator.data_fps.rate()
 
     def test_nonblocking_regulated_render_fps_is_faster(self, qtbot):
-        device = "DeviceWrappers.NonBlockingInterface"
-        args = "RegulatedSpectra"
-        simulator = control.BlueGraphController(device, device_args=args)
+        dev_class = "DeviceWrappers"
+        dev_type = "NonBlockingInterface"
+        dev_args = "RegulatedSpectra"
+        cb = control.BlueGraphController
+        simulator = cb(device_class=dev_class,
+                       device_type=dev_type,
+                       device_args=dev_args)
 
         signal = simulator.form.customContextMenuRequested
         with qtbot.wait_signal(signal, timeout=2000):
@@ -86,9 +90,14 @@ class TestControllerSpeed:
         simulator.form.closeEvent(None)
 
     def test_nonblocking_unregulated_render_fps_is_faster(self, qtbot):
-        device = "DeviceWrappers.NonBlockingInterface"
-        args = "SimulatedSpectra"
-        simulator = control.BlueGraphController(device, device_args=args)
+        dev_class = "DeviceWrappers"
+        dev_type = "NonBlockingInterface"
+        dev_args = "SimulatedSpectra"
+        cb = control.BlueGraphController
+        simulator = cb(device_class=dev_class,
+                       device_type=dev_type,
+                       device_args=dev_args)
+
 
         signal = simulator.form.customContextMenuRequested
         with qtbot.wait_signal(signal, timeout=2000):
@@ -106,7 +115,13 @@ class TestControllerDevices:
         assert isinstance(simulator.device, Simulation.SimulatedDevice)
 
     def test_default_device_strip_chart_mode(self, qtbot):
-        simulator = control.BlueGraphController("Simulation.StripChartDevice")
+        dev_class = "Simulation"
+        dev_type = "StripChartDevice"
+        dev_args = None
+        cb = control.BlueGraphController
+        simulator = cb(device_class=dev_class,
+                       device_type=dev_type,
+                       device_args=dev_args)
 
         signal = simulator.form.customContextMenuRequested
         with qtbot.wait_signal(signal, timeout=2000):

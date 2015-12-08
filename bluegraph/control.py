@@ -10,8 +10,8 @@ from PySide import QtCore
 from bluegraph import views
 from bluegraph import utils
 
-# __all__ in __init__ refines this list:
-from bluegraph.devices import *
+## __all__ in __init__ refines this list:
+#from bluegraph.devices import *
 
 log = logging.getLogger(__name__)
 
@@ -21,19 +21,25 @@ class BlueGraphController(object):
                  device_type="RegulatedSpectra",
                  device_args=None):
 
+        title = device_type.upper()
         print "Class: %s, type: %s" % (device_class, device_type)
 
-        title = device_type.upper()
 
-        class_name = eval(device_class)
-        from devices import class_name
+        try:
+            cmd_name = "bluegraph.devices.%s" % device_class
+            from_list = "bluegraph.devices"
+            command_module = __import__(cmd_name, fromlist=from_list)
+        except ImportError as exc:
+            print "Exception importing %s" % exc
 
-        eval_device = eval(device_type)
+        self.device = eval("command_module.%s()" % device_type)
+        #device_str = "%s.%s" % (device_class, device_type)
+        #eval_device = eval(device_str)
 
-        if device_args != None:
-            self.device = eval_device(device_args)
-        else:
-            self.device = eval_device()
+        #if device_args != None:
+            #self.device = eval_device(device_args)
+        #else:
+            #self.device = eval_device()
 
         self.device.connect()
 
