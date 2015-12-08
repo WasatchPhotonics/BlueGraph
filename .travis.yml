@@ -81,7 +81,7 @@ script:
     
     # Run unit tests
     - start_test "unit tests";
-      PYTHONPATH=. py.test -s --cov bluegraph --omit "bluegraph/devices/PhidgeterWrappers.py"
+      PYTHONPATH=. py.test -s --cov bluegraph
       check_output "unit tests";
     - echo "test script finished. Current directory:"
     - pwd
