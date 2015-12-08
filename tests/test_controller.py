@@ -124,22 +124,3 @@ class TestControllerDevices:
         points = simulator.form.curve.getData()
         assert len(points[0]) == 20
 
-    def test_phidget_ir_temperature_strip_chart(self, qtbot):
-        """ This is a testing test procedure to figure out how to mock
-        around code for non-existing devices in CI environments.
-        """
-        return
-        simulator = control.BlueGraphController("PhidgeterIRTemp")
-
-        signal = simulator.form.customContextMenuRequested
-        with qtbot.wait_signal(signal, timeout=1000):
-            simulator.form.show()
-
-        points = simulator.form.curve.getData()
-        assert len(points[0]) < 20
-
-        with qtbot.wait_signal(signal, timeout=2000):
-            simulator.form.show()
-        points = simulator.form.curve.getData()
-        assert len(points[0]) == 20
-

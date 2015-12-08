@@ -34,11 +34,6 @@ class BlueGraphController(object):
         elif device_type == "StripChartDevice":
             self.device = Simulation.StripChartDevice()
 
-        elif device_type =="PhidgeterIRTemp":
-            simnb = DeviceWrappers.NonBlockingInterface
-            self.device = simnb("PhidgeterIRTemp")
-            title = "IR TEMP"
-
         self.device.connect()
 
         self.form = views.PixmapBackedGraph(title=title)

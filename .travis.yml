@@ -14,15 +14,6 @@ env:
     - PYTHON=2.7 QT=pyside TEST=standard
 
 before_install:
-    # why do you have to explicity install setuptools here but not in
-    # Cookbook?
-    - pip install setuptools
-    # Install Wasatch Photonics requirements from source
-    - cd ..
-    - git clone https://github.com/WasatchPhotonics/Phidgeter
-    - cd Phidgeter
-    - "python setup.py develop"
-    - cd ~
 
     - if [ ${TRAVIS_PYTHON_VERSION:0:1} == "2" ]; then wget http://repo.continuum.io/miniconda/Miniconda-3.5.5-Linux-x86_64.sh -O miniconda.sh; else wget http://repo.continuum.io/miniconda/Miniconda3-3.5.5-Linux-x86_64.sh -O miniconda.sh; fi
     - chmod +x miniconda.sh
