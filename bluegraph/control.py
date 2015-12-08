@@ -9,6 +9,8 @@ from PySide import QtCore
 
 from bluegraph import views
 from bluegraph import utils
+
+# __all__ in __init__ refines this list:
 from bluegraph.devices import *
 
 log = logging.getLogger(__name__)
@@ -20,6 +22,8 @@ class BlueGraphController(object):
         print "Device type is: %s" % device_type
         self.device_type = device_type
         title = self.device_type.upper()
+
+        from devices import PhidgeterWrappers
 
         #device_str = "devices.%s" % device_type
         device_str = device_type
