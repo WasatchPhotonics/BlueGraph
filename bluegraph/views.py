@@ -219,5 +219,17 @@ class SmallTextBox(QtGui.QGraphicsPixmapItem):
     def text(self):
         return self.value.text()
 
+
+    def is_number(self, s):
+        try:
+            float(s)
+            return True
+        except ValueError:
+            return False
+
+
     def setText(self, new_text):
+        if self.is_number(new_text):
+            new_text = "%3.2f" % float(new_text * 1.0)
+
         self.value.setText(str(new_text))

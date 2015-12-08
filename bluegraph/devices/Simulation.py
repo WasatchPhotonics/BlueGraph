@@ -83,7 +83,8 @@ class SimulatedSpectra(SimulatedDevice):
     """
     def __init__(self, pixel_width=1024):
         super(SimulatedSpectra, self).__init__()
-        log.debug("Simulated Spectra")
+        log.debug("Simulated Spectra width %s", pixel_width)
+        print("Simulated Spectra width %s", pixel_width)
         self.pixel_width = pixel_width
 
     def read(self):

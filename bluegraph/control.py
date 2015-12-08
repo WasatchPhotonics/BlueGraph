@@ -15,24 +15,19 @@ from bluegraph import utils
 
 log = logging.getLogger(__name__)
 
+
 class BlueGraphController(object):
-    def __init__(self, device_type="RegulatedSpectra"):
+    def __init__(self, device_type="Simulation.RegulatedSpectra",
+                 device_args=None):
         self.device_type = device_type
         title = self.device_type.upper()
 
-        if device_type == "RegulatedSpectra":
-            self.device = Simulation.RegulatedSpectra(2048)
-
-        elif device_type == "NonBlockingSimulatedSpectra":
-            simnb = DeviceWrappers.NonBlockingInterface
-            self.device = simnb("SimulatedSpectra")
-
-        elif device_type == "NonBlockingRegulated":
-            simnb = DeviceWrappers.NonBlockingInterface
-            self.device = simnb("RegulatedSpectra")
-
-        elif device_type == "StripChartDevice":
-            self.device = Simulation.StripChartDevice()
+        class_name = eval(device_type)
+        log.info("Class name is: %s" % class_name)
+        if device_args != None:
+            self.device = class_name(device_args)
+        else:
+            self.device = class_name()
 
         self.device.connect()
 

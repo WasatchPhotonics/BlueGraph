@@ -59,8 +59,7 @@ class BlueGraphApplication(object):
         """ This is the application code that is called by the main
         function. The architectural idea is to have as little code in
         main as possible and create the qapplication here so the
-        nosetests can function. Only create the application if not using
-        the unittest generated controller.
+        testing code can function separately with pytest-qt.
         """
         app = QtGui.QApplication([])
         #self.control = control.BlueGraphController("SimulatedSpectra")

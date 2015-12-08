@@ -26,8 +26,8 @@ class TestControllerMinMax:
 
         min_text = simulator.form.graphback.minimum.text
         max_text = simulator.form.graphback.maximum.text
-        assert min_text == "100.0"
-        assert max_text == "65535.0"
+        assert min_text == "100.00"
+        assert max_text == "65535.00"
 
 class TestControllerSpeed:
     def test_control_creates_bluegraph_widget(self, qtbot):
@@ -71,7 +71,9 @@ class TestControllerSpeed:
         assert simulator.render_fps.rate() == simulator.data_fps.rate()
 
     def test_nonblocking_regulated_render_fps_is_faster(self, qtbot):
-        simulator = control.BlueGraphController("NonBlockingRegulated")
+        device = "DeviceWrappers.NonBlockingInterface"
+        args = "RegulatedSpectra"
+        simulator = control.BlueGraphController(device, device_args=args)
 
         signal = simulator.form.customContextMenuRequested
         with qtbot.wait_signal(signal, timeout=2000):
@@ -84,7 +86,9 @@ class TestControllerSpeed:
         simulator.form.closeEvent(None)
 
     def test_nonblocking_unregulated_render_fps_is_faster(self, qtbot):
-        simulator = control.BlueGraphController("NonBlockingSimulatedSpectra")
+        device = "DeviceWrappers.NonBlockingInterface"
+        args = "SimulatedSpectra"
+        simulator = control.BlueGraphController(device, device_args=args)
 
         signal = simulator.form.customContextMenuRequested
         with qtbot.wait_signal(signal, timeout=2000):
@@ -102,7 +106,7 @@ class TestControllerDevices:
         assert isinstance(simulator.device, Simulation.SimulatedDevice)
 
     def test_default_device_strip_chart_mode(self, qtbot):
-        simulator = control.BlueGraphController("StripChartDevice")
+        simulator = control.BlueGraphController("Simulation.StripChartDevice")
 
         signal = simulator.form.customContextMenuRequested
         with qtbot.wait_signal(signal, timeout=2000):
