@@ -16,7 +16,7 @@ class TestBasicGraphInterface:
 class TestPixmapBackedGraph:
     def test_graph_starts_with_default_text(self):
         form = views.PixmapBackedGraph()
-        assert form.graphback.title.text() == "BLUE GRAPH"
+        assert form.graphback.title.text().upper() == "BLUE GRAPH"
 
     def test_graph_starts_with_default_icon(self):
         form = views.PixmapBackedGraph()
@@ -74,7 +74,7 @@ class TestPixmapBackedGraph:
         form = views.PixmapBackedGraph()
         QtTest.QTest.qWaitForWindowShown(form)
 
-        assert form.graphback.title.text() == "BLUE GRAPH"
+        assert form.graphback.title.text().upper() == "BLUE GRAPH"
         form.graphback.title.setText("SECONDARY")
-        assert form.graphback.title.text() == "SECONDARY"
+        assert form.graphback.title.text().upper() == "SECONDARY"
 
