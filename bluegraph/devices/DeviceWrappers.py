@@ -8,9 +8,48 @@ import logging
 import Queue
 import multiprocessing
 
+from collections import deque
+
 from bluegraph.devices import Simulation
 
+from phidgeter.temperature import IRSensor
+
 log = logging.getLogger(__name__)
+
+class PhidgeterWrapper(object):
+    """ Use the API calls as defined in Phidgeter objects, change the
+    calling nomenclature to match bluegraph simulation classes.
+    """
+    def __init__(self, device_type="PhidgeterIRTemp", size=1000):
+        log.debug("Phidgeter wrapper")
+        self.connected = False
+        self.size = size
+        self.history = deque()
+
+    def connect(self):
+        """ Establish connection to actual phidget hardware.
+        """
+        self.sensor = IRSensor()
+        self.sensor.open_phidget()
+        self.connected = True
+
+    def read(self):
+        """ Get actual data from the phidget device.
+        """
+        result = self.sensor.get_temperature()
+        self.history.append(result)
+
+        if len(self.history) > self.size:
+            self.history.popleft()
+
+        #print("History is %s", self.history)
+        return self.history
+
+    def disconnect(self):
+        """ Close the connection to the phidget hardware.
+        """
+        self.sensor.close_phidget()
+        self.connected = False
 
 class BlockingInterface(object):
     """ Wrap the defined device in a separate process. Use queues to
@@ -43,10 +82,15 @@ class BlockingInterface(object):
                 log.info("Setup: %s", self.device_type)
                 if self.device_type == "SimulatedDevice":
                     self.device = Simulation.SimulatedDevice()
+
                 elif self.device_type == "SimulatedSpectra":
                     self.device = Simulation.SimulatedSpectra()
+
                 elif self.device_type == "RegulatedSpectra":
                     self.device = Simulation.RegulatedSpectra()
+
+                elif self.device_type == "PhidgeterIRTemp":
+                    self.device = PhidgeterWrapper()
 
                 self.device.connect()
                 response = "connect_successful"

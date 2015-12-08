@@ -60,8 +60,7 @@ class StripChartDevice(RegulatedDevice):
     def __init__(self, size=20):
         super(StripChartDevice, self).__init__()
         self.size = size
-        self.history = deque([0.0])
-
+        self.history = deque()
 
     def read(self):
         """ Read and add to list, then roll.
@@ -95,7 +94,11 @@ class SimulatedSpectra(SimulatedDevice):
         """
         cue_time = time.time()
         nru = numpy.random.uniform
-        noise_data = nru(1, 65535, self.pixel_width)
+        noise_data = nru(123, 65500, self.pixel_width)
+
+        # Enforce the first and last for min/max tests
+        noise_data[0] = 100
+        noise_data[-1] = 65535
         return noise_data
 
 class RegulatedSpectra(SimulatedSpectra):

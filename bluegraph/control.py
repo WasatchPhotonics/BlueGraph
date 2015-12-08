@@ -32,6 +32,10 @@ class BlueGraphController(object):
         elif device_type == "StripChartDevice":
             self.device = Simulation.StripChartDevice()
 
+        elif device_type =="PhidgeterIRTemp":
+            simnb = DeviceWrappers.NonBlockingInterface
+            self.device = simnb("PhidgeterIRTemp")
+
         self.device.connect()
 
         self.form = views.PixmapBackedGraph()
@@ -84,8 +88,19 @@ class BlueGraphController(object):
         if rnd_data is not None:
             self.form.curve.setData(rnd_data)
             self.data_fps.tick()
-            self.form.graphback.data_fps.setText(self.data_fps.rate())
+            self.update_min_max(rnd_data)
 
         self.render_fps.tick()
-        self.form.graphback.render_fps.setText(self.render_fps.rate())
+        new_fps = "D: %s\nR: %s" % (self.data_fps.rate(), self.render_fps.rate())
+        self.form.graphback.view_fps.setText(new_fps)
         self.data_timer.start(0)
+
+    def update_min_max(self, rnd_data):
+        """ Show the current min and maximum values in the interface
+        controls.
+        """
+        min_conv = numpy.min(rnd_data)
+        self.form.graphback.minimum.setText(min_conv)
+
+        max_conv = numpy.max(rnd_data)
+        self.form.graphback.maximum.setText(max_conv)

@@ -59,13 +59,13 @@ class TestStripChartDevice:
 
     def test_stream_starts_length_short(self, device):
         # one element by default, read adds one more
-        assert len(device.read()) == 2
+        assert len(device.read()) == 1
 
     def test_length_reads_rolls_by_default(self, device):
         for i in range(10):
             device.read()
 
-        assert len(device.read()) == 12
+        assert len(device.read()) == 11
 
         for i in range(10):
             device.read()

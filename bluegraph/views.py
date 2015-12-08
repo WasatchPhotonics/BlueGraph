@@ -115,15 +115,9 @@ class SceneGraphBackground(QtGui.QGraphicsPixmapItem):
         self.maximum.setPos(706, 333-164)
         self.maximum.setParentItem(self)
 
-
-        self.data_fps = SmallTextBox(prefix="DFPS:", val="9999")
-        self.data_fps.setPos(706, 333-135)
-        self.data_fps.setParentItem(self)
-
-
-        self.render_fps = SmallTextBox(prefix="RFPS:", val="9999")
-        self.render_fps.setPos(706, 333-95)
-        self.render_fps.setParentItem(self)
+        self.view_fps = SmallTextBox(prefix="FPS:", val="9999")
+        self.view_fps.setPos(706, 333-95)
+        self.view_fps.setParentItem(self)
 
         prefix = ":ui/toggle_button_"
         self.pause_button = ToggleButton(prefix=prefix)

@@ -16,6 +16,19 @@ strm.setFormatter(frmt)
 log.addHandler(strm)
 log.setLevel(logging.INFO)
 
+class TestControllerMinMax:
+    def test_control_links_min_and_max_to_data(self, qtbot):
+        simulator = control.BlueGraphController()
+
+        signal = simulator.form.customContextMenuRequested
+        with qtbot.wait_signal(signal, timeout=2000):
+            simulator.form.show()
+
+        min_text = simulator.form.graphback.minimum.text
+        max_text = simulator.form.graphback.maximum.text
+        assert min_text == "100.0"
+        assert max_text == "65535.0"
+
 class TestControllerSpeed:
     def test_control_creates_bluegraph_widget(self, qtbot):
         simulator = control.BlueGraphController()
@@ -24,6 +37,7 @@ class TestControllerSpeed:
             simulator.form.show()
         assert simulator.form.width() > 5
         assert simulator.form.height() > 5
+        # These work on local fedora, fail on travis CI
         #assert simulator.form.width() == 805
         #assert simulator.form.height() == 355
 
@@ -105,6 +119,25 @@ class TestControllerDevices:
         assert len(points[0]) == 20
 
         # Make sure graph rolls at maximum
+        with qtbot.wait_signal(signal, timeout=2000):
+            simulator.form.show()
+        points = simulator.form.curve.getData()
+        assert len(points[0]) == 20
+
+    def test_phidget_ir_temperature_strip_chart(self, qtbot):
+        """ This is a testing test procedure to figure out how to mock
+        around code for non-existing devices in CI environments.
+        """
+        return
+        simulator = control.BlueGraphController("PhidgeterIRTemp")
+
+        signal = simulator.form.customContextMenuRequested
+        with qtbot.wait_signal(signal, timeout=1000):
+            simulator.form.show()
+
+        points = simulator.form.curve.getData()
+        assert len(points[0]) < 20
+
         with qtbot.wait_signal(signal, timeout=2000):
             simulator.form.show()
         points = simulator.form.curve.getData()
