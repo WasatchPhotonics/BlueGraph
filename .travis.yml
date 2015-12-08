@@ -19,13 +19,14 @@ before_install:
     - ./miniconda.sh -b -p /home/travis/mc
     - export PATH=/home/travis/mc/bin:$PATH
    
+
+install:
     # Install Wasatch Photonics requirements from source
     - git clone https://github.com/WasatchPhotonics/Phidgeter
     - cd Phidgeter
     - python setup.py develop
     - cd -
 
-install:
     - export GIT_FULL_HASH=`git rev-parse HEAD`
     - conda update conda --yes
     - conda create -n test_env python=${PYTHON} --yes
