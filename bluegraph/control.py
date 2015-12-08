@@ -17,24 +17,23 @@ log = logging.getLogger(__name__)
 
 
 class BlueGraphController(object):
-    def __init__(self, device_type="Simulation.RegulatedSpectra",
+    def __init__(self, device_class="Simulation",
+                 device_type="RegulatedSpectra",
                  device_args=None):
-        print "Device type is: %s" % device_type
-        self.device_type = device_type
-        title = self.device_type.upper()
 
-        from devices import PhidgeterWrappers
+        print "Class: %s, type: %s" % (device_class, device_type)
 
-        #device_str = "devices.%s" % device_type
-        device_str = device_type
-        class_name = eval(device_str)
-        log.info("Class name is: %s" % class_name)
+        title = device_type.upper()
 
+        class_name = eval(device_class)
+        from devices import class_name
+
+        eval_device = eval(device_type)
 
         if device_args != None:
-            self.device = class_name(device_args)
+            self.device = eval_device(device_args)
         else:
-            self.device = class_name()
+            self.device = eval_device()
 
         self.device.connect()
 

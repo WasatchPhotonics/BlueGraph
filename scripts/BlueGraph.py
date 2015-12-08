@@ -66,8 +66,10 @@ class BlueGraphApplication(object):
         #self.control = control.BlueGraphController("StripChartDevice")
         #self.control = control.BlueGraphController("PhidgeterIRTemp")
         #self.control = control.BlueGraphController("NonBlockingSimulatedSpectra")
-        dev_name = "PhidgeterWrappers.IRHistory"
-        self.control = control.BlueGraphController(dev_name)
+        dev_class = "PhidgeterWrappers"
+        dev_type = "IRHistory"
+        self.control = control.BlueGraphController(device_class=dev_class,
+                                                   device_type=dev_type)
         self.control.control_exit_signal.exit.connect(self.closeEvent)
         sys.exit(app.exec_())
 
