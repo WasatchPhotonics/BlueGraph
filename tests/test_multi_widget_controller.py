@@ -15,45 +15,6 @@ log.addHandler(strm)
 log.setLevel(logging.INFO)
 
 class TestSensorWidgetLayout:
-    def test_layout_has_all_widgets(self, qtbot):
-
-        simulator = multi_control.SensorsController()
-        QtTest.QTest.qWaitForWindowShown(simulator.form)
-
-        signal = simulator.form.customContextMenuRequested
-        with qtbot.wait_signal(signal, timeout=2000):
-            simulator.form.show()
-
-        print "Position: %s" % simulator.amps_graph.y()
-        assert simulator.amps_graph.pos().x() == 0
-        assert simulator.amps_graph.pos().y() == 0
-
-        assert simulator.ir_temp.pos().x() == 0
-        assert simulator.ir_temp.pos().y() == 362
-
-        assert simulator.humidity.pos().x() == 0
-        assert simulator.humidity.pos().y() == 724
-
-        simulator.form.closeEvent(None)
-
-    def test_simulator_updates_amps(self, qtbot):
-        simulator = multi_control.SensorsController()
-        QtTest.QTest.qWaitForWindowShown(simulator.form)
-
-        signal = simulator.form.customContextMenuRequested
-        with qtbot.wait_signal(signal, timeout=2000):
-            simulator.form.show()
-
-        cue_amp = simulator.amps_graph.curve.getData()[1]
-        with qtbot.wait_signal(signal, timeout=4000):
-            simulator.form.show()
-
-        end_amp = simulator.amps_graph.curve.getData()[1]
-
-        assert cue_amp[0] != end_amp[0]
-
-        simulator.form.closeEvent(None)
-
     def test_multi_sensors_available(self, qtbot):
         simulator = multi_control.SensorsController()
         QtTest.QTest.qWaitForWindowShown(simulator.form)
@@ -65,7 +26,63 @@ class TestSensorWidgetLayout:
         expected_y = 0
         for graph in simulator.sensor_list:
             print "Position: %s" % graph.y()
-            expected_y += 362
             assert graph.pos().x() == 0
             assert graph.pos().y() == expected_y
+            expected_y += 362
+
+        simulator.form.closeEvent(None)
+
+    def test_multi_sensors_updating(self, qtbot):
+        simulator = multi_control.SensorsController()
+        QtTest.QTest.qWaitForWindowShown(simulator.form)
+
+        signal = simulator.form.customContextMenuRequested
+        with qtbot.wait_signal(signal, timeout=2000):
+            simulator.form.show()
+
+        cue_reads = []
+        for sensor in simulator.sensor_list:
+            cue_reads.append(sensor.curve.getData()[1])
+
+        with qtbot.wait_signal(signal, timeout=4000):
+            simulator.form.show()
+
+        end_reads = []
+        for sensor in simulator.sensor_list:
+            end_reads.append(sensor.curve.getData()[1])
+
+
+        assert cue_reads[0] != end_reads[0]
+        assert cue_reads[1] != end_reads[1]
+        assert cue_reads[2] != end_reads[2]
+
+        simulator.form.closeEvent(None)
+
+    def test_multi_sensors_min_max_updating(self, qtbot):
+        simulator = multi_control.SensorsController()
+
+        signal = simulator.form.customContextMenuRequested
+        with qtbot.wait_signal(signal, timeout=2000):
+            simulator.form.show()
+
+        for sensor in simulator.sensor_list:
+            min_text = sensor.graphback.minimum.text
+            max_text = sensor.graphback.maximum.text
+            assert min_text != "123.45"
+            assert max_text != "987.65"
+
+        simulator.form.closeEvent(None)
+
+    def test_multi_sensors_fps_is_updating(self, qtbot):
+        simulator = multi_control.SensorsController()
+
+        signal = simulator.form.customContextMenuRequested
+        with qtbot.wait_signal(signal, timeout=2000):
+            simulator.form.show()
+
+        for sensor in simulator.sensor_list:
+            fps_text = sensor.graphback.view_fps.text
+            assert fps_text != "9999"
+
+        simulator.form.closeEvent(None)
 

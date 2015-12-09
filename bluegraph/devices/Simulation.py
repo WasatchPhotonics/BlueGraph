@@ -8,6 +8,7 @@ import logging
 import Queue
 import multiprocessing
 
+from random import randint
 from collections import deque
 
 log = logging.getLogger(__name__)
@@ -66,7 +67,14 @@ class StripChartDevice(RegulatedDevice):
         """ Read and add to list, then roll.
         """
 
+
         result = super(StripChartDevice, self).read()
+
+        # This is because numpy.nonuniform noise is not random on multiple
+        # calls - see multi_control
+        more_random = randint(0, 9) * 0.1
+        result += more_random
+
         self.history.append(result[0])
 
         if len(self.history) > self.size:
