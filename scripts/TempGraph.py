@@ -67,7 +67,6 @@ class BlueGraphApplication(object):
         device_class = "DeviceWrappers"
         device_type = "NonBlockingInterface"
         device_args = "PhidgeterWrappers.IRHistory"
-
         cb = control.BlueGraphController
         self.control = cb(device_class, device_type, device_args)
 
