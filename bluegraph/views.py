@@ -27,6 +27,34 @@ class Basic(QtGui.QMainWindow):
         self.setGeometry(0, 0, 800, 600)
         self.show()
 
+class MultiGraphLayout(QtGui.QMainWindow):
+    """ Provie a bare form layout with background transparency on
+    which to place various bluegraph controls.
+    """
+    def __init__(self, parent=None):
+        super(MultiGraphLayout, self).__init__(parent)
+        self.central_widget = QtGui.QStackedWidget()
+        self.setCentralWidget(self.central_widget)
+
+        # Requires a compositing window manager to be translucent
+        self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
+        self.setWindowFlags(QtCore.Qt.Tool | QtCore.Qt.FramelessWindowHint)
+        self.setWindowFlags(self.windowFlags()
+            | QtCore.Qt.WindowStaysOnTopHint)
+
+
+        self.vbox = QtGui.QVBoxLayout()
+        self.main_widget = QtGui.QWidget()
+        self.main_widget.setLayout(self.vbox)
+        self.central_widget.addWidget(self.main_widget)
+
+        self.setContentsMargins(0, 0, 0, 0)
+        self.vbox.setContentsMargins(0, 0, 0, 0)
+
+        self.setGeometry(0, 0, 900, 1080)
+        self.show()
+
+
 class PixmapBackedGraph(QtGui.QWidget):
     def __init__(self, title="Blue Graph"):
         super(PixmapBackedGraph, self).__init__()
@@ -48,6 +76,8 @@ class PixmapBackedGraph(QtGui.QWidget):
         self.view.setStyleSheet(view_style)
         self.setStyleSheet(view_style)
         self.main_layout.addWidget(self.view)
+        self.main_layout.setSpacing(0)
+        self.main_layout.setContentsMargins(0, 0, 0, 0)
 
         # Requires a compositing window manager to be translucent
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)

@@ -11,9 +11,6 @@ from bluegraph import views
 from bluegraph import utils
 from bluegraph.devices import DeviceWrappers
 
-## __all__ in __init__ refines this list:
-#from bluegraph.devices import *
-
 log = logging.getLogger(__name__)
 
 

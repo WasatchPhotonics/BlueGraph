@@ -8,6 +8,11 @@ from bluegraph import views
 class TestBasicGraphInterface:
     def test_label_is_available_on_fedora_and_xvfb(self, qtbot):
         form = views.Basic()
+        QtTest.QTest.qWaitForWindowShown(form)
+
+        signal = form.customContextMenuRequested
+        with qtbot.wait_signal(signal, timeout=2000):
+            form.show()
 
         assert form.lblInfo.text() == "Default"
         assert form.width() == 800
