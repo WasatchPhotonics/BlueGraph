@@ -20,9 +20,11 @@ log = logging.getLogger(__name__)
 class BlueGraphController(object):
     def __init__(self, device_class="Simulation",
                  device_type="RegulatedSpectra",
-                 device_args=None):
+                 device_args=None,
+                 title=None):
 
-        title = device_type.upper()
+        if title == None:
+            title = device_type.upper()
         print "Class: %s, type: %s" % (device_class, device_type)
 
         dev_wrap = DeviceWrappers.DeviceChooser()

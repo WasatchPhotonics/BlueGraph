@@ -67,8 +67,9 @@ class BlueGraphApplication(object):
         device_class = "DeviceWrappers"
         device_type = "NonBlockingInterface"
         device_args = "PhidgeterWrappers.IRHistory"
+        title = "IR TEMP"
         cb = control.BlueGraphController
-        self.control = cb(device_class, device_type, device_args)
+        self.control = cb(device_class, device_type, device_args, title)
 
         self.control.control_exit_signal.exit.connect(self.closeEvent)
         sys.exit(app.exec_())
