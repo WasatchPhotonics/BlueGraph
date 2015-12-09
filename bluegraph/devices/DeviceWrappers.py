@@ -34,13 +34,9 @@ class DeviceChooser(object):
         like: Simulation.RegulatedSpectra. As well as the import of the
         wrapper modules like Blocking.RegulatedSpectra
         """
-        try:
-            cmd_name = "bluegraph.devices.%s" % device_class
-            from_list = "bluegraph.devices"
-            command_module = __import__(cmd_name, fromlist=from_list)
-        except ImportError as exc:
-            print "Exception importing %s" % exc
-
+        cmd_name = "bluegraph.devices.%s" % device_class
+        from_list = "bluegraph.devices"
+        command_module = __import__(cmd_name, fromlist=from_list)
 
         # This is ugly - there has to be a more pythonic way to do this
 
@@ -111,12 +107,10 @@ class BlockingInterface(object):
         """ Use eval to import the specified module.
         """
         (bg_module, bg_class) = self.device_type.split(".")
-        try:
-            cmd_name = "bluegraph.devices.%s" % bg_module
-            from_list = "bluegraph.devices"
-            command_module = __import__(cmd_name, fromlist=from_list)
-        except ImportError as exc:
-            print "BG Exception importing %s" % exc
+
+        cmd_name = "bluegraph.devices.%s" % bg_module
+        from_list = "bluegraph.devices"
+        command_module = __import__(cmd_name, fromlist=from_list)
 
         cmd_str = "command_module.%s" % bg_class
         cmd_str = cmd_str + "()"
