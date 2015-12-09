@@ -14,6 +14,42 @@ from bluegraph.devices import Simulation
 
 log = logging.getLogger(__name__)
 
+class DeviceChooser(object):
+    """ Convert the string specification to an importable module. This is
+    to define the classes at runtime, so you can add in new modules for
+    display that may not have a testable portion in a CI environment. See
+    Phidgeter for examples.
+    """
+    def __init__(self):
+        pass
+
+    def create(self, device_class, device_type, device_args=None):
+        try:
+            cmd_name = "bluegraph.devices.%s" % device_class
+            from_list = "bluegraph.devices"
+            command_module = __import__(cmd_name, fromlist=from_list)
+        except ImportError as exc:
+            print "Exception importing %s" % exc
+
+        # This is ugly - there has to be a more pythonic way to do this
+
+        # command_module is the module name, like Simulation or Phidgeter
+        # Append the class name like NonBlocking
+        cmd_str = "command_module.%s" % device_type
+
+        # Pass in the argument string like "RegulatedDevice" if it exists
+        if device_args is not None:
+            cmd_str = cmd_str + "(\"%s\")" % device_args
+        else:
+            cmd_str = cmd_str + "()"
+
+        print "Attempt to import: %s" % cmd_str
+        device = eval(cmd_str)
+
+        return device
+
+
+
 class BlockingInterface(object):
     """ Wrap the defined device in a separate process. Use queues to
     request and emit data in lock step to create a blocking interface.
@@ -42,7 +78,8 @@ class BlockingInterface(object):
             command = control_queue.get()
 
             if command == "CONNECT":
-                log.info("Setup: %s", self.device_type)
+                log.info("NB Setup: %s", self.device_type)
+                print("NB Setup: %s", self.device_type)
                 if self.device_type == "SimulatedDevice":
                     self.device = Simulation.SimulatedDevice()
 
@@ -112,6 +149,7 @@ class NonBlockingInterface(BlockingInterface):
     """
     def __init__(self, device_type="SimulatedDevice"):
         self.device_type = device_type
+        print "non blocking create with: %s" % device_type
         super(NonBlockingInterface, self).__init__(device_type=device_type)
 
         self.acquire_sent = False # Wait for an acquire to complete

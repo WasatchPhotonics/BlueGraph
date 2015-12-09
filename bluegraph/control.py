@@ -9,6 +9,7 @@ from PySide import QtCore
 
 from bluegraph import views
 from bluegraph import utils
+from bluegraph.devices import DeviceWrappers
 
 ## __all__ in __init__ refines this list:
 #from bluegraph.devices import *
@@ -24,23 +25,10 @@ class BlueGraphController(object):
         title = device_type.upper()
         print "Class: %s, type: %s" % (device_class, device_type)
 
-
-        try:
-            cmd_name = "bluegraph.devices.%s" % device_class
-            from_list = "bluegraph.devices"
-            command_module = __import__(cmd_name, fromlist=from_list)
-        except ImportError as exc:
-            print "Exception importing %s" % exc
-
-        self.device = eval("command_module.%s()" % device_type)
-        #device_str = "%s.%s" % (device_class, device_type)
-        #eval_device = eval(device_str)
-
-        #if device_args != None:
-            #self.device = eval_device(device_args)
-        #else:
-            #self.device = eval_device()
-
+        dev_wrap = DeviceWrappers.DeviceChooser()
+        self.device = dev_wrap.create(device_class,
+                                      device_type,
+                                      device_args)
         self.device.connect()
 
         self.form = views.PixmapBackedGraph(title=title)

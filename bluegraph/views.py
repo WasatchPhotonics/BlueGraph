@@ -203,7 +203,7 @@ class SmallTextBox(QtGui.QGraphicsPixmapItem):
         self.prefix.setFont(self.prefix_font)
 
         self.value_font = QtGui.QFont("Gears of Peace")
-        self.value_font.setPointSize(8)
+        self.value_font.setPointSize(6)
         self.value = QtGui.QGraphicsSimpleTextItem(val)
         self.value.setPos(4, 22)
         self.value.setBrush(white)
