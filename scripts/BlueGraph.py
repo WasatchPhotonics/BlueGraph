@@ -62,14 +62,18 @@ class BlueGraphApplication(object):
         testing code can function separately with pytest-qt.
         """
         app = QtGui.QApplication([])
-        #self.control = control.BlueGraphController("SimulatedSpectra")
-        #self.control = control.BlueGraphController("StripChartDevice")
-        #self.control = control.BlueGraphController("PhidgeterIRTemp")
-        #self.control = control.BlueGraphController("NonBlockingSimulatedSpectra")
-        dev_class = "PhidgeterWrappers"
-        dev_type = "IRHistory"
-        self.control = control.BlueGraphController(device_class=dev_class,
-                                                   device_type=dev_type)
+        #dev_class = "PhidgeterWrappers"
+        #dev_type = "IRHistory"
+        #self.control = control.BlueGraphController(device_class=dev_class,
+        #                                           device_type=dev_type)
+        dev_class = "DeviceWrappers"
+        dev_type = "NonBlockingInterface"
+        dev_args = "PhidgeterWrappers.IRHistory"
+        cb = control.BlueGraphController
+        self.control = cb(device_class=dev_class,
+                          device_type=dev_type,
+                          device_args=dev_args)
+
         self.control.control_exit_signal.exit.connect(self.closeEvent)
         sys.exit(app.exec_())
 

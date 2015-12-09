@@ -227,7 +227,8 @@ class TestRegulatedSpectra:
         assert device.disconnect() == True
 
     def test_nonblocking_regulated_stream_data(self):
-        device = DeviceWrappers.NonBlockingInterface("RegulatedSpectra")
+        devnb = DeviceWrappers.NonBlockingInterface
+        device = devnb("Simulation.RegulatedSpectra")
         assert device.connect() == True
 
         # Total reads should be vastly higher than the requested reads

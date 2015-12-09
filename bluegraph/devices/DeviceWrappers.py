@@ -24,12 +24,23 @@ class DeviceChooser(object):
         pass
 
     def create(self, device_class, device_type, device_args=None):
+        """ Create a device from the bluegraph modules available. Certain
+        modules will only be available at runtime, so attempt to import
+        them during the creation process. This gets really ugly when
+        passing arguments as well. There has to be a more maintainable
+        way to do this.
+
+        This approach permits the importing of straight device modules
+        like: Simulation.RegulatedSpectra. As well as the import of the
+        wrapper modules like Blocking.RegulatedSpectra
+        """
         try:
             cmd_name = "bluegraph.devices.%s" % device_class
             from_list = "bluegraph.devices"
             command_module = __import__(cmd_name, fromlist=from_list)
         except ImportError as exc:
             print "Exception importing %s" % exc
+
 
         # This is ugly - there has to be a more pythonic way to do this
 
@@ -54,7 +65,8 @@ class BlockingInterface(object):
     """ Wrap the defined device in a separate process. Use queues to
     request and emit data in lock step to create a blocking interface.
     """
-    def __init__(self, device_type="SimulatedDevice"):
+    def __init__(self, device_type="Simulation.SimulatedDevice"):
+        print "Blocking create type: %s" % device_type
         super(BlockingInterface, self).__init__()
 
         self.device_type = device_type
@@ -80,14 +92,7 @@ class BlockingInterface(object):
             if command == "CONNECT":
                 log.info("NB Setup: %s", self.device_type)
                 print("NB Setup: %s", self.device_type)
-                if self.device_type == "SimulatedDevice":
-                    self.device = Simulation.SimulatedDevice()
-
-                elif self.device_type == "SimulatedSpectra":
-                    self.device = Simulation.SimulatedSpectra()
-
-                elif self.device_type == "RegulatedSpectra":
-                    self.device = Simulation.RegulatedSpectra()
+                self.device = self.create_device()
 
                 self.device.connect()
                 response = "connect_successful"
@@ -101,6 +106,27 @@ class BlockingInterface(object):
                 response = self.device.read()
 
             data_queue.put(response)
+
+    def create_device(self):
+        """ Use eval to import the specified module.
+        """
+        (bg_module, bg_class) = self.device_type.split(".")
+        try:
+            cmd_name = "bluegraph.devices.%s" % bg_module
+            from_list = "bluegraph.devices"
+            command_module = __import__(cmd_name, fromlist=from_list)
+        except ImportError as exc:
+            print "BG Exception importing %s" % exc
+
+        cmd_str = "command_module.%s" % bg_class
+        cmd_str = cmd_str + "()"
+
+        print "BG Attempt to import: %s" % cmd_str
+        device = eval(cmd_str)
+
+        return device
+
+
 
 
     def connect(self):
@@ -147,7 +173,7 @@ class NonBlockingInterface(BlockingInterface):
     need better responsivity by continuously calling read(), and sleep
     when the response is None.
     """
-    def __init__(self, device_type="SimulatedDevice"):
+    def __init__(self, device_type="Simulation.SimulatedDevice"):
         self.device_type = device_type
         print "non blocking create with: %s" % device_type
         super(NonBlockingInterface, self).__init__(device_type=device_type)

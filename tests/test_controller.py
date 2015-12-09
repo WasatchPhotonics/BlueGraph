@@ -73,7 +73,7 @@ class TestControllerSpeed:
     def test_nonblocking_regulated_render_fps_is_faster(self, qtbot):
         dev_class = "DeviceWrappers"
         dev_type = "NonBlockingInterface"
-        dev_args = "RegulatedSpectra"
+        dev_args = "Simulation.RegulatedSpectra"
         cb = control.BlueGraphController
         simulator = cb(device_class=dev_class,
                        device_type=dev_type,
@@ -92,7 +92,7 @@ class TestControllerSpeed:
     def test_nonblocking_unregulated_render_fps_is_faster(self, qtbot):
         dev_class = "DeviceWrappers"
         dev_type = "NonBlockingInterface"
-        dev_args = "SimulatedSpectra"
+        dev_args = "Simulation.SimulatedSpectra"
         cb = control.BlueGraphController
         simulator = cb(device_class=dev_class,
                        device_type=dev_type,
@@ -142,4 +142,3 @@ class TestControllerDevices:
             simulator.form.show()
         points = simulator.form.curve.getData()
         assert len(points[0]) == 20
-
