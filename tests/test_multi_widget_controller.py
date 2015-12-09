@@ -24,14 +24,14 @@ class TestSensorWidgetLayout:
         with qtbot.wait_signal(signal, timeout=2000):
             simulator.form.show()
 
-        print "Position: %s" % simulator.amps_graph.x()
-        assert simulator.amps_graph.pos().x() == 9
-        assert simulator.amps_graph.pos().y() == 9
+        print "Position: %s" % simulator.amps_graph.y()
+        assert simulator.amps_graph.pos().x() == 0
+        assert simulator.amps_graph.pos().y() == 0
 
-        assert simulator.ir_temp.pos().x() == 9
-        assert simulator.ir_temp.pos().y() == 346
+        assert simulator.ir_temp.pos().x() == 0
+        assert simulator.ir_temp.pos().y() == 362
 
-        assert simulator.humidity.pos().x() == 9
-        assert simulator.humidity.pos().y() == 684
+        assert simulator.humidity.pos().x() == 0
+        assert simulator.humidity.pos().y() == 724
 
         #simulator.form.closeEvent(None)
