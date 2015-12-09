@@ -34,4 +34,5 @@ class TestSensorWidgetLayout:
         assert simulator.humidity.pos().x() == 0
         assert simulator.humidity.pos().y() == 724
 
-        #simulator.form.closeEvent(None)
+        simulator.form.closeEvent(None)
+

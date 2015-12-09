@@ -51,8 +51,23 @@ class MultiGraphLayout(QtGui.QMainWindow):
         self.setContentsMargins(0, 0, 0, 0)
         self.vbox.setContentsMargins(0, 0, 0, 0)
 
+        self.create_signals()
+
         self.setGeometry(0, 0, 900, 1080)
         self.show()
+
+
+    def create_signals(self):
+        """ Create signal objects to be used by controller.
+        """
+        class ViewClose(QtCore.QObject):
+            exit = QtCore.Signal(str)
+
+        self.exit_signal = ViewClose()
+
+    def closeEvent(self, event):
+        log.debug("Pixmap level close")
+        self.exit_signal.exit.emit("close event")
 
 
 class PixmapBackedGraph(QtGui.QWidget):

@@ -65,7 +65,7 @@ class BlueGraphApplication(object):
 
         self.control = multi_control.SensorsController()
 
-        #self.control.control_exit_signal.exit.connect(self.closeEvent)
+        self.control.control_exit_signal.exit.connect(self.closeEvent)
         sys.exit(app.exec_())
 
     def closeEvent(self):
