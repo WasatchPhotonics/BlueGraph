@@ -53,7 +53,7 @@ class MultiGraphLayout(QtGui.QMainWindow):
 
         self.create_signals()
 
-        self.setGeometry(0, 0, 900, 1080)
+        self.setGeometry(300, 0, 900, 1080)
         self.show()
 
 

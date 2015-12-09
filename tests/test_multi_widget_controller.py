@@ -36,3 +36,36 @@ class TestSensorWidgetLayout:
 
         simulator.form.closeEvent(None)
 
+    def test_simulator_updates_amps(self, qtbot):
+        simulator = multi_control.SensorsController()
+        QtTest.QTest.qWaitForWindowShown(simulator.form)
+
+        signal = simulator.form.customContextMenuRequested
+        with qtbot.wait_signal(signal, timeout=2000):
+            simulator.form.show()
+
+        cue_amp = simulator.amps_graph.curve.getData()[1]
+        with qtbot.wait_signal(signal, timeout=4000):
+            simulator.form.show()
+
+        end_amp = simulator.amps_graph.curve.getData()[1]
+
+        assert cue_amp[0] != end_amp[0]
+
+        simulator.form.closeEvent(None)
+
+    def test_multi_sensors_available(self, qtbot):
+        simulator = multi_control.SensorsController()
+        QtTest.QTest.qWaitForWindowShown(simulator.form)
+
+        signal = simulator.form.customContextMenuRequested
+        with qtbot.wait_signal(signal, timeout=2000):
+            simulator.form.show()
+
+        expected_y = 0
+        for graph in simulator.sensor_list:
+            print "Position: %s" % graph.y()
+            expected_y += 362
+            assert graph.pos().x() == 0
+            assert graph.pos().y() == expected_y
+

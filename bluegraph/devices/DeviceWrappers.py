@@ -147,6 +147,7 @@ class BlockingInterface(object):
         running processes.
         """
         log.info("Add disconnect to queue")
+        print("print Add disconnect to queue")
         result = self.queue_command("DISCONNECT", "disconnect_successful")
 
         # Always exit the processes, event if disconnect fails
