@@ -1,4 +1,3 @@
 [run]
-omit = bluegraph/devices/PhidgeterWrappers.py
-omit = bluegraph/multi_control.py
+omit = bluegraph/devices/PhidgeterWrappers.py, bluegraph/multi_control.py
 
