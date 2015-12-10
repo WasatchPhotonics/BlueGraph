@@ -1,6 +1,7 @@
 """ unit and functional tests for bluegraph application.
 """
 import sys
+import pytest
 import logging
 
 from PySide import QtTest
@@ -15,6 +16,8 @@ log.addHandler(strm)
 log.setLevel(logging.INFO)
 
 class TestSensorWidgetLayout:
+
+    @pytest.mark.xfail
     def test_multi_sensors_available(self, qtbot):
         simulator = multi_control.SensorsController()
         QtTest.QTest.qWaitForWindowShown(simulator.form)
@@ -32,6 +35,7 @@ class TestSensorWidgetLayout:
 
         simulator.form.closeEvent(None)
 
+    @pytest.mark.xfail
     def test_multi_sensors_updating(self, qtbot):
         simulator = multi_control.SensorsController()
         QtTest.QTest.qWaitForWindowShown(simulator.form)
@@ -58,6 +62,7 @@ class TestSensorWidgetLayout:
 
         simulator.form.closeEvent(None)
 
+    @pytest.mark.xfail
     def test_multi_sensors_min_max_updating(self, qtbot):
         simulator = multi_control.SensorsController()
 
@@ -73,6 +78,7 @@ class TestSensorWidgetLayout:
 
         simulator.form.closeEvent(None)
 
+    @pytest.mark.xfail
     def test_multi_sensors_fps_is_updating(self, qtbot):
         simulator = multi_control.SensorsController()
 
