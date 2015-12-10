@@ -27,13 +27,13 @@ class SensorsController(object):
         self.form = views.MultiGraphLayout()
 
 
-        self.amps_graph = views.PixmapBackedGraph("AMPS")
+        self.amps_graph = views.PixmapBackedGraph("AMPS", icon="default")
         self.form.vbox.addWidget(self.amps_graph)
 
-        self.ir_temp = views.PixmapBackedGraph("IR TEMP")
+        self.ir_temp = views.PixmapBackedGraph("IR TEMP", icon="ir_temp")
         self.form.vbox.addWidget(self.ir_temp)
 
-        self.humidity = views.PixmapBackedGraph("HUMIDITY")
+        self.humidity = views.PixmapBackedGraph("HUMIDITY", icon="humidity")
         self.form.vbox.addWidget(self.humidity)
 
         self.sensor_list = []
@@ -95,7 +95,6 @@ class SensorsController(object):
         """
         for sensor in self.sensor_list:
             rnd_data = sensor.device.read()
-            self.data_fps.tick()
             if rnd_data is not None:
                 sensor.curve.setData(rnd_data)
                 self.data_fps.tick()

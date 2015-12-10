@@ -2,9 +2,11 @@
   <qresource prefix="ui">
     <file>graph_export.png</file>
     <file>fonts/GearsOfPeace.ttf</file>
-    <file>default_icon.png</file>
     <file>toggle_button_activated.png</file>
     <file>toggle_button_deactivated.png</file>
     <file>small_number_designator_export.png</file>
+    <file>ir_temp_icon.svg</file>
+    <file>default_icon.svg</file>
+    <file>humidity_icon.svg</file>
   </qresource>
 </RCC>

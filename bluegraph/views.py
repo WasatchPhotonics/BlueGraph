@@ -71,7 +71,7 @@ class MultiGraphLayout(QtGui.QMainWindow):
 
 
 class PixmapBackedGraph(QtGui.QWidget):
-    def __init__(self, title="Blue Graph"):
+    def __init__(self, title="Blue Graph", icon="default"):
         super(PixmapBackedGraph, self).__init__()
 
         self.main_layout = QtGui.QVBoxLayout()
@@ -81,7 +81,7 @@ class PixmapBackedGraph(QtGui.QWidget):
 
         filename = ":ui/graph_export.png"
         self.graphback = SceneGraphBackground(self.scene, filename,
-                                              title=title)
+                                              title=title, icon=icon)
         self.scene.addItem(self.graphback)
 
         self.view = QtGui.QGraphicsView(self.scene)
@@ -150,7 +150,7 @@ class SceneGraphBackground(QtGui.QGraphicsPixmapItem):
 
         self.add_main_title(title, self)
 
-        icon_filename = ":ui/default_icon.png"
+        icon_filename = ":ui/%s_icon.svg" % icon
         self.add_main_icon(icon_filename, self)
 
         self.minimum = SmallTextBox(prefix="MIN:")
@@ -177,6 +177,10 @@ class SceneGraphBackground(QtGui.QGraphicsPixmapItem):
         self.icon = QtGui.QGraphicsPixmapItem(filename)
         self.icon.setPos(33, 13)
         self.icon.setParentItem(parent)
+
+        self.icon_shadow = QtGui.QGraphicsDropShadowEffect()
+        self.icon_shadow.setOffset(2, 2)
+        self.icon.setGraphicsEffect(self.icon_shadow)
 
     def add_main_title(self, title, parent):
         """ Add a text item with drop shadow.
