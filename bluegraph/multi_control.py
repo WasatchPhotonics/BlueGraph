@@ -23,9 +23,7 @@ class SensorsController(object):
         if title == None:
             title = device_type.upper()
 
-
         self.form = views.MultiGraphLayout()
-
 
         self.amps_graph = views.PixmapBackedGraph("AMPS", icon="default")
         self.form.vbox.addWidget(self.amps_graph)
@@ -49,9 +47,24 @@ class SensorsController(object):
         device_type = "NonBlockingInterface"
         device_args = "Simulation.StripChartDevice"
 
+        self.amps_graph.device = dev_wrap.create(device_class,
+                                                 device_type,
+                                                 device_args)
+
+        device_class = "DeviceWrappers"
+        device_type = "NonBlockingInterface"
+        device_args = "PhidgeterWrappers.IRHistory"
+        self.ir_temp.device = dev_wrap.create(device_class,
+                                              device_type,
+                                              device_args)
+        device_class = "DeviceWrappers"
+        device_type = "NonBlockingInterface"
+        device_args = "Simulation.SimulatedSpectra"
+        self.humidity.device = dev_wrap.create(device_class,
+                                               device_type,
+                                               device_args)
+
         for sensor in self.sensor_list:
-            sensor.device = dev_wrap.create(device_class, device_type,
-                                            device_args)
             sensor.device.connect()
 
 
