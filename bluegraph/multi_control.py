@@ -53,7 +53,7 @@ class SensorsController(object):
 
         device_class = "DeviceWrappers"
         device_type = "NonBlockingInterface"
-        device_args = "PhidgeterWrappers.IRHistory"
+        device_args = "Simulation.StripChartDevice"
         self.ir_temp.device = dev_wrap.create(device_class,
                                               device_type,
                                               device_args)

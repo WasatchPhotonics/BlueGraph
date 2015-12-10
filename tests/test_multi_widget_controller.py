@@ -55,12 +55,12 @@ class TestSensorWidgetLayout:
         for sensor in simulator.sensor_list:
             end_reads.append(sensor.curve.getData()[1])
 
+        simulator.form.closeEvent(None)
 
         assert cue_reads[0] != end_reads[0]
         assert cue_reads[1] != end_reads[1]
         assert cue_reads[2] != end_reads[2]
 
-        simulator.form.closeEvent(None)
 
     @pytest.mark.xfail
     def test_multi_sensors_min_max_updating(self, qtbot):
